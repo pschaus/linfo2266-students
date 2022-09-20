@@ -1,0 +1,93 @@
+package branchandbound;
+
+import java.util.List;
+
+import com.github.guillaumederval.javagrading.Grade;
+import com.github.guillaumederval.javagrading.GradeFeedback;
+import org.junit.Test;
+import util.UF;
+import util.tsp.TSPInstance;
+
+
+import static org.junit.Assert.assertEquals;
+
+
+public class SimpleOneTreeTest {
+
+
+    @Test
+    @Grade(value = 1, cpuTimeout = 1000)
+    @GradeFeedback(message = "Sorry, something is wrong with your one-tree algorithm", onFail = true)
+    public void basicOneTree() {
+
+        double[][] distMatrix = new double[][]{
+                {0, 1, 1, 0},
+                {1, 0, 0, 1},
+                {1, 0, 0, 0},
+                {0, 1, 0, 0}
+        };
+
+        boolean [][] excluded  = new boolean[4][4];
+
+        OneTreeResult res = new SimpleOneTree().compute(distMatrix,excluded);
+
+
+        List<Edge> edges = res.edges();
+        checkOneTree(4,edges);
+
+        assertEquals(1, res.lb(), 0.0001);
+    }
+
+
+    @Test
+    @Grade(value = 1, cpuTimeout = 1000)
+    @GradeFeedback(message = "More complex test on visual example", onFail = true)
+    public void visualExample() {
+        //  0 --- 1 --- 2 --- 3
+        //  |                 |
+        //  |                 4
+        //  |                 |
+        //  8 --- 7 --- 6 --- 8
+
+        int [] xCoord = new int[] {0,0,0,0,1,2,2,2,2};
+        int [] yCoord = new int[] {0,1,2,3,3,3,2,1,0};
+
+        TSPInstance instance = new TSPInstance(xCoord,yCoord);
+        double [][] distMatrix = instance.distanceMatrix;
+        boolean [][] excluded  = new boolean[distMatrix.length][distMatrix.length];
+
+        OneTreeResult res = new SimpleOneTree().compute(instance.distanceMatrix, excluded);
+
+
+        double cost = res.edges().stream().map(e -> e.cost()).reduce(0.0, (a,b) -> a+b);
+        assertEquals(10, cost, 0.0001);
+
+        checkOneTree(9,res.edges());
+
+    }
+
+
+
+    public boolean edgePresent(int a, int b, List<Edge> edges) {
+        for (Edge e: edges) {
+            if (e.v1() == a || e.v2() == b) return true;
+            if (e.v2() == a || e.v1() == b) return true;
+
+        }
+        return false;
+    }
+
+
+    public void checkOneTree(int n, List<Edge> edges) {
+        int [][] incidence = new int[n][n];
+        UF uf = new UF(n);
+        for (Edge e: edges) {
+            uf.union(e.v1(),e.v2());
+            incidence[e.v1()][e.v2()] += 1;
+            incidence[e.v2()][e.v1()] += 1;
+        }
+        assertEquals(1, uf.count());
+    }
+
+
+}
