@@ -11,33 +11,49 @@ public class DynamicProgramming<S extends State> {
     Model<S> model;               // the dynamic programming model to solve
     HashMap<State, Double> table; // table to store the best value found for each state
 
+    /**
+     * Creates a DynamicProgramming object for the given problem
+     * @param model the DP problem to solve
+     */
     public DynamicProgramming(Model<S> model) {
         this.model = model;
         this.table = new HashMap<>();
     }
 
+    /**
+     * Computes the optimal solution of the DP problem and returns the Solution object
+     * @return the solution containing the objective value and the decisions taken
+     */
     public Solution getSolution() {
-        // compute the solution for the root state of the model
+        // TODO compute the solution for the root state of the model
 
-        // rebuild and return the solution
-
+        // TODO rebuild and return the solution
          return null;
     }
 
+    /**
+     * Computes the optimal solution for a given state of the DP model
+     * @param state a state of the DP model
+     * @return the value of the optimal solution for the given state
+     */
     private double getValueForState(S state) {
+        // TODO compute the optimal solution for the given state
+
         // check if the state is a base case of the model, use predefined value if so
 
         // check if the solution was already for the given state, use result if so
 
         // otherwise, solve for all successor states then store and return the best value
         // note that the problem might be a maximization or a minimization
-
          return 0;
     }
 
+    /**
+     * Recomputes and returns the optimal solution of the DP problem and the set of decisions taken to obtain it
+     * @return the optimal solution of the DP problem and the set of decisions taken to obtain it
+     */
     private Solution rebuildSolution() {
-        // rebuild solution by traversing the table
-
+        // TODO rebuild solution by traversing the table
          return null;
     }
 
