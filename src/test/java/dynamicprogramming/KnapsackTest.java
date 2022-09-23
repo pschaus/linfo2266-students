@@ -41,7 +41,9 @@ public class KnapsackTest {
     }
 
     public static void testSolvingOptimality(KnapsackInstance instance) {
-        Knapsack model = new Knapsack(instance);
+        KnapsackInstance clone = new KnapsackInstance(instance.capacity, instance.value, instance.weight);
+
+        Knapsack model = new Knapsack(clone);
         DynamicProgramming<KnapsackState> solver = new DynamicProgramming<>(model);
         Solution solution = solver.getSolution();
         

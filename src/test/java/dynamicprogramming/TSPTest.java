@@ -30,7 +30,9 @@ public class TSPTest {
     }
 
     public static void testSolvingOptimality(TSPInstance instance) {
-        TSP model = new TSP(instance);
+        TSPInstance clone = new TSPInstance(instance.distanceMatrix);
+
+        TSP model = new TSP(clone);
         DynamicProgramming<TSPState> solver = new DynamicProgramming<>(model);
         Solution solution = solver.getSolution();
         

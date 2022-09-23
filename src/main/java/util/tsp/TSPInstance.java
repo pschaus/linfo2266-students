@@ -32,6 +32,16 @@ public class TSPInstance {
     public int n;
     public int objective = Integer.MAX_VALUE;
 
+    public TSPInstance(double [][] distanceMatrix) {
+        n = distanceMatrix.length;
+        this.distanceMatrix = new double[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                this.distanceMatrix[i][j] = distanceMatrix[i][j];
+            }
+        }
+    }
+
     public TSPInstance(int [][] distanceMatrix) {
         n = distanceMatrix.length;
         this.distanceMatrix = new double[n][n];
