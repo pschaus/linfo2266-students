@@ -1,5 +1,6 @@
 package branchandbound;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.guillaumederval.javagrading.Grade;
@@ -71,19 +72,19 @@ public class SimpleOneTreeTestFast {
     public void smallExample() {
         // see here for the graph https://pasteboard.co/iVjXKUlNE6ev.png
         double [][] distanceMatrix = new double[7][7];
-        List<Edge> edges = List.of(
-                new Edge(0,1,4),
-                new Edge(0,5,5),
-                new Edge(0,2,2),
-                new Edge(1,6,7),
-                new Edge(1,5,1),
-                new Edge(2,5,4),
-                new Edge(2,4,7),
-                new Edge(2,3,3),
-                new Edge(3,4,5),
-                new Edge(4,5,2),
-                new Edge(4,6,8),
-                new Edge(5,6,6));
+        List<Edge> edges = new ArrayList<>();
+        edges.add(new Edge(0, 1, 4));
+        edges.add(new Edge(0, 5, 5));
+        edges.add(new Edge(0, 2, 2));
+        edges.add(new Edge(1, 6, 7));
+        edges.add(new Edge(1, 5, 1));
+        edges.add(new Edge(2, 5, 4));
+        edges.add(new Edge(2, 4, 7));
+        edges.add(new Edge(2, 3, 3));
+        edges.add(new Edge(3, 4, 5));
+        edges.add(new Edge(4, 5, 2));
+        edges.add(new Edge(4, 6, 8));
+        edges.add(new Edge(5, 6, 6));
 
         for (int i = 0; i < distanceMatrix.length; i++) {
             for (int j = 0; j < distanceMatrix.length; j++) {
@@ -111,19 +112,19 @@ public class SimpleOneTreeTestFast {
     public void smallExampleOneEdgeExcluded() {
         // see here for the graph https://pasteboard.co/iVjXKUlNE6ev.png
         double [][] distanceMatrix = new double[7][7];
-        List<Edge> edges = List.of(
-                new Edge(0,1,4),
-                new Edge(0,5,5),
-                new Edge(0,2,2),
-                new Edge(1,6,7),
-                new Edge(1,5,1),
-                new Edge(2,5,4),
-                new Edge(2,4,7),
-                new Edge(2,3,3),
-                new Edge(3,4,5),
-                new Edge(4,5,2),
-                new Edge(4,6,8),
-                new Edge(5,6,6));
+        List<Edge> edges = new ArrayList<>();
+        edges.add(new Edge(0, 1, 4));
+        edges.add(new Edge(0, 5, 5));
+        edges.add(new Edge(0, 2, 2));
+        edges.add(new Edge(1, 6, 7));
+        edges.add(new Edge(1, 5, 1));
+        edges.add(new Edge(2, 5, 4));
+        edges.add(new Edge(2, 4, 7));
+        edges.add(new Edge(2, 3, 3));
+        edges.add(new Edge(3, 4, 5));
+        edges.add(new Edge(4, 5, 2));
+        edges.add(new Edge(4, 6, 8));
+        edges.add(new Edge(5, 6, 6));
 
         for (int i = 0; i < distanceMatrix.length; i++) {
             for (int j = 0; j < distanceMatrix.length; j++) {
