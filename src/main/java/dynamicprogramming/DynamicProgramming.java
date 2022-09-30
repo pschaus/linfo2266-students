@@ -1,5 +1,6 @@
 package dynamicprogramming;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class DynamicProgramming<S extends State> {
         // TODO compute the solution for the root state of the model
 
         // TODO rebuild and return the solution
-         return null;
+        return rebuildSolution();
     }
 
     /**
@@ -45,7 +46,32 @@ public class DynamicProgramming<S extends State> {
 
         // otherwise, solve for all successor states then store and return the best value
         // note that the problem might be a maximization or a minimization
-         return 0;
+        if (model.isBaseCase(state)){
+            table.put(state, model.getBaseCaseValue(state));
+            return model.getBaseCaseValue(state);
+        }
+        if (table.containsKey(state)) {
+            return table.get(state);
+        }
+        List<Transition<S>> transi = model.getTransitions(state);
+        double res;
+        if(model.isMaximization()){
+            res = Double.MIN_VALUE;
+        }
+        else {
+            res = Double.MAX_VALUE;
+        }
+        for (Transition<S> t : transi) {
+            double val = this.getValueForState(t.getSuccessor());
+            if(model.isMaximization()){
+                res = Math.max(val+t.getValue(),res);
+            }
+            else {
+                res = Math.min(val+t.getValue(), res);
+            }
+        }
+        table.put(state, res);
+        return res;
     }
 
     /**
@@ -54,7 +80,10 @@ public class DynamicProgramming<S extends State> {
      */
     private Solution rebuildSolution() {
         // TODO rebuild solution by traversing the table
-         return null;
+        List<Integer> l = new ArrayList<Integer>();
+        Solution sol = new Solution (getValueForState(model.getRootState()),l );
+        return sol;
+
     }
 
 }
