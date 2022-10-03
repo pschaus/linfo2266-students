@@ -1,0 +1,75 @@
+\documentclass[12pt]{report}
+
+\usepackage[a4paper, total={17cm, 24cm}]{geometry}
+\usepackage{exercise}
+
+\renewcommand{\ExerciseHeader}{\noindent\textbf{\large\ExerciseName\ %
+\ExerciseHeaderNB\ExerciseHeaderTitle
+\ExerciseHeaderOrigin\medskip}}
+\setlength{\QuestionIndent}{1.5em}
+
+\newcommand{\answerbox}[2]{\hfill\break\\
+        \framebox[\linewidth]{\parbox[c][#1][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{#2}}
+}
+
+\renewcommand{\arraystretch}{1.2} % vertical padding for tabular environment
+
+\begin{document}
+
+\hfill
+\begingroup
+\Large
+\begin{tabular}{|l|p{6cm}|}
+	\hline
+	First \& last name &
+	% YOUR NAME HERE
+	\\ \hline
+	NOMA UCLouvain & 
+	% YOUR NOMA HERE
+	\\ \hline
+\end{tabular}
+\endgroup
+\vspace{1.5cm}
+
+\noindent
+\begingroup
+	\Large
+	\textbf{LINFO2266: Advanced Algorithms for Optimization}\\\\
+	Project 1: Dynamic Programming
+\endgroup
+\vspace{0.2cm}
+
+\begin{Exercise}[title={Modeling the Traveling Salesman Problem}]
+
+The Traveling Salesman Problem is a famous combinatorial optimization problem where a salesman has to find the shortest tour visiting all cities from a given set $N=\{1,\ldots,n\}$.
+The salesman can travel between every pair of cities $i,j \in N$, which are separated by a distance $d_{ij}$.
+Find a dynamic programming model for the Traveling Salesman Problem.
+
+\Question What information is contained in the states of the model?
+\answerbox{1cm}{
+% YOUR ANSWER HERE
+}
+
+\Question Give the Bellman recurrence equation that computes the optimal value for each state of the model. You can assume that the salesman starts at city 1.
+\answerbox{1cm}{
+% YOUR ANSWER HERE
+}
+
+\Question Give the base case(s) of the recurrence, and the case that gives the optimal solution of the problem.
+\answerbox{1cm}{
+% YOUR ANSWER HERE
+}
+
+\Question What is the space complexity of a program computing the solution of your dynamic programming model, with respect to the number of cities $n$. Why?
+\answerbox{1cm}{
+% YOUR ANSWER HERE
+}
+
+\Question What about the time complexity? Explain why.
+\answerbox{1cm}{
+% YOUR ANSWER HERE
+}
+
+\end{Exercise}
+
+\end{document}
