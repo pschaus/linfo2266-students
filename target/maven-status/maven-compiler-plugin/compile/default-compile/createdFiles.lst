@@ -1,5 +1,7 @@
 branchandbound/BranchAndBoundKnapsack.class
 branchandbound/Edge.class
+lectures/dynamicprogramming/rangepartitioning/RangePartitioningTable.class
+lectures/dynamicprogramming/knapsack/KnapsacTable.class
 util/InputReader.class
 branchandbound/SimpleOneTree.class
 branchandbound/BestFirstOpenNodes$1.class
@@ -7,6 +9,7 @@ branchandbound/DepthFirstOpenNodes.class
 branchandbound/BranchAndBoundTSP.class
 dynamicprogramming/DynamicProgramming.class
 dynamicprogramming/KnapsackState.class
+lectures/dynamicprogramming/knapsack/KnapsackHash.class
 branchandbound/HeldKarpOneTree.class
 dynamicprogramming/State.class
 branchandbound/OpenNodes.class
@@ -15,11 +18,13 @@ branchandbound/OneTreeLowerBound.class
 util/UF.class
 util/tsp/TSPInstance.class
 branchandbound/NodeKnapsack.class
+lectures/dynamicprogramming/rangepartitioning/RangePartitioningNaive.class
 branchandbound/Node.class
 dynamicprogramming/TSPState.class
 util/Solution.class
 util/Pair.class
 branchandbound/BranchAndBound.class
+lectures/dynamicprogramming/knapsack/KnapsackNaive.class
 dynamicprogramming/Model.class
 dynamicprogramming/TSP.class
 util/knapsack/KnapsackInstance.class

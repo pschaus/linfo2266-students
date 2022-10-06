@@ -118,7 +118,7 @@ public class BranchAndBoundTSPTest {
     }
 
 
-    /*
+
     @RunWith(Parameterized.class)
     @Parameterized.UseParametersRunnerFactory(GradingRunnerWithParametersFactory.class)
     public static class TestParameterized30 {
@@ -137,7 +137,7 @@ public class BranchAndBoundTSPTest {
         public void test() throws Exception {
             testSolvingOptimality(instance);
         }
-    }*/
+    }
 
 
 

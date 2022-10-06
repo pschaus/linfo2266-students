@@ -5,7 +5,11 @@ import util.InputReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
+/**
+ * Implementation of the Knapsack solved using the {@link BranchAndBound}
+ */
 public class BranchAndBoundKnapsack {
     public static void main(String[] args) {
 
@@ -25,13 +29,13 @@ public class BranchAndBoundKnapsack {
             value[i] = reader.getInt();
             weight[i] = reader.getInt();
         }
-
         // sort decreasing according to value/weight ratio
 
         sortValueOverWeight(value,weight);
         for (int i = 0; i < n-1; i++) {
             assert ((double) value[i]/weight[i] > (double) value[i-1]/weight[i+1]);
         }
+
 
 
         //OpenNodes<NodeKnapsack> openNodes = new BestFirstOpenNodes<>();
@@ -62,6 +66,18 @@ public class BranchAndBoundKnapsack {
     }
 }
 
+/**
+ * Node/State implementation of the Knapsack
+ * In this representation, a node is related
+ * to the decision at of item positioned at index
+ * with value[index] and weight[index].
+ * Depending on the `selected` status, the item
+ * is considered to be part of the knapsack
+ * of excluded of it.
+ * In this representation, all the items before
+ * index have already been decided and the ones after
+ * are undecided and remain to be branched on.
+ */
 class NodeKnapsack implements Node<NodeKnapsack> {
 
     int[] value;
@@ -75,8 +91,17 @@ class NodeKnapsack implements Node<NodeKnapsack> {
 
     int depth;
 
-    // Node where item at index is selected the ones after are undecided
-    public NodeKnapsack(NodeKnapsack parent, int[] value, int[] weight, 
+    /**
+     *
+     * @param parent reference to the parent node
+     * @param value values of each item of the problem
+     * @param weight weights of each item of the problem
+     * @param selectedValue total amount of value in the knapsack
+     * @param capaLeft total amount of capacithy left in the knapsack
+     * @param index the index of item related to the decision of this node
+     * @param selected is the item at index included or not in the knapsack
+     */
+    public NodeKnapsack(NodeKnapsack parent, int[] value, int[] weight,
                         int selectedValue, int capaLeft, int index, boolean selected) {
         this.parent = parent;
         this.value = value;
@@ -85,11 +110,20 @@ class NodeKnapsack implements Node<NodeKnapsack> {
         this.capaLeft = capaLeft;
         this.index = index;
         this.selected = selected;
-        this.ub = capacityRelaxUBound();
         this.depth = parent == null ? 0: parent.depth+1;
-        this.ub = lpRelaxUBound();
+        //this.ub = lpRelaxUBound();
+        this.ub = capacityRelaxUBound();
     }
 
+    @Override
+    public int depth() {
+        return depth;
+    }
+
+    /**
+     * Computes an upper-bound obtained
+     * by relaxing the capacity constraint
+     */
     private double capacityRelaxUBound() {
         int valueUb = selectedValue;
         for (int i = index + 1; i < value.length; i++) {
@@ -98,11 +132,12 @@ class NodeKnapsack implements Node<NodeKnapsack> {
         return valueUb; // maximization problem
     }
 
-    @Override
-    public int depth() {
-        return depth;
-    }
-
+    /**
+     * Computes an upper-bound obtained
+     * with linear programming relaxation
+     * that is each item yet to be decided
+     * can be fractionally selected.
+     */
     private double lpRelaxUBound() {
         int valueUb = selectedValue;
         int c = capaLeft;

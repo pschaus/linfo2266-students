@@ -56,6 +56,25 @@ public class BranchAndBoundTSPTestFast {
                 }
             }
         }
+
+
+        @Test
+        @Grade(value = 1, cpuTimeout = 1000)
+        @GradeFeedback(message = "Comparison Two Bound on random tests", onFail = true)
+        public void randomTestToDebug() {
+
+            for (int seed = 0; seed < 100; seed++) {
+
+                TSPInstance tsp = new TSPInstance(4, seed, 100);
+
+                List<Edge> edges1 = BranchAndBoundTSP.optimize(tsp, new SimpleOneTree());
+                int tot1 = edges1.stream().map(e -> e.cost()).mapToInt(e -> (int) Math.rint(e)).sum();
+
+                List<Edge> edges2 = BranchAndBoundTSP.optimize(tsp, new HeldKarpOneTree());
+                int tot2 = edges2.stream().map(e -> e.cost()).mapToInt(e -> (int) Math.rint(e)).sum();
+                assertEquals(tot1, tot2);
+            }
+        }
     }
 
     public static List<Object[]> readTSPInstance(int size) {
@@ -67,8 +86,8 @@ public class BranchAndBoundTSPTestFast {
         return coll;
     }
 
-    public static void testSolvingOptimality(TSPInstance instance) {
-        List<Edge> edges = BranchAndBoundTSP.optimize(instance,new HeldKarpOneTree());
+    public static void testSolvingOptimality(TSPInstance instance, OneTreeLowerBound algo) {
+        List<Edge> edges = BranchAndBoundTSP.optimize(instance,algo);
         int objective = instance.objective;
         double tourLength = 0;
         for (Edge e: edges) {
@@ -79,21 +98,30 @@ public class BranchAndBoundTSPTestFast {
 
     @RunWith(Parameterized.class)
     @Parameterized.UseParametersRunnerFactory(GradingRunnerWithParametersFactory.class)
-    public static class TestParameterized10 {
+    public static class TestParameterized8 {
         final TSPInstance instance;
-        public TestParameterized10(String name, TSPInstance instance) {
+        public TestParameterized8(String name, TSPInstance instance) {
             this.instance = instance;
         }
         @Parameterized.Parameters(name = "{0}")
         public static Collection<?> data() {
-            return readTSPInstance(10);
+            return readTSPInstance(8);
         }
+
         @Test
         @Grade(value = 10, cpuTimeout = 2000)
         @GradeFeedback(message = "Sorry, something is wrong cannot find optimum", onFail=true)
         @GradeFeedback(message = "Your solver is too slow", onTimeout=true)
-        public void test() throws Exception {
-            testSolvingOptimality(instance);
+        public void testOneTree() throws Exception {
+            testSolvingOptimality(instance, new SimpleOneTree());
+        }
+
+        @Test
+        @Grade(value = 10, cpuTimeout = 2000)
+        @GradeFeedback(message = "Sorry, something is wrong cannot find optimum", onFail=true)
+        @GradeFeedback(message = "Your solver is too slow", onTimeout=true)
+        public void testHeldKarp() throws Exception {
+            testSolvingOptimality(instance, new HeldKarpOneTree());
         }
     }
 

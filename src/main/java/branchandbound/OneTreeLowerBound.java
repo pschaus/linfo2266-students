@@ -16,7 +16,7 @@ public abstract class OneTreeLowerBound {
         int n = excluded.length;
         UF uf = new UF(n);
         for (int i = 1; i < n; i++) {
-            for (int j = i+i; j < n; j++) {
+            for (int j = i+1; j < n; j++) {
                 if (!excluded[i][j]) {
                     uf.union(i,j);
                 }
