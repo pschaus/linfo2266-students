@@ -150,52 +150,6 @@ public class SimpleOneTreeTestFast {
     }
 
 
-    @Test
-    @Grade(value = 1, cpuTimeout = 1000)
-    @GradeFeedback(message = "Random test full enumeration", onFail = true)
-    public void randomTest() {
-        for (int seed = 0; seed < 200; seed++) {
-            TSPInstance instance = new TSPInstance(5,seed,100);
-            double [][] dist = instance.distanceMatrix;
-
-            // edge 1-2 is excluded
-            boolean [][] excluded = new boolean[5][5];
-            excluded[1][2] = true;
-            excluded[2][1] = true;
-            OneTreeResult res = new SimpleOneTree().compute(dist,excluded);
-
-            Set<Edge> edges = new HashSet<>();
-            Edge forbidden = null;
-            for (int i = 0; i < 5; i++) {
-                for (int j = i+1; j < 5; j++) {
-                    Edge e = new Edge(i,j,dist[i][j]);
-                    edges.add(e);
-                    if (i == 1 && j == 2) {
-                        forbidden = e;
-                    }
-
-                }
-            }
-            double bestOneTreeCost = Double.MAX_VALUE;
-            Set<Edge> bestOneTree = null;
-            // enumerate all power-set of edges
-            for (Set<Edge> candidate: powerSet(edges)) {
-                if (isOneTree(5,candidate) && !candidate.contains(forbidden)) {
-                    double cost = 0;
-                    for (Edge e: candidate) {
-                        cost += e.cost();
-                    }
-                    if (cost < bestOneTreeCost) {
-                        bestOneTreeCost = cost;
-                        bestOneTree = candidate;
-                    }
-                }
-            }
-            assertEquals(res.lb(),bestOneTreeCost,0.01);
-        }
-    }
-
-
     public boolean edgePresent(int a, int b, List<Edge> edges) {
         for (Edge e: edges) {
             if (e.v1() == a && e.v2() == b) return true;
@@ -230,24 +184,6 @@ public class SimpleOneTreeTestFast {
     }
 
 
-    public static <T> Set<Set<T>> powerSet(Set<T> originalSet) {
-        Set<Set<T>> sets = new HashSet<>();
-        if (originalSet.isEmpty()) {
-            sets.add(new HashSet<T>());
-            return sets;
-        }
-        List<T> list = new ArrayList<T>(originalSet);
-        T head = list.get(0);
-        Set<T> rest = new HashSet<T>(list.subList(1, list.size()));
-        for (Set<T> set : powerSet(rest)) {
-            Set<T> newSet = new HashSet<T>();
-            newSet.add(head);
-            newSet.addAll(set);
-            sets.add(newSet);
-            sets.add(set);
-        }
-        return sets;
-    }
 
 
 }
