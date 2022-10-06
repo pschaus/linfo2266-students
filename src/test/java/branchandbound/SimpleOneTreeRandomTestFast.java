@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.*;
 
 @RunWith(Enclosed.class)
-public class HeldKarpOneTreeRandomTest {
+public class SimpleOneTreeRandomTestFast {
 
     @RunWith(Parameterized.class)
     @Parameterized.UseParametersRunnerFactory(GradingRunnerWithParametersFactory.class)
@@ -30,7 +30,7 @@ public class HeldKarpOneTreeRandomTest {
         @Parameterized.Parameters(name = "{0}")
         public static Collection<?> data() {
             List<Integer> seed = new LinkedList<>();
-            for (int i = 20; i < 40; i++) {
+            for (int i = 0; i < 20; i++) {
                 seed.add(i);
             }
             return seed;
@@ -48,9 +48,9 @@ public class HeldKarpOneTreeRandomTest {
             excluded[1][4] = true;
 
             OneTreeResult r1 = bruteForceOneTree(instance.distanceMatrix, excluded);
-            OneTreeResult r2 = new HeldKarpOneTree().compute(instance.distanceMatrix, excluded);
+            OneTreeResult r2 = new SimpleOneTree().compute(instance.distanceMatrix, excluded);
 
-            assertTrue(r2.lb() >= r1.lb()+1); // held-karp lb should be stronger
+            assertEquals(r1.lb(),r2.lb(),0.0001);
             assertTrue(isOneTree(instance.n,r2.edges()));
             assertTrue(isOneTree(instance.n,r1.edges()));
             assertFalse(edgePresent(2,3,r2.edges()));
