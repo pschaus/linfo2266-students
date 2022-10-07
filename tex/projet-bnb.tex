@@ -3,9 +3,10 @@
 \usepackage[a4paper, total={17cm, 24cm}]{geometry}
 \usepackage{exercise}
 \usepackage{tikz}
-\usetikzlibrary{positioning,external}
-\usetikzlibrary{scopes}
-\usetikzlibrary{backgrounds}
+%\usetikzlibrary{positioning,external}
+%\tikzexternalize[prefix=tikz/]
+%\usetikzlibrary{scopes}
+%\usetikzlibrary{backgrounds}
 
 
 \renewcommand{\ExerciseHeader}{\noindent\textbf{\large\ExerciseName\ %
@@ -46,8 +47,30 @@
 
 \begin{Exercise}[title={Modeling the Traveling Salesman Problem}]
 
-
-\includegraphics{graphtspbnb.pdf}
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+	\node[draw,circle] (v0) at (0.4,0.2) {0};
+	\node[draw,circle] (v1) at (0,2.2) {1};
+	\node[draw,circle] (v2) at (4.4,0) {2};
+	\node[draw,circle] (v3) at (8,0.5) {3};
+	\node[draw,circle] (v4) at (8,2.2) {4};
+	\node[draw,circle] (v5) at (4,2) {5};
+	\node[draw,circle] (v6) at (2,4) {6};
+	
+	\draw (v0) edge node[fill=white] {4} (v1);
+	\draw (v0) edge node[fill=white] {2} (v2);
+	\draw (v0) edge node[fill=white] {5} (v5);
+	\draw (v1) edge node[fill=white] {1} (v5);
+	\draw (v1) edge node[fill=white] {7} (v6);
+	\draw (v2) edge node[fill=white] {3} (v3);
+	\draw (v2) edge node[fill=white] {7} (v4);
+	\draw (v2) edge node[fill=white] {4} (v5);
+	\draw (v3) edge node[fill=white] {5} (v4);
+	\draw (v4) edge node[fill=white] {2} (v5);
+	\draw (v4) edge node[fill=white] {8} (v6);
+	\draw (v5) edge node[fill=white] {6} (v6);
+\end{tikzpicture}
+\end{center}
 
 \Question Explain and depict with the help of the visual example your internal state representation and your successor function for the TSP.
 \answerbox{10cm}{
@@ -56,12 +79,6 @@
 
 
 \end{Exercise}
-
-
-
-
-
-\pagebreak
 
 \begin{Exercise}[title={One-tree lower-bound}]
 
