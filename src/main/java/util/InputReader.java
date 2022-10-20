@@ -79,6 +79,26 @@ public class InputReader {
         return Integer.parseInt(tokenizer.nextToken());
     }
 
+    public Character getChar() throws RuntimeException {
+        if (!tokenizer.hasMoreTokens()) {
+            try {
+                String line;
+                do {
+                    line = in.readLine();
+                    if (line == null) {
+                        System.out.println("No more line to read");
+                        throw new RuntimeException("End of file");
+                    }
+                    tokenizer = new StringTokenizer(line);
+                } while (!tokenizer.hasMoreTokens());
+
+            } catch (IOException e) {
+                throw new RuntimeException(e.toString());
+            }
+        }
+        return tokenizer.nextToken().charAt(0);
+    }
+
     public int[][] getMatrix(int n, int m) throws RuntimeException {
         int[][] matrix = new int[n][m];
         for (int i = 0; i < n; i++) {
@@ -132,6 +152,14 @@ public class InputReader {
             }
         }
         return tokenizer.nextToken();
+    }
+
+    public void nextLine() throws RuntimeException {
+        try {
+            tokenizer = new StringTokenizer(in.readLine());
+        } catch (IOException e) {
+            throw new RuntimeException(e.toString());
+        }
     }
 
 }
