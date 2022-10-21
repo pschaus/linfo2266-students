@@ -17,7 +17,7 @@ public class MatchingMatricesTest {
 
     @RunWith(Parameterized.class)
     @Parameterized.UseParametersRunnerFactory(GradingRunnerWithParametersFactory.class)
-    @GradeClass(totalValue = 60, defaultCpuTimeout = 7000)
+    @GradeClass(totalValue = 60, defaultCpuTimeout = 14000)
     public static class BigSizeTest {
 
         Graph bipartite;
@@ -27,7 +27,7 @@ public class MatchingMatricesTest {
 
         @Parameterized.Parameters
         public static Object[] data() {
-            return IntStream.range(0, nTest).mapToObj(i -> Graph.bipartite(250, 250, 666)).toArray();
+            return IntStream.range(0, nTest).mapToObj(i -> Graph.bipartite(222, 222, 499)).toArray();
         }
 
         @Test

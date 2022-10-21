@@ -47,7 +47,6 @@ import java.util.stream.StreamSupport;
  *  @author Kevin Wayne
  */
 public class FlowNetwork {
-    private static final String NEWLINE = System.getProperty("line.separator");
 
     private final int V;
     private int E;
@@ -412,6 +411,7 @@ public class FlowNetwork {
      *    followed by the <em>V</em> adjacency lists
      */
     public String toString() {
+        String NEWLINE = System.getProperty("line.separator");
         StringBuilder s = new StringBuilder();
         s.append(V + " " + E + NEWLINE);
         for (int v = 0; v < V; v++) {
