@@ -27,7 +27,7 @@ public class MatchingMatricesTest {
 
         @Parameterized.Parameters
         public static Object[] data() {
-            return IntStream.range(0, nTest).mapToObj(i -> Graph.bipartite(222, 222, 499)).toArray();
+            return IntStream.range(0, nTest).mapToObj(i -> Graph.bipartite(199, 199, 430)).toArray();
         }
 
         @Test
