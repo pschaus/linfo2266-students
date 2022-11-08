@@ -1,5 +1,7 @@
 package localsearch;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
 import java.util.ArrayList;
 
 import util.NotImplementedException;
@@ -11,9 +13,15 @@ public class LocalSearch {
     // use these variables to keep track of your current and current best candidate solutions
     Candidate bestCandidate, currentCandidate;
 
+    // variables to record the CPU time spent by the search
+    ThreadMXBean thread;
+    long startTime, timeLimit;
+
 
     public LocalSearch(Problem problem) {
         this.problem = problem;
+        this.thread = ManagementFactory.getThreadMXBean();
+
         // TODO initialize additional fields you need
     }
 
@@ -23,6 +31,9 @@ public class LocalSearch {
      * @return a candidate solution to the problem
      */
     public Candidate solve(int timeLimit) {
+        this.startTime = this.thread.getCurrentThreadCpuTime();
+        this.timeLimit = 1000000000L * timeLimit;
+
         // TODO implement your own local search algorithm
          throw new NotImplementedException("LocalSearch.solve");
     }
@@ -72,8 +83,7 @@ public class LocalSearch {
      * @return true if the time limit has been reached
      */
     private boolean mustStop() {
-        // TODO check whether the time limit has been reached
-         throw new NotImplementedException("LocalSearch.mustStop");
+        return this.thread.getCurrentThreadCpuTime() >= this.startTime + this.timeLimit;
     }
 
 }
