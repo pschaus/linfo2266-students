@@ -22,15 +22,13 @@ import java.util.Random;
  * Class to read and generate TSP instance instances
  */
 public class TSPInstance {
-
-
     public static void main(String[] args) {
         TSPInstance instance = new TSPInstance("data/TSP/gr21.xml");
     }
 
     public double [][] distanceMatrix;
     public int n;
-    public int objective = Integer.MAX_VALUE;
+    public final int objective;
 
     public TSPInstance(double [][] distanceMatrix) {
         n = distanceMatrix.length;
@@ -40,6 +38,7 @@ public class TSPInstance {
                 this.distanceMatrix[i][j] = distanceMatrix[i][j];
             }
         }
+        this.objective = -1;
     }
 
     public TSPInstance(int [][] distanceMatrix) {
@@ -50,6 +49,7 @@ public class TSPInstance {
                 this.distanceMatrix[i][j] = distanceMatrix[i][j];
             }
         }
+        this.objective = -1;
     }
 
     /**
@@ -74,6 +74,7 @@ public class TSPInstance {
                 distanceMatrix[j][i] = distanceMatrix[i][j];
             }
         }
+        this.objective = -1;
     }
 
 
@@ -91,6 +92,7 @@ public class TSPInstance {
                 distanceMatrix[j][i] = distanceMatrix[i][j];
             }
         }
+        this.objective = -1;
     }
 
     /**
@@ -101,6 +103,7 @@ public class TSPInstance {
     public TSPInstance (String xmlPath) {
         // Instantiate the Factory
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        int obj = -1;
         try {
 
             // optional, but recommended
@@ -114,9 +117,8 @@ public class TSPInstance {
             doc.getDocumentElement().normalize();
 
             NodeList objlist = doc.getElementsByTagName("objective");
-            objective = -1;
             if (objlist.getLength() > 0) {
-                objective = Integer.parseInt(objlist.item(0).getTextContent());
+                obj = Integer.parseInt(objlist.item(0).getTextContent());
             }
 
             NodeList list = doc.getElementsByTagName("vertex");
@@ -141,6 +143,8 @@ public class TSPInstance {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        this.objective = obj;
     }
 
     public double dist(double x1, double y1, double x2, double y2) {

@@ -14,14 +14,16 @@ import dynamicprogramming.KnapsackState;
 
 public class KnapsackInstance {
 
-    public int n, capacity, objective;
+    public int n, capacity;
     public int[] value, weight;
+    public final int objective;
 
     public KnapsackInstance(int capacity, int[] value, int[] weight) {
         this.n = value.length;
         this.capacity = capacity;
         this.value = value;
         this.weight = weight;
+        this.objective = -1;
     }
 
     public KnapsackInstance(int seed, int n, int capacity, int valueMean, int valueSpread, int weightMean, int weightSpread) {
@@ -37,18 +39,21 @@ public class KnapsackInstance {
             this.value[i] = valueMean + rand.nextInt(valueSpread + 1)  - valueSpread / 2;
             this.weight[i] = weightMean + rand.nextInt(weightSpread + 1) - weightSpread / 2;
         }
+
+        this.objective = -1;
     }
 
     public KnapsackInstance(String path) {
         File file = new File(path);
         Scanner scanner = null;
+        int obj = -1;
         
         try {
             scanner = new Scanner(file);
 
             this.n = scanner.nextInt();
             this.capacity = scanner.nextInt();
-            this.objective = scanner.nextInt();
+            obj = scanner.nextInt();
 
             this.value = new int[n];
             this.weight = new int[n];
@@ -64,6 +69,8 @@ public class KnapsackInstance {
                 scanner.close();
             }
         }
+
+        this.objective = obj;
     }
 
     public void save(String path) {
