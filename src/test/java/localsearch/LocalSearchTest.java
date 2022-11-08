@@ -65,7 +65,7 @@ public class LocalSearchTest {
     @RunWith(Parameterized.class)
     @Parameterized.UseParametersRunnerFactory(GradingRunnerWithParametersFactory.class)
     public static class TestSmall {
-        static final int timeLimit = 30;
+        static final int timeLimit = 40;
         final PSPInstance instance;
 
         public TestSmall(String name, PSPInstance instance) {
@@ -88,7 +88,7 @@ public class LocalSearchTest {
     @RunWith(Parameterized.class)
     @Parameterized.UseParametersRunnerFactory(GradingRunnerWithParametersFactory.class)
     public static class TestMedium {
-        static final int timeLimit = 60;
+        static final int timeLimit = 80;
         final PSPInstance instance;
 
         public TestMedium(String name, PSPInstance instance) {
