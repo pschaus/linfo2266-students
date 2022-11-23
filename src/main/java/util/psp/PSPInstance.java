@@ -37,7 +37,7 @@ public class PSPInstance {
             nPeriods = scan.nextInt();
             nTypes = scan.nextInt();
 
-            changeoverCost = new int[nTypes][nPeriods];
+            changeoverCost = new int[nTypes][nTypes];
             stockingCost = new int[nTypes];
             demand = new int[nTypes][nPeriods];
 

@@ -70,9 +70,8 @@ public class LocalSearchTest {
             return Utils.readPSPInstances("data/PSP/small");
         }
 
-        @Test(timeout = timeLimit * 1200)
+        @Test(timeout = timeLimit * 3000)
         @Grade(value = value, cpuTimeout = timeLimit * 1100, custom = true)
-        @GradeFeedback(message = "Your solution is not feasible", onFail = true)
         public void testLocalSearch() throws Exception {
             testInstance(instance, timeLimit);
         }
@@ -93,9 +92,8 @@ public class LocalSearchTest {
             return Utils.readPSPInstances("data/PSP/medium");
         }
 
-        @Test(timeout = timeLimit * 1200)
+        @Test(timeout = timeLimit * 3000)
         @Grade(value = value, cpuTimeout = timeLimit * 1100, custom = true)
-        @GradeFeedback(message = "Your solution is not feasible", onFail = true)
         public void testLocalSearch() throws Exception {
             testInstance(instance, timeLimit);
         }
