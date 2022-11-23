@@ -36,10 +36,10 @@ public class LocalSearchTest {
             solution = candidate.getValue();
         } catch (NotImplementedException e) {
             NotImplementedExceptionAssume.fail(e);
-        } catch (AssertionError error) {
-            throw new CustomGradingResult(TestStatus.FAILED, 0, error.getMessage());
+        } catch (AssertionError e) {
+            throw new CustomGradingResult(TestStatus.FAILED, 0, e.getMessage());
         } catch (Exception e) {
-            throw new CustomGradingResult(TestStatus.FAILED, 0);
+            throw new CustomGradingResult(TestStatus.FAILED, 0, e.getMessage());
         }
 
         if (solution == instance.objective) {
