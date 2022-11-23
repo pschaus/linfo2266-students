@@ -36,6 +36,8 @@ public class LocalSearchTest {
             solution = candidate.getValue();
         } catch (NotImplementedException e) {
             NotImplementedExceptionAssume.fail(e);
+        } catch (AssertionError error) {
+            throw new CustomGradingResult(TestStatus.FAILED, 0, error.getMessage());
         } catch (Exception e) {
             throw new CustomGradingResult(TestStatus.FAILED, 0);
         }
