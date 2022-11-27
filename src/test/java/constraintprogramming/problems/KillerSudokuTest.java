@@ -301,7 +301,7 @@ public class KillerSudokuTest {
             groups[i] = new KillerSudokuGroup(45, coords[i]);
         }
         KillerSudokuInstance instance = new KillerSudokuInstance(9, groups);
-        assertValid(6, instance);
+        assertValid(1, instance);
     }
 
     @Test(timeout = 4500)
@@ -325,7 +325,7 @@ public class KillerSudokuTest {
             groups[i] = new KillerSudokuGroup(45, coords[i]);
         }
         KillerSudokuInstance instance = new KillerSudokuInstance(9, groups);
-        assertValid(1494, instance);
+        assertValid(163, instance);
     }
 
 }

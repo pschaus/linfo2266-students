@@ -50,11 +50,11 @@ public class KillerSudokuAssert {
         }
         // all sub-squares have different numbers
         int subSquare = (int) Math.sqrt(n);
-        for (int iOffset = 0 ; iOffset < subSquare ; iOffset += subSquare) {
-            for (int jOffset = 0 ; jOffset < subSquare ; jOffset += subSquare) {
-                for (int i = 0 ; i < subSquare ; ++i) {
-                    for (int j = 0 ; j < subSquare ; ++j) {
-                        int v = solution.value(j, i);
+        for (int iOffset = 0 ; iOffset < n ; iOffset += subSquare) {
+            for (int jOffset = 0 ; jOffset < n ; jOffset += subSquare) {
+                for (int i = iOffset ; i < iOffset + subSquare ; ++i) {
+                    for (int j = jOffset ; j < jOffset + subSquare ; ++j) {
+                        int v = solution.value(i, j);
                         seen[v] = true;
                     }
                 }
