@@ -45,9 +45,9 @@ public final class TestMaximumDecarbonation {
         final File dir = new File("data/decarbonation/instances");
         return Stream.concat(
                         Stream.concat(
-                                Arrays.stream(dir.listFiles(f -> f.isFile() && f.getName().matches("decarbonation_10_.*"))),
-                                Arrays.stream(dir.listFiles(f -> f.isFile() && f.getName().matches("decarbonation_50_.*")))),
-                        Arrays.stream(dir.listFiles(f -> f.isFile() && f.getName().matches("decarbonation_100_.*"))))
+                                Arrays.stream(dir.listFiles(f -> f.isFile() && f.getName().matches("decarbonation_10_.*"))).limit(10),
+                                Arrays.stream(dir.listFiles(f -> f.isFile() && f.getName().matches("decarbonation_50_.*")))).limit(10),
+                        Arrays.stream(dir.listFiles(f -> f.isFile() && f.getName().matches("decarbonation_100_.*"))).limit(10))
                 .map(File::getName)
                 .collect(Collectors.toList());
     }
