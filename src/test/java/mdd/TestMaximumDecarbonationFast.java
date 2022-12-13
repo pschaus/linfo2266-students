@@ -87,7 +87,7 @@ public final class TestMaximumDecarbonationFast {
             return out;
         }
 
-        @Test
+        @Test(timeout = 6000)
         @Grade(value = 10, cpuTimeout = 2000, customPermissions = DataPermissionFactoryWithThreads.class)
         @GradeFeedback(message = "Your solution failed to identify the optimal solution. Is your DP model correct ? If so, chances are you have a bug in your relaxation", onFail=true)
         @GradeFeedback(message = "Your solver is too slow. Have you done anything special in your transition/transition cost functions or in the relaxation ?", onTimeout=true)

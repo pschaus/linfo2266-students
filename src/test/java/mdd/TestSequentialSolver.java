@@ -73,7 +73,7 @@ public class TestSequentialSolver {
             return out;
         }
 
-        @Test
+        @Test(timeout = 6000)
         @Grade(value = 10, cpuTimeout = 2000, customPermissions = DataPermissionFactorySequential.class)
         @GradeFeedback(message = "There is a bug in your SequentialSolver implementation. It failed to retrieve the right solution.", onFail=true)
         @GradeFeedback(message = "Your solver is too slow. Are you sure to have correctly used the upper and lower bounds from the relaxed and restricted DDs ?", onTimeout=true)

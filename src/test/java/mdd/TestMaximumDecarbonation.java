@@ -91,8 +91,8 @@ public final class TestMaximumDecarbonation {
             return out;
         }
 
-        @Test
-        @Grade(value = 10, cpuTimeout = 2000, customPermissions = DataPermissionFactoryWithThreads.class)
+        @Test(timeout = 9000)
+        @Grade(value = 10, cpuTimeout = 3000, customPermissions = DataPermissionFactoryWithThreads.class)
         @GradeFeedback(message = "Your solution failed to identify the optimal solution. Is your DP model correct ? If so, chances are you have a bug in your relaxation", onFail=true)
         @GradeFeedback(message = "Your solver is too slow. Have you done anything special in your transition/transition cost functions or in the relaxation ?", onTimeout=true)
         public void test() throws IOException {
@@ -122,8 +122,8 @@ public final class TestMaximumDecarbonation {
         final Frontier<MaximumDecarbonationState> frontier = new SimpleFrontier<>(ranking);
 
         // let us solve these instances using one thread per cpu core
-        final int cores = Runtime.getRuntime().availableProcessors();
-        final Solver solver = new ParallelSolver<>(cores, problem, relax, varh, ranking, width, frontier);
+        // final int cores = Runtime.getRuntime().availableProcessors();
+        final Solver solver = new ParallelSolver<>(4, problem, relax, varh, ranking, width, frontier);
         solver.maximize();
 
         return solver.bestValue().orElse(Integer.MIN_VALUE).intValue();

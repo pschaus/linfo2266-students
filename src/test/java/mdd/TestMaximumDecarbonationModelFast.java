@@ -66,8 +66,8 @@ public final class TestMaximumDecarbonationModelFast {
             return out;
         }
 
-        @Test
-        @Grade(value = 10, cpuTimeout = 2000, customPermissions = DataPermissionFactorySequential.class)
+        @Test(timeout = 300)
+        @Grade(value = 10, cpuTimeout = 100, customPermissions = DataPermissionFactorySequential.class)
         @GradeFeedback(message = "Something in your DP model might be wrong. It failed to identify the optimal solution", onFail=true)
         @GradeFeedback(message = "Your solver is too slow. Have you done anything special in your transition/transition cost functions ?", onTimeout=true)
         public void test() throws IOException {
