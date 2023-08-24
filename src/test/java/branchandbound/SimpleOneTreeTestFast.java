@@ -1,25 +1,23 @@
 package branchandbound;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import com.github.guillaumederval.javagrading.Grade;
-import com.github.guillaumederval.javagrading.GradeFeedback;
-import org.junit.Test;
+import org.javagrader.Grade;
+import org.javagrader.GradeFeedback;
+import org.junit.jupiter.api.Test;
 import util.UF;
 import util.tsp.TSPInstance;
 
-import static org.junit.Assert.*;
+import static org.javagrader.TestResultStatus.FAIL;
+import static org.junit.jupiter.api.Assertions.*;
 
-
+@Grade
 public class SimpleOneTreeTestFast {
 
-
     @Test
-    @Grade(value = 1, cpuTimeout = 1000)
-    @GradeFeedback(message = "Sorry, something is wrong with your one-tree algorithm", onFail = true)
+    @Grade(value = 1, cpuTimeout = 1)
+    @GradeFeedback(message = "Sorry, something is wrong with your one-tree algorithm", on = FAIL)
     public void basicOneTree() {
         double[][] distMatrix = new double[][]{
                 {0, 1, 1, 0},
@@ -41,8 +39,8 @@ public class SimpleOneTreeTestFast {
 
 
     @Test
-    @Grade(value = 1, cpuTimeout = 1000)
-    @GradeFeedback(message = "More complex test on visual example", onFail = true)
+    @Grade(value = 1, cpuTimeout = 1)
+    @GradeFeedback(message = "More complex test on visual example", on = FAIL)
     public void visualExample() {
         //  0 --- 1 --- 2 --- 3
         //  |                 |
@@ -59,7 +57,7 @@ public class SimpleOneTreeTestFast {
 
         OneTreeResult res = new SimpleOneTree().compute(instance.distanceMatrix, excluded);
 
-        double cost = res.edges().stream().map(e -> e.cost()).reduce(0.0, (a,b) -> a+b);
+        double cost = res.edges().stream().map(Edge::cost).reduce(0.0, Double::sum);
         assertEquals(10, cost, 0.0001);
 
         assertTrue(isOneTree(9,res.edges()));
@@ -67,8 +65,8 @@ public class SimpleOneTreeTestFast {
 
 
     @Test
-    @Grade(value = 1, cpuTimeout = 1000)
-    @GradeFeedback(message = "More complex test", onFail = true)
+    @Grade(value = 1, cpuTimeout = 1)
+    @GradeFeedback(message = "More complex test", on = FAIL)
     public void smallExample() {
         // see here for the graph https://pasteboard.co/iVjXKUlNE6ev.png
         double [][] distanceMatrix = new double[7][7];
@@ -100,7 +98,7 @@ public class SimpleOneTreeTestFast {
 
         OneTreeResult res = new SimpleOneTree().compute(distanceMatrix, excluded);
 
-        double cost = res.edges().stream().map(e -> e.cost()).reduce(0.0, (a,b) -> a+b);
+        double cost = res.edges().stream().map(Edge::cost).reduce(0.0, Double::sum);
         assertEquals(22, cost, 0.0001);
 
         assertTrue(isOneTree(7,res.edges()));
@@ -108,7 +106,7 @@ public class SimpleOneTreeTestFast {
 
     @Test
     @Grade(value = 1, cpuTimeout = 1000)
-    @GradeFeedback(message = "More complex test", onFail = true)
+    @GradeFeedback(message = "More complex test", on = FAIL)
     public void smallExampleOneEdgeExcluded() {
         // see here for the graph https://pasteboard.co/iVjXKUlNE6ev.png
         double [][] distanceMatrix = new double[7][7];
@@ -142,7 +140,7 @@ public class SimpleOneTreeTestFast {
 
         OneTreeResult res = new SimpleOneTree().compute(distanceMatrix, excluded);
 
-        double cost = res.edges().stream().map(e -> e.cost()).reduce(0.0, (a,b) -> a+b);
+        double cost = res.edges().stream().map(Edge::cost).reduce(0.0, Double::sum);
         assertEquals(23, cost, 0.0001);
         boolean edge25present = edgePresent(2,5,res.edges());
         assertFalse(edge25present);

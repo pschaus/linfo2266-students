@@ -1,22 +1,12 @@
 package mdd;
 
-import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
-import com.github.guillaumederval.javagrading.Grade;
-import com.github.guillaumederval.javagrading.GradeFeedback;
-import com.github.guillaumederval.javagrading.GradingRunnerWithParametersFactory;
+import java.util.stream.Stream;
 
 import mdd.exercise.KnapsackExample;
 import mdd.framework.core.Frontier;
@@ -29,12 +19,23 @@ import mdd.framework.implem.frontier.SimpleFrontier;
 import mdd.framework.implem.heuristics.DefaultVariableHeuristic;
 import mdd.framework.implem.heuristics.FixedWidth;
 import mdd.framework.implem.solver.SequentialSolver;
+import org.javagrader.Grade;
+import org.javagrader.GradeFeedback;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import static org.javagrader.TestResultStatus.FAIL;
+import static org.javagrader.TestResultStatus.TIMEOUT;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Named.named;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 /**
  * This class defines a set of tests that will validate your implementation of
  * the sequential Bab-MDD solver using the provided knapsack model as an example.
  */
-@RunWith(Enclosed.class)
+@Grade
 public class TestSequentialSolver {
     private static List<File> listInstances(final String path) {
         final File dir = new File(path);
@@ -45,42 +46,29 @@ public class TestSequentialSolver {
         return new int[] {1000000, 100000, 1000};
     }
 
-    @RunWith(Parameterized.class)
-    @Parameterized.UseParametersRunnerFactory(GradingRunnerWithParametersFactory.class)
-    public static class TestParameterized100 {
-        final String name;
-        final Integer width;
-        final String instance;
+    public static Stream<Arguments> getInstances() {
+        final List<File> files   = listInstances("data/Knapsack");
+        final int[] widths       = widths();
+        final List<Arguments> out = new ArrayList<>();
 
-        public TestParameterized100(String name, File f, Integer w) {
-            this.name  = name;
-            this.width = w;
-            this.instance = f.getAbsolutePath();
-        }
-
-        @Parameterized.Parameters(name = "{0}")
-        public static Collection<Object[]> width() {
-            final List<File> files   = listInstances("data/Knapsack");
-            final int[] widths       = widths();
-            final List<Object[]> out = new ArrayList<>();
-
-            for (int width : widths) {
-                for (File f : files) {
-                    out.add(new Object[]{ f.getName()+ ":: width = " + width, f, width });
-                }
+        for (int width : widths) {
+            for (File f : files) {
+                String name = f.getName().replace("instance_", "")+ " :: width=1e" + (int) Math.log10(width);
+                out.add(arguments(named(name, f.getPath()), width));
             }
-
-            return out;
         }
 
-        @Test(timeout = 6000)
-        @Grade(value = 10, cpuTimeout = 2000, customPermissions = DataPermissionFactorySequential.class)
-        @GradeFeedback(message = "There is a bug in your SequentialSolver implementation. It failed to retrieve the right solution.", onFail=true)
-        @GradeFeedback(message = "Your solver is too slow. Are you sure to have correctly used the upper and lower bounds from the relaxed and restricted DDs ?", onTimeout=true)
-        public void test() throws IOException {
-            KnapsackExample.KnapsackProblem problem = KnapsackExample.readInstance(instance);
-            assertEquals(problem.optimal.intValue(), solveParametric(problem, width));
-        }
+        return out.stream();
+    }
+
+    @Grade(value = 10, cpuTimeout = 2)
+    @GradeFeedback(message = "There is a bug in your SequentialSolver implementation. It failed to retrieve the right solution.", on = FAIL)
+    @GradeFeedback(message = "Your solver is too slow. Are you sure to have correctly used the upper and lower bounds from the relaxed and restricted DDs ?", on = TIMEOUT)
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("getInstances")
+    public void testKnapsack(String instance, int width) throws IOException {
+        KnapsackExample.KnapsackProblem problem = KnapsackExample.readInstance(instance);
+        assertEquals(problem.optimal.intValue(), solveParametric(problem, width));
     }
 
 

@@ -1,24 +1,25 @@
 package branchandbound;
 
-import com.github.guillaumederval.javagrading.Grade;
-import com.github.guillaumederval.javagrading.GradeFeedback;
-import org.junit.Test;
+import org.javagrader.Grade;
+import org.javagrader.GradeFeedback;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import util.UF;
-import util.tsp.TSPInstance;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.javagrader.TestResultStatus.FAIL;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-
+@Tag("fast")
+@Grade
 public class HeldKarpOneTreeFast {
 
-
     @Test
-    @Grade(value = 1, cpuTimeout = 1000)
-    @GradeFeedback(message = "More complex test", onFail = true)
+    @Grade(value = 1, cpuTimeout = 1)
+    @GradeFeedback(message = "More complex test", on = FAIL)
     public void smallExample() {
         // see here for the graph https://pasteboard.co/iVjXKUlNE6ev.png
         double [][] distanceMatrix = new double[7][7];
@@ -56,8 +57,8 @@ public class HeldKarpOneTreeFast {
     }
 
     @Test
-    @Grade(value = 1, cpuTimeout = 1000)
-    @GradeFeedback(message = "More complex test", onFail = true)
+    @Grade(value = 1, cpuTimeout = 1)
+    @GradeFeedback(message = "More complex test", on = FAIL)
     public void smallExampleOneEdgeExcluded() {
         // see here for the graph https://pasteboard.co/iVjXKUlNE6ev.png
         double [][] distanceMatrix = new double[7][7];
@@ -91,7 +92,7 @@ public class HeldKarpOneTreeFast {
 
         OneTreeResult res = new SimpleOneTree().compute(distanceMatrix, excluded);
 
-        double cost = res.edges().stream().map(e -> e.cost()).reduce(0.0, (a,b) -> a+b);
+        double cost = res.edges().stream().map(Edge::cost).reduce(0.0, Double::sum);
         assertEquals(23, cost, 0.0001);
         boolean edge25present = edgePresent(2,5,res.edges());
         assertFalse(edge25present);
@@ -106,7 +107,6 @@ public class HeldKarpOneTreeFast {
         }
         return false;
     }
-
 
     public void checkOneTree(int n, List<Edge> edges) {
         int [] degree = new int[n];

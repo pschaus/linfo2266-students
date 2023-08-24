@@ -1,17 +1,19 @@
 package constraintprogramming.problems;
 
-import com.github.guillaumederval.javagrading.Grade;
-import com.github.guillaumederval.javagrading.GradeClass;
-import org.junit.Test;
+import org.javagrader.Grade;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 import static constraintprogramming.problems.KillerSudokuAssert.assertInvalid;
 import static constraintprogramming.problems.KillerSudokuAssert.assertValid;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-@GradeClass(totalValue = 20)
+@Tag("fast")
+@Grade(value = 20)
 public class KillerSudokuTestFast {
 
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void test2x2WithInitialValues() {
         Coordinate[][] coords = Coordinate.fromMatrix(new int[][]{
                 {1, 0, 3, 0},
@@ -29,8 +31,8 @@ public class KillerSudokuTestFast {
         assertValid(1, instance);
     }
 
-    @Test(timeout = 1200)
-    @Grade(cpuTimeout = 400)
+    @Test
+    @Grade(cpuTimeout = 400, unit = MILLISECONDS)
     public void test2x2WithoutInitialValues() {
         Coordinate[][] coords = Coordinate.fromMatrix(new int[][]{
                 {0, 0, 0, 0},
@@ -48,8 +50,8 @@ public class KillerSudokuTestFast {
         assertValid(8, instance);
     }
 
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void test1x1() {
         Coordinate[][] coords = Coordinate.fromMatrix(new int[][]{
                 {0},
@@ -61,8 +63,8 @@ public class KillerSudokuTestFast {
         assertValid(1, instance);
     }
 
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void testIncoherent1() {
         Coordinate[][] coords = Coordinate.fromMatrix(new int[][]{
                 {0},
@@ -74,8 +76,8 @@ public class KillerSudokuTestFast {
         assertInvalid(instance);
     }
 
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void testIncoherent2() {
         Coordinate[][] coords = Coordinate.fromMatrix(new int[][]{
                 {2},
@@ -87,8 +89,8 @@ public class KillerSudokuTestFast {
         assertInvalid(instance);
     }
 
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void testIncoherent3() {
         Coordinate[][] coords = Coordinate.fromMatrix(new int[][]{
                 {2, 0, 0, 0},

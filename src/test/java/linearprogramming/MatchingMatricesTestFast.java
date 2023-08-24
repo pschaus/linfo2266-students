@@ -1,21 +1,23 @@
 package linearprogramming;
 
-
-import com.github.guillaumederval.javagrading.Grade;
-import com.github.guillaumederval.javagrading.GradeClass;
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.javagrader.Grade;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import util.NotImplementedException;
 import util.NotImplementedExceptionAssume;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Named.named;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-@RunWith(Enclosed.class)
+@Grade
 public class MatchingMatricesTestFast {
 
     /**
@@ -27,58 +29,44 @@ public class MatchingMatricesTestFast {
      *
      * The objective value should be 3
      */
-    @GradeClass(totalValue = 10, defaultCpuTimeout = 100)
-    public static class SimpleTest {
-
-        @Test
-        public void simpleTest() {
-            Edge[] edges = new Edge[] {
-                    new Edge(0, 4),
-                    new Edge(1, 5),
-                    new Edge(1, 6),
-                    new Edge(2, 7),
-                    new Edge(3, 7)
-            };
-            Graph graph = Graph.bipartite(8, edges);
-            try {
-                MatchingMatrices matching = new MatchingMatrices(graph);
-                LinearProgramming simplex = new LinearProgramming(matching.A, matching.b, matching.c);
-                int nEdges = (int) simplex.value();
-                assertEquals(3, nEdges);
-                double[] primal = simplex.primal();
-                assertTrue(matching.isEdgeSelected(primal, edges[0]));
-                // either (1-5) is selected or (1-6) is selected
-                assertTrue(matching.isEdgeSelected(primal, edges[1]) ^ matching.isEdgeSelected(primal, edges[2]));
-                // either (2-7) is selected or (3-7) is selected
-                assertTrue(matching.isEdgeSelected(primal, edges[3]) ^ matching.isEdgeSelected(primal, edges[4]));
-            } catch (NotImplementedException e) {
-                NotImplementedExceptionAssume.fail(e);
-            }
+    @Grade(value = 10, cpuTimeout = 100, unit = MILLISECONDS)
+    public void simpleTest() {
+        Edge[] edges = new Edge[] {
+                new Edge(0, 4),
+                new Edge(1, 5),
+                new Edge(1, 6),
+                new Edge(2, 7),
+                new Edge(3, 7)
+        };
+        Graph graph = Graph.bipartite(8, edges);
+        try {
+            MatchingMatrices matching = new MatchingMatrices(graph);
+            LinearProgramming simplex = new LinearProgramming(matching.A, matching.b, matching.c);
+            int nEdges = (int) simplex.value();
+            assertEquals(3, nEdges);
+            double[] primal = simplex.primal();
+            assertTrue(matching.isEdgeSelected(primal, edges[0]));
+            // either (1-5) is selected or (1-6) is selected
+            assertTrue(matching.isEdgeSelected(primal, edges[1]) ^ matching.isEdgeSelected(primal, edges[2]));
+            // either (2-7) is selected or (3-7) is selected
+            assertTrue(matching.isEdgeSelected(primal, edges[3]) ^ matching.isEdgeSelected(primal, edges[4]));
+        } catch (NotImplementedException e) {
+            NotImplementedExceptionAssume.fail(e);
         }
-
     }
 
-    private final static int nTest = 5; // number of parametrized run
+    public static List<Arguments> getGraphParams() {
+        int nVertices = 66;
+        int nEdges = 72;
+        return IntStream.range(0, 5).mapToObj(i -> arguments(named("n" + nVertices + "_e" + nEdges + "_" + i, nVertices), nEdges)).collect(Collectors.toList());
+    }
 
-    @RunWith(Parameterized.class)
-    @GradeClass(totalValue = 30, defaultCpuTimeout = 100)
-    public static class SmallSizeTest {
-
-        Graph bipartite;
-        public SmallSizeTest(Graph bipartite) {
-            this.bipartite = bipartite;
-        }
-
-        @Parameterized.Parameters
-        public static Object[] data() {
-            return IntStream.range(0, nTest).mapToObj(i -> Graph.bipartite(66, 66, 72)).toArray();
-        }
-
-        @Test
-        public void test() {
-            Assertions.assertCorrectness(bipartite);
-        }
-
+    @Grade(value = 30, cpuTimeout = 100, unit = MILLISECONDS)
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("getGraphParams")
+    public void smallSizeTest(int vertices, int edges) {
+        Graph bipartite = Graph.bipartite(vertices, vertices, edges);
+        Assertions.assertCorrectness(bipartite);
     }
 
 }

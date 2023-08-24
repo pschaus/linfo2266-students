@@ -1,77 +1,73 @@
 package localsearch;
 
-import com.github.guillaumederval.javagrading.Grade;
-import com.github.guillaumederval.javagrading.GradeFeedback;
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
-
+import org.javagrader.Grade;
+import org.javagrader.GradeFeedback;
+import org.junit.jupiter.api.Test;
 import util.NotImplementedException;
 import util.NotImplementedExceptionAssume;
 import util.psp.PSPInstance;
 
-import static org.junit.Assert.assertEquals;
+import static org.javagrader.TestResultStatus.FAIL;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(Enclosed.class)
+@Grade
 public class ChangeoverCostInvariantTestFast {
 
-    public static class TestNotParameterized {
-        @Test
-        @Grade(value = 1, cpuTimeout = 1000)
-        @GradeFeedback(message = "Your computation of changeover costs is not correct", onFail = true)
-        public void readableTestToDebug() {
-            // instance data
-            int nTypes = 3, nPeriods = 5;
-            int[] stockingCost = {10, 20, 30};
-            int[][] changeoverCost = {
-                {0, 10, 15},
-                {10,  0, 5},
-                {10, 20, 0}
-            };
-            int[][] demand = {
-                {0, 0, 0, 0, 1},
-                {0, 0, 0, 1, 1},
-                {0, 0, 0, 1, 1},
-            };
+    @Test
+    @Grade(value = 1, cpuTimeout = 1)
+    @GradeFeedback(message = "Your computation of changeover costs is not correct", on = FAIL)
+    public void readableTestToDebug() {
+        // instance data
+        int nTypes = 3, nPeriods = 5;
+        int[] stockingCost = {10, 20, 30};
+        int[][] changeoverCost = {
+            {0, 10, 15},
+            {10,  0, 5},
+            {10, 20, 0}
+        };
+        int[][] demand = {
+            {0, 0, 0, 0, 1},
+            {0, 0, 0, 1, 1},
+            {0, 0, 0, 1, 1},
+        };
 
-            // create instance
-            PSPInstance instance = new PSPInstance(nPeriods, nTypes, stockingCost, changeoverCost, demand);
+        // create instance
+        PSPInstance instance = new PSPInstance(nPeriods, nTypes, stockingCost, changeoverCost, demand);
 
-            // demands array looks like this
-            //  0                       1                       2                       3                       4
-            // [(type: 1, deadline: 3), (type: 2, deadline: 3), (type: 0, deadline: 4), (type: 1, deadline: 4), (type: 2, deadline: 4)]
+        // demands array looks like this
+        //  0                       1                       2                       3                       4
+        // [(type: 1, deadline: 3), (type: 2, deadline: 3), (type: 0, deadline: 4), (type: 1, deadline: 4), (type: 2, deadline: 4)]
 
-            // create production variables, initialized to IDLE
-            IntVar[] production = IntVar.makeIntVarArray(nPeriods, PSP.IDLE);
+        // create production variables, initialized to IDLE
+        IntVar[] production = IntVar.makeIntVarArray(nPeriods, PSP.IDLE);
 
-            // create invariant
-            ChangeoverCostInvariant invariant = new ChangeoverCostInvariant(instance, production);
-            
-            try {
-                assertEquals(0, invariant.getValue());
+        // create invariant
+        ChangeoverCostInvariant invariant = new ChangeoverCostInvariant(instance, production);
 
-                production[0].setValue(2);
+        try {
+            assertEquals(0, invariant.getValue());
 
-                assertEquals(0, invariant.getValue());
+            production[0].setValue(2);
 
-                production[1].setValue(0);
+            assertEquals(0, invariant.getValue());
 
-                assertEquals(10, invariant.getValue());
+            production[1].setValue(0);
 
-                production[2].setValue(1);
+            assertEquals(10, invariant.getValue());
 
-                assertEquals(15, invariant.getValue());
+            production[2].setValue(1);
 
-                production[3].setValue(3);
+            assertEquals(15, invariant.getValue());
 
-                assertEquals(35, invariant.getValue());
+            production[3].setValue(3);
 
-                production[4].setValue(4);
+            assertEquals(35, invariant.getValue());
 
-                assertEquals(40, invariant.getValue());
-            } catch (NotImplementedException e) {
-                NotImplementedExceptionAssume.fail(e);
-            }
+            production[4].setValue(4);
+
+            assertEquals(40, invariant.getValue());
+        } catch (NotImplementedException e) {
+            NotImplementedExceptionAssume.fail(e);
         }
     }
 

@@ -1,9 +1,5 @@
 package mdd;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,8 +8,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.junit.Test;
 
 import mdd.framework.core.CompilationInput;
 import mdd.framework.core.CompilationType;
@@ -25,6 +19,9 @@ import mdd.framework.heuristics.StateRanking;
 import mdd.framework.heuristics.VariableHeuristic;
 import mdd.framework.implem.heuristics.DefaultVariableHeuristic;
 import mdd.framework.implem.mdd.LinkedDecisionDiagram;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * ============================================================================================

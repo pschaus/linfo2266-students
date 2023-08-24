@@ -1,8 +1,5 @@
 package mdd;
 
-import com.github.guillaumederval.javagrading.Grade;
-import com.github.guillaumederval.javagrading.GradeFeedback;
-import com.github.guillaumederval.javagrading.GradingRunnerWithParametersFactory;
 import mdd.exercise.MaximumDecarbonationProblem;
 import mdd.exercise.MaximumDecarbonationRelaxation;
 import mdd.exercise.MaximumDecarbonationState;
@@ -17,10 +14,13 @@ import mdd.framework.implem.frontier.SimpleFrontier;
 import mdd.framework.implem.heuristics.DefaultVariableHeuristic;
 import mdd.framework.implem.heuristics.FixedWidth;
 import mdd.framework.implem.solver.ParallelSolver;
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.javagrader.Allow;
+import org.javagrader.Grade;
+import org.javagrader.GradeFeedback;
+import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import util.decarbonation.MaximumDecarbonationInstance;
 
 import java.io.BufferedReader;
@@ -31,14 +31,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.assertEquals;
+import static org.javagrader.TestResultStatus.FAIL;
+import static org.javagrader.TestResultStatus.TIMEOUT;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  * This class tests your complete solution for the Maximum decarbonation problem. If your solution passed all the tests
  * in the `TestMaximumDecarbonationModel` test suite, then you may reasonably assume you have made an error when
  * implementing your relaxation.
  */
-@RunWith(Enclosed.class)
+@Grade
 public final class TestMaximumDecarbonation {
     private static List<String> listInstances() throws IOException {
         // Easy set of bruteforceable instances
@@ -62,46 +65,33 @@ public final class TestMaximumDecarbonation {
         return new int[] {500, 250, 100, 50, 20, 10, 5, 2};
     }
 
-    @RunWith(Parameterized.class)
-    @Parameterized.UseParametersRunnerFactory(GradingRunnerWithParametersFactory.class)
-    public static class TestParameterized {
-        final String name;
-        final String instance;
-        final Integer width;
+    public static Stream<Arguments> getInstances() throws IOException {
+        final List<String> inst  = listInstances();
+        final int[] widths       = widths();
+        final List<Arguments> out = new ArrayList<>();
 
-        public TestParameterized(String name, String instance, Integer w) {
-            this.name  = name;
-            this.instance = instance;
-            this.width = w;
-        }
-
-        @Parameterized.Parameters(name = "{0}")
-        public static Collection<Object[]> width() throws IOException {
-            final List<String> inst  = listInstances();
-            final int[] widths       = widths();
-            final List<Object[]> out = new ArrayList<>();
-
-            for (int width : widths) {
-                for (String name : inst) {
-                    final String testName = name+ ":: width = " + width;
-                    out.add(new Object[]{testName , name, width });
-                }
+        for (int width : widths) {
+            for (String name : inst) {
+                final String testName = name+ ":: width = " + width;
+                out.add(Arguments.arguments(name, width));
             }
-
-            return out;
         }
+        return out.stream();
+    }
 
-        @Test(timeout = 9000)
-        @Grade(value = 10, cpuTimeout = 3000, customPermissions = DataPermissionFactoryWithThreads.class)
-        @GradeFeedback(message = "Your solution failed to identify the optimal solution. Is your DP model correct ? If so, chances are you have a bug in your relaxation", onFail=true)
-        @GradeFeedback(message = "Your solver is too slow. Have you done anything special in your transition/transition cost functions or in the relaxation ?", onTimeout=true)
-        public void test() throws IOException {
-            final String optPath = "data/decarbonation/optimal/" + instance;
-            final String instPath= "data/decarbonation/instances/" + instance;
-            final int optimal = readOptimal(optPath);
-            final MaximumDecarbonationInstance instance = MaximumDecarbonationInstance.fromFile(instPath);
-            assertEquals(optimal, solveParametric(instance, width));
-        }
+    @GradeFeedback(message = "Your solution failed to identify the optimal solution. Is your DP model correct ? If so, chances are you have a bug in your relaxation", on = FAIL)
+    @GradeFeedback(message = "Your solver is too slow. Have you done anything special in your transition/transition cost functions or in the relaxation ?", on = TIMEOUT)
+    @Grade(value = 10)
+    @Timeout(value = 10, threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+    @Allow("java.lang.Thread")
+    @ParameterizedTest
+    @MethodSource("getInstances")
+    public void testOptimality(String instance, int width) throws IOException {
+        final String optPath = "data/decarbonation/optimal/" + instance;
+        final String instPath= "data/decarbonation/instances/" + instance;
+        final int optimal = readOptimal(optPath);
+        final MaximumDecarbonationInstance decarbonationInstance = MaximumDecarbonationInstance.fromFile(instPath);
+        assertEquals(optimal, solveParametric(decarbonationInstance, width));
     }
 
 
@@ -123,7 +113,7 @@ public final class TestMaximumDecarbonation {
 
         // let us solve these instances using one thread per cpu core
         // final int cores = Runtime.getRuntime().availableProcessors();
-        final Solver solver = new ParallelSolver<>(4, problem, relax, varh, ranking, width, frontier);
+        final Solver solver = new ParallelSolver<>(1, problem, relax, varh, ranking, width, frontier);
         solver.maximize();
 
         return solver.bestValue().orElse(Integer.MIN_VALUE).intValue();

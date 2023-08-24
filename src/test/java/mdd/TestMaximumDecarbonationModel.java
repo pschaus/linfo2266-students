@@ -1,14 +1,13 @@
 package mdd;
 
-import com.github.guillaumederval.javagrading.Grade;
-import com.github.guillaumederval.javagrading.GradeFeedback;
-import com.github.guillaumederval.javagrading.GradingRunnerWithParametersFactory;
 import mdd.exercise.*;
 import mdd.framework.core.*;
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.javagrader.Grade;
+import org.javagrader.GradeFeedback;
+import org.javagrader.TestResultStatus;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import util.decarbonation.MaximumDecarbonationInstance;
 
 import java.io.BufferedReader;
@@ -19,14 +18,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.assertEquals;
+import static org.javagrader.TestResultStatus.FAIL;
+import static org.javagrader.TestResultStatus.TIMEOUT;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
+
 
 /**
  * This class tests your **DP model** for the Maximum decarbonation instance. You might want to make sure you
  * have all the tests passing in this class before attempting to solve the other parts of the assignment on
  * max decarbonation.
  */
-@RunWith(Enclosed.class)
+@Grade
 public final class TestMaximumDecarbonationModel {
     private static List<String> listInstances() throws IOException {
         // Easy set of bruteforceable instances
@@ -46,41 +49,29 @@ public final class TestMaximumDecarbonationModel {
         }
     }
 
-    @RunWith(Parameterized.class)
-    @Parameterized.UseParametersRunnerFactory(GradingRunnerWithParametersFactory.class)
-    public static class TestParameterized {
-        final String name;
-        final String instance;
+    public static Stream<Arguments> getInstances() throws IOException {
+        final List<String> inst  = listInstances();
+        final List<Arguments> out = new ArrayList<>();
 
-        public TestParameterized(String name, String instance) {
-            this.name  = name;
-            this.instance = instance;
+        for (String name : inst) {
+            final String testName = name+ ":: pure dp";
+            out.add(arguments(name));
         }
 
-        @Parameterized.Parameters(name = "{0}")
-        public static Collection<Object[]> width() throws IOException {
-            final List<String> inst  = listInstances();
-            final List<Object[]> out = new ArrayList<>();
+        return out.stream();
+    }
 
-            for (String name : inst) {
-                final String testName = name+ ":: pure dp";
-                out.add(new Object[]{testName , name});
-            }
-
-            return out;
-        }
-
-        @Test(timeout = 3000)
-        @Grade(value = 10, cpuTimeout = 1000, customPermissions = DataPermissionFactorySequential.class)
-        @GradeFeedback(message = "Something in your DP model might be wrong. It failed to identify the optimal solution", onFail=true)
-        @GradeFeedback(message = "Your solver is too slow. Have you done anything special in your transition/transition cost functions ?", onTimeout=true)
-        public void test() throws IOException {
-            final String optPath = "data/decarbonation/optimal/" + instance;
-            final String instPath= "data/decarbonation/instances/" + instance;
-            final int optimal = readOptimal(optPath);
-            final MaximumDecarbonationInstance instance = MaximumDecarbonationInstance.fromFile(instPath);
-            assertEquals(optimal, solvePureDp(instance));
-        }
+    @Grade(value = 10, cpuTimeout = 1)
+    @GradeFeedback(message = "Something in your DP model might be wrong. It failed to identify the optimal solution", on = FAIL)
+    @GradeFeedback(message = "Your solver is too slow. Have you done anything special in your transition/transition cost functions ?", on = TIMEOUT)
+    @ParameterizedTest
+    @MethodSource("getInstances")
+    public void testModel(String instance) throws IOException {
+        final String optPath = "data/decarbonation/optimal/" + instance;
+        final String instPath= "data/decarbonation/instances/" + instance;
+        final int optimal = readOptimal(optPath);
+        final MaximumDecarbonationInstance decarbonationInstance = MaximumDecarbonationInstance.fromFile(instPath);
+        assertEquals(optimal, solvePureDp(decarbonationInstance));
     }
 
     public static int solvePureDp(final MaximumDecarbonationInstance instance) {

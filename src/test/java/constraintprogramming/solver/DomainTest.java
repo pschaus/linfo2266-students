@@ -1,28 +1,29 @@
 package constraintprogramming.solver;
 
-import com.github.guillaumederval.javagrading.Grade;
-import com.github.guillaumederval.javagrading.GradeClass;
-import org.junit.Test;
+import org.javagrader.Grade;
+import org.junit.jupiter.api.Test;
 import util.NotImplementedException;
 import util.NotImplementedExceptionAssume;
 
-import static org.junit.Assert.*;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.junit.jupiter.api.Assertions.*;
 
-@GradeClass(totalValue = 10)
+
+@Grade(value = 10)
 public class DomainTest {
-
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void testRemoveBelowUnChanged() {
         try {
             Domain d = new Domain(10);
-            assertFalse("The domain has not changed", d.removeBelow(-2));
+            assertFalse(d.removeBelow(-2), "The domain has not changed");
             assertEquals(0, d.min());
             assertEquals(9, d.max());
-            assertFalse("The domain has not changed", d.removeBelow(Integer.MIN_VALUE));
+            assertFalse(d.removeBelow(Integer.MIN_VALUE), "The domain has not changed");
             assertEquals(0, d.min());
             assertEquals(9, d.max());
-            assertFalse("The domain has not changed", d.removeBelow(0));
+            assertFalse(d.removeBelow(0), "The domain has not changed");
             assertEquals(0, d.min());
             assertEquals(9, d.max());
         } catch (NotImplementedException e) {
@@ -32,21 +33,21 @@ public class DomainTest {
         }
     }
 
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void testRemoveBelow1() {
         try {
             Domain d = new Domain(10);
-            assertTrue("The domain has changed", d.removeBelow(2));
+            assertTrue(d.removeBelow(2), "The domain has changed");
             assertEquals(2, d.min());
             assertEquals(9, d.max());
-            assertFalse("The domain has not changed", d.removeBelow(0));
+            assertFalse(d.removeBelow(0), "The domain has not changed");
             assertEquals(2, d.min());
             assertEquals(9, d.max());
-            assertTrue("The domain has changed", d.removeBelow(7));
+            assertTrue(d.removeBelow(7), "The domain has changed");
             assertEquals(7, d.min());
             assertEquals(9, d.max());
-            assertTrue("The domain has changed", d.removeBelow(9));
+            assertTrue(d.removeBelow(9), "The domain has changed");
             assertEquals(9, d.min());
             assertEquals(9, d.max());
             assertTrue(d.isFixed());
@@ -57,8 +58,8 @@ public class DomainTest {
         }
     }
 
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void testRemoveBelowFailure1() {
         Domain d = new Domain(10);
         try {
@@ -71,8 +72,8 @@ public class DomainTest {
         }
     }
 
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void testRemoveBelowFailure2() {
         Domain d = new Domain(10);
         try {
@@ -85,18 +86,18 @@ public class DomainTest {
         }
     }
 
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void testRemoveAboveUnchanged() {
         try {
             Domain d = new Domain(10);
-            assertFalse("The domain has not changed", d.removeAbove(11));
+            assertFalse(d.removeAbove(11), "The domain has not changed");
             assertEquals(0, d.min());
             assertEquals(9, d.max());
-            assertFalse("The domain has not changed", d.removeAbove(Integer.MAX_VALUE));
+            assertFalse(d.removeAbove(Integer.MAX_VALUE), "The domain has not changed");
             assertEquals(0, d.min());
             assertEquals(9, d.max());
-            assertFalse("The domain has not changed", d.removeAbove(9));
+            assertFalse(d.removeAbove(9), "The domain has not changed");
             assertEquals(0, d.min());
             assertEquals(9, d.max());
         } catch (NotImplementedException e) {
@@ -106,21 +107,21 @@ public class DomainTest {
         }
     }
 
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void testRemoveAbove1() {
         try {
             Domain d = new Domain(10);
-            assertTrue("The domain has changed", d.removeAbove(7));
+            assertTrue(d.removeAbove(7), "The domain has changed");
             assertEquals(0, d.min());
             assertEquals(7, d.max());
-            assertFalse("The domain has not changed", d.removeAbove(8));
+            assertFalse(d.removeAbove(8), "The domain has not changed");
             assertEquals(0, d.min());
             assertEquals(7, d.max());
-            assertTrue("The domain has changed", d.removeAbove(3));
+            assertTrue(d.removeAbove(3), "The domain has changed");
             assertEquals(0, d.min());
             assertEquals(3, d.max());
-            assertTrue("The domain has changed", d.removeAbove(0));
+            assertTrue(d.removeAbove(0), "The domain has changed");
             assertEquals(0, d.min());
             assertEquals(0, d.max());
             assertTrue(d.isFixed());
@@ -131,8 +132,8 @@ public class DomainTest {
         }
     }
 
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void testRemoveAboveFailure1() {
         Domain d = new Domain(10);
         try {
@@ -145,8 +146,8 @@ public class DomainTest {
         }
     }
 
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void testRemoveAboveFailure2() {
         Domain d = new Domain(10);
         try {
@@ -159,8 +160,8 @@ public class DomainTest {
         }
     }
 
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void testRemoveAboveFailure3() {
         Domain d = new Domain(10);
         try {

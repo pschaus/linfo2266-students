@@ -1,65 +1,55 @@
 package localsearch;
 
-import com.github.guillaumederval.javagrading.Grade;
-import com.github.guillaumederval.javagrading.GradeFeedback;
-import com.github.guillaumederval.javagrading.GradingRunnerWithParametersFactory;
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
+import org.javagrader.Grade;
+import org.javagrader.GradeFeedback;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import util.NotImplementedException;
 import util.NotImplementedExceptionAssume;
 import util.psp.PSPInstance;
 import util.psp.PSPInstance.Demand;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
+import static org.javagrader.TestResultStatus.FAIL;
+import static org.javagrader.TestResultStatus.TIMEOUT;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(Enclosed.class)
+@Grade
 public class ChangeoverCostInvariantTest {
 
-    @RunWith(Parameterized.class)
-    @Parameterized.UseParametersRunnerFactory(GradingRunnerWithParametersFactory.class)
-    public static class TestParameterized {
+    static Random random = new Random(0);
 
-        static Random random = new Random(0);
-        final PSPInstance instance;
+    public static List<Arguments> getLargeInstances() {
+        return Utils.readPSPInstances("data/PSP/large");
+    }
 
-        public TestParameterized(String name, PSPInstance instance) {
-            this.instance = instance;
-        }
+    @Grade(value = 1, cpuTimeout = 2)
+    @GradeFeedback(message = "Your computation of changeover costs is not correct", on = FAIL)
+    @GradeFeedback(message = "Your computation of changeover costs is too slow, are you doing incremental updates?", on = TIMEOUT)
+    @ParameterizedTest
+    @MethodSource("getLargeInstances")
+    public void testInvariantVSFromScratch(PSPInstance instance) {
+        try {
+            // create production variables, initialized to IDLE
+            IntVar[] production = IntVar.makeIntVarArray(instance.nPeriods, PSP.IDLE);
 
-        @Parameterized.Parameters(name = "{0}")
-        public static Collection<?> data() {
-            return Utils.readPSPInstances("data/PSP/large");
-        }
+            // create invariant
+            ChangeoverCostInvariant invariant = new ChangeoverCostInvariant(instance, production);
 
-        @Test
-        @Grade(value = 1, cpuTimeout = 2000)
-        @GradeFeedback(message = "Your computation of changeover costs is not correct", onFail=true)
-        @GradeFeedback(message = "Your computation of changeover costs is too slow, are you doing incremental updates?", onTimeout=true)
-        public void testInvariantVSFromScratch() throws Exception {
-            try {
-                // create production variables, initialized to IDLE
-                IntVar[] production = IntVar.makeIntVarArray(instance.nPeriods, PSP.IDLE);
+            for (int i = 0; i < 10000; i++) {
+                int period = random.nextInt(instance.nPeriods);
+                int demand = random.nextInt(instance.demands.length);
 
-                // create invariant
-                ChangeoverCostInvariant invariant = new ChangeoverCostInvariant(instance, production);
+                production[period].setValue(demand);
 
-                for (int i = 0; i < 10000; i++) {
-                    int period = random.nextInt(instance.nPeriods);
-                    int demand = random.nextInt(instance.demands.length);
-
-                    production[period].setValue(demand);
-
-                    assertEquals(changeoverCost(instance, production), invariant.getValue());
-                }
-            } catch (NotImplementedException e) {
-                NotImplementedExceptionAssume.fail(e);
+                assertEquals(changeoverCost(instance, production), invariant.getValue());
             }
+        } catch (NotImplementedException e) {
+            NotImplementedExceptionAssume.fail(e);
         }
     }
 

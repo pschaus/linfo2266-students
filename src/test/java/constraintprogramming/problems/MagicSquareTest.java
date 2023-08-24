@@ -1,21 +1,21 @@
 package constraintprogramming.problems;
 
-import com.github.guillaumederval.javagrading.Grade;
-import com.github.guillaumederval.javagrading.GradeClass;
-import com.github.guillaumederval.javagrading.GradeFeedback;
-import org.junit.Test;
+import org.javagrader.Grade;
+import org.javagrader.GradeFeedback;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
 import static constraintprogramming.problems.MagicSquareAssert.assertValid;
+import static org.javagrader.TestResultStatus.TIMEOUT;
 
 
-@GradeClass(totalValue = 30)
+@Grade(value = 30)
 public class MagicSquareTest {
 
-    @Test(timeout = 6000)
-    @Grade(cpuTimeout = 2000)
-    @GradeFeedback(message = "Did you set and use the value of the magic constant (getMagicConstant)", onTimeout = true)
+    @Test
+    @Grade(cpuTimeout = 2)
+    @GradeFeedback(message = "Did you set and use the value of the magic constant (getMagicConstant)", on = TIMEOUT)
     public void test4x4() {
         int[][] values = new int[][] {
                 {1, 0, 0, 0},
@@ -26,9 +26,9 @@ public class MagicSquareTest {
         assertValid(values, 416);
     }
 
-    @Test(timeout = 12000)
-    @Grade(cpuTimeout = 4000)
-    @GradeFeedback(message = "Did you set and use the value of the magic constant (getMagicConstant)", onTimeout = true)
+    @Test
+    @Grade(cpuTimeout = 4)
+    @GradeFeedback(message = "Did you set and use the value of the magic constant (getMagicConstant)", on = TIMEOUT)
     public void test5x5() {
         int[][] values = new int[][] {
                 {5, 0, 0, 0, 1},
@@ -40,8 +40,8 @@ public class MagicSquareTest {
         assertValid(values, 16);
     }
 
-    @Test(timeout = 12000)
-    @Grade(cpuTimeout = 4000)
+    @Test
+    @Grade(cpuTimeout = 4)
     public void testIncremental() {
         int[][] values = new int[][] {
                 {7,  0,  35, 0,  0,  14},

@@ -9,8 +9,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class KillerSudokuAssert {
 
@@ -22,29 +22,29 @@ public class KillerSudokuAssert {
             // all rows have different numbers
             for (int j = 0 ; j < n ; ++j) {
                 int v = solution.value(i, j);
-                assertTrue("Each number should be >= 1", v >= 1);
-                assertTrue("Each number should be <= n for a n*n killer sudoku", v <= n);
-                assertFalse("The value " + v + "appears twice on the row", seen[v]);
+                assertTrue(v >= 1, "Each number should be >= 1");
+                assertTrue(v <= n, "Each number should be <= n for a n*n killer sudoku");
+                assertFalse(seen[v], "The value " + v + "appears twice on the row");
                 if (instance.isValue(i, j)) {
-                    assertEquals("The value at (" + i + "," + j + ") does not match with the number given at input",
-                            instance.value(i, j), v);
+                    assertEquals(instance.value(i, j), v,
+                            "The value at (" + i + "," + j + ") does not match with the number given at input");
                 }
                 seen[v] = true;
             }
             for (int j = 1 ; j < seen.length ; ++j) {
-                assertTrue("The number " + j + "does not appear in solution", seen[j]);
+                assertTrue(seen[j], "The number " + j + "does not appear in solution");
             }
             Arrays.fill(seen, false);
             // all columns have different numbers
             for (int j = 0 ; j < n ; ++j) {
                 int v = solution.value(j, i);
-                assertTrue("Each number should be >= 1", v >= 1);
-                assertTrue("Each number should be <= n for a n*n killer sudoku", v <= n);
-                assertFalse("The value " + v + "appears twice on the column", seen[v]);
+                assertTrue(v >= 1, "Each number should be >= 1");
+                assertTrue(v <= n, "Each number should be <= n for a n*n killer sudoku");
+                assertFalse(seen[v], "The value " + v + "appears twice on the column");
                 seen[v] = true;
             }        
             for (int j = 1 ; j < seen.length ; ++j) {
-                assertTrue("The number " + j + "does not appear in solution", seen[j]);
+                assertTrue(seen[j], "The number " + j + "does not appear in solution");
             }
             Arrays.fill(seen, false);
         }
@@ -59,7 +59,7 @@ public class KillerSudokuAssert {
                     }
                 }
                 for (int j = 1 ; j < seen.length ; ++j) {
-                    assertTrue("The number " + j + "does not appear in solution", seen[j]);
+                    assertTrue(seen[j], "The number " + j + "does not appear in solution");
                 }
                 Arrays.fill(seen, false);
             }
@@ -70,15 +70,15 @@ public class KillerSudokuAssert {
             for (Coordinate c: group.values()) {
                 sum += solution.value(c.i(), c.j());
             }
-            assertEquals("The cells within a group do not sum up to the expected value", group.sum(), sum);
+            assertEquals(group.sum(), sum, "The cells within a group do not sum up to the expected value");
         }
     }
-    
+
     public static void assertValid(int nSol, KillerSudokuInstance instance) {
         try {
             KillerSudokuSolver solver = new KillerSudokuSolver(instance);
             List<KillerSudokuInstance.Solution> solutionList = filter(solver.solve());
-            assertEquals("You did not find all solutions to the sudoku killer", nSol, solutionList.size());
+            assertEquals(nSol, solutionList.size(), "You did not find all solutions to the sudoku killer");
             for (KillerSudokuInstance.Solution s: solutionList)
                 assertSolution(instance, s);
         } catch (TinyCSP.Inconsistency e) {
@@ -92,7 +92,7 @@ public class KillerSudokuAssert {
         try {
             KillerSudokuSolver solver = new KillerSudokuSolver(instance);
             List<KillerSudokuInstance.Solution> solutionList = solver.solve();
-            assertEquals("There is no solution to this problem", 0, solutionList.size());
+            assertEquals(0, solutionList.size(), "There is no solution to this problem");
         } catch (NotImplementedException e) {
             NotImplementedExceptionAssume.fail(e);
         } catch (TinyCSP.Inconsistency e) {

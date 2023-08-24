@@ -1,19 +1,19 @@
 package constraintprogramming.solver;
 
-import com.github.guillaumederval.javagrading.Grade;
-import com.github.guillaumederval.javagrading.GradeClass;
-import org.junit.Test;
+import org.javagrader.Grade;
+import org.junit.jupiter.api.Test;
 import util.NotImplementedException;
 import util.NotImplementedExceptionAssume;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
-@GradeClass(totalValue = 30)
+@Grade(value = 30)
 public class SumTest {
 
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void testUpdateY() {
         try {
             TinyCSP csp = new TinyCSP();
@@ -25,7 +25,7 @@ public class SumTest {
             };
             csp.sum(x, y);
             assertEquals(0, y.dom.min());
-            assertEquals("The maximum value of y should be changed according to x", 35, y.dom.max());
+            assertEquals(35, y.dom.max(), "The maximum value of y should be changed according to x");
             assertEquals(0, x[0].dom.min());
             assertEquals(5, x[0].dom.max());
             assertEquals(0, x[1].dom.min());
@@ -39,8 +39,8 @@ public class SumTest {
         }
     }
 
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void testInconsistency() {
         try {
             TinyCSP csp = new TinyCSP();
@@ -60,8 +60,8 @@ public class SumTest {
         }
     }
 
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void testUpdateX() {
         try {
             TinyCSP csp = new TinyCSP();
@@ -81,8 +81,8 @@ public class SumTest {
             assertEquals(4, x[1].dom.min());
             assertEquals(5, x[1].dom.max());
             assertEquals(0, x[2].dom.min());
-            assertEquals("You should update the x's based on the other ones and based on y", 2, x[2].dom.max());
-            assertEquals("You should update the x's based on the other ones and based on y", 3, x[2].dom.size());
+            assertEquals(2, x[2].dom.max(), "You should update the x's based on the other ones and based on y");
+            assertEquals(3, x[2].dom.size(), "You should update the x's based on the other ones and based on y");
         } catch (TinyCSP.Inconsistency ignored) {
             fail("You said that there was an inconsistency although the arguments are valid for a sum constraint");
         } catch (NotImplementedException e) {
@@ -90,8 +90,8 @@ public class SumTest {
         }
     }
 
-    @Test(timeout = 300)
-    @Grade(cpuTimeout = 100)
+    @Test
+    @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void testUpdateXAndY() {
         try {
             TinyCSP csp = new TinyCSP();
@@ -106,8 +106,8 @@ public class SumTest {
             x[2].dom.fix(1); // x1 == {1}
             csp.sum(x, y);
             // y == {6, ..., 11}
-            assertEquals("You need to change y according to x", 6, y.dom.min());
-            assertEquals("You need to change y according to x", 11, y.dom.max());
+            assertEquals(6, y.dom.min(), "You need to change y according to x");
+            assertEquals(11, y.dom.max(), "You need to change y according to x");
 
             y.dom.removeBelow(8);
             csp.fixPoint();

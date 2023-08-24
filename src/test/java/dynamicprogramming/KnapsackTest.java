@@ -1,31 +1,34 @@
 package dynamicprogramming;
 
-import com.github.guillaumederval.javagrading.Grade;
-import com.github.guillaumederval.javagrading.GradeFeedback;
-import com.github.guillaumederval.javagrading.GradingRunnerWithParametersFactory;
-
+import org.javagrader.Grade;
+import org.javagrader.GradeFeedback;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import util.Solution;
 import util.knapsack.KnapsackInstance;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import static org.javagrader.TestResultStatus.FAIL;
+import static org.javagrader.TestResultStatus.TIMEOUT;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Named.named;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-@RunWith(Enclosed.class)
+@Grade
 public class KnapsackTest {
 
-    public static List<Object[]> readKnapsackInstance(int size) {
-        LinkedList<Object []> coll = new LinkedList<>();
+    public static List<Arguments> getKnapsackInstances1000() {
+        return getKnapsackInstances(1000);
+    }
+
+    public static List<Arguments> getKnapsackInstances(int size) {
+        LinkedList<Arguments> coll = new LinkedList<>();
 
         File instanceDir = new File("data/Knapsack");
         File[] instances = instanceDir.listFiles(new FilenameFilter() {
@@ -35,7 +38,7 @@ public class KnapsackTest {
         });
 
         for (File instance : instances) {
-            coll.add(new Object[] { instance.getName(), new KnapsackInstance(instance.getAbsolutePath()) });
+            coll.add(arguments(named(instance.getName().replace("instance_", ""), new KnapsackInstance(instance.getAbsolutePath()))));
         }
         return coll;
     }
@@ -63,45 +66,13 @@ public class KnapsackTest {
         assertTrue(checkWeight <= instance.capacity);
     }
 
-    @RunWith(Parameterized.class)
-    @Parameterized.UseParametersRunnerFactory(GradingRunnerWithParametersFactory.class)
-    public static class TestParameterized100 {
-        final KnapsackInstance instance;
-        public TestParameterized100(String name, KnapsackInstance instance) {
-            this.instance = instance;
-        }
-        @Parameterized.Parameters(name = "{0}")
-        public static Collection<?> data() {
-            return readKnapsackInstance(100);
-        }
-        @Test
-        @Grade(value = 10, cpuTimeout = 2000)
-        @GradeFeedback(message = "Something in your DP model might be wrong. Do you handle maximization properly?", onFail=true)
-        @GradeFeedback(message = "Your solver is too slow. Are you using the DP table? Is your state definition correct?", onTimeout=true)
-        public void test() throws Exception {
-            testSolvingOptimality(instance);
-        }
+    @Grade(value = 10, cpuTimeout = 5)
+    @GradeFeedback(message = "Something in your DP model might be wrong. Do you handle maximization properly?", on = FAIL)
+    @GradeFeedback(message = "Your solver is too slow. Are you using the DP table? Is your state definition correct?", on = TIMEOUT)
+    @ParameterizedTest
+    @MethodSource("getKnapsackInstances1000")
+    public void testOptimality100(KnapsackInstance instance) {
+        testSolvingOptimality(instance);
     }
-
-    /*
-    @RunWith(Parameterized.class)
-    @Parameterized.UseParametersRunnerFactory(GradingRunnerWithParametersFactory.class)
-    public static class TestParameterized1000 {
-        final KnapsackInstance instance;
-        public TestParameterized1000(String name, KnapsackInstance instance) {
-            this.instance = instance;
-        }
-        @Parameterized.Parameters(name = "{0}")
-        public static Collection<?> data() {
-            return readKnapsackInstance(1000);
-        }
-        @Test
-        @Grade(value = 10, cpuTimeout = 5000)
-        @GradeFeedback(message = "Something in your DP model might be wrong. Do you handle maximization properly?", onFail=true)
-        @GradeFeedback(message = "Your solver is too slow. Are you using the DP table? Is your state definition correct?", onTimeout=true)
-        public void test() throws Exception {
-            testSolvingOptimality(instance);
-        }
-    }*/
     
 }

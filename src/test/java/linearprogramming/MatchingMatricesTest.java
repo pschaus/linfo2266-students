@@ -1,40 +1,32 @@
 package linearprogramming;
 
-import com.github.guillaumederval.javagrading.GradeClass;
-import com.github.guillaumederval.javagrading.GradingRunnerWithParametersFactory;
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.javagrader.Grade;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static org.junit.jupiter.api.Named.named;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-@RunWith(Enclosed.class)
+@Grade
 public class MatchingMatricesTest {
 
-    private final static int nTest = 5; // number of parametrized run
+    public static List<Arguments> getGraphParams() {
+        int nVertices = 199;
+        int nEdges = 430;
+        return IntStream.range(0, 5).mapToObj(i -> arguments(named("n" + nVertices + "_e" + nEdges + "_" + i, nVertices), nEdges)).collect(Collectors.toList());
+    }
 
-    @RunWith(Parameterized.class)
-    @Parameterized.UseParametersRunnerFactory(GradingRunnerWithParametersFactory.class)
-    @GradeClass(totalValue = 60, defaultCpuTimeout = 14000)
-    public static class BigSizeTest {
-
-        Graph bipartite;
-        public BigSizeTest(Graph bipartite) {
-            this.bipartite = bipartite;
-        }
-
-        @Parameterized.Parameters
-        public static Object[] data() {
-            return IntStream.range(0, nTest).mapToObj(i -> Graph.bipartite(199, 199, 430)).toArray();
-        }
-
-        @Test
-        public void test() {
-            Assertions.assertCorrectness(bipartite);
-        }
-
+    @Grade(value = 60, cpuTimeout = 14)
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("getGraphParams")
+    public void bigSizeTest(int vertices, int edges) {
+        Graph bipartite = Graph.bipartite(vertices, vertices, edges);
+        Assertions.assertCorrectness(bipartite);
     }
 
 }

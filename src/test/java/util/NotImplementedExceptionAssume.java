@@ -1,9 +1,9 @@
 package util;
 
-import org.junit.Assume;
+import org.junit.jupiter.api.Assumptions;
 
 public class NotImplementedExceptionAssume {
     public static void fail(NotImplementedException e) {
-        Assume.assumeNoException(e);
+        Assumptions.abort(e.getMessage());
     }
 }

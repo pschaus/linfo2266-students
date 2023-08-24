@@ -1,92 +1,46 @@
 package dynamicprogramming;
 
-import com.github.guillaumederval.javagrading.Grade;
-import com.github.guillaumederval.javagrading.GradeFeedback;
-import com.github.guillaumederval.javagrading.GradingRunnerWithParametersFactory;
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import util.Solution;
+import org.javagrader.Grade;
+import org.javagrader.GradeFeedback;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import util.tsp.TSPInstance;
 
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static dynamicprogramming.TSPTest.assertSolvingOptimality;
+import static dynamicprogramming.TSPTest.getTSPInstances;
+import static org.javagrader.TestResultStatus.FAIL;
+import static org.javagrader.TestResultStatus.TIMEOUT;
 
-
-@RunWith(Enclosed.class)
+@Grade
 public class TSPTestFast {
 
-    public static List<Object[]> readTSPInstance(int size) {
-        LinkedList<Object []> coll = new LinkedList<>();
-        for (int i = 0; i < 10; i++) {
-            String name = "data/TSP/instance_"+size+"_"+i+".xml";
-            coll.add(new Object[] {name, new TSPInstance(name)});
-        }
-        return coll;
+    public static List<Arguments> getTSPInstances8() {
+        return getTSPInstances(8);
     }
 
-    public static void testSolvingOptimality(TSPInstance instance) {
-        TSPInstance clone = new TSPInstance(instance.distanceMatrix);
-
-        TSP model = new TSP(clone);
-        DynamicProgramming<TSPState> solver = new DynamicProgramming<>(model);
-        Solution solution = solver.getSolution();
-        
-        assertEquals(instance.objective, solution.getValue(), 1e-3);
-
-        double checkValue = 0;
-        int position = 0;
-        for (int decision : solution.getDecisions()) {
-            checkValue += instance.distanceMatrix[position][decision];
-            position = decision;
-        }
-        checkValue += instance.distanceMatrix[position][0]; // back to initial position
-
-        assertEquals(instance.objective, checkValue, 1e-3);
+    public static List<Arguments> getTSPInstances10() {
+        return getTSPInstances(10);
     }
 
-    @RunWith(Parameterized.class)
-    @Parameterized.UseParametersRunnerFactory(GradingRunnerWithParametersFactory.class)
-    public static class TestParameterized8 {
-        final TSPInstance instance;
-        public TestParameterized8(String name, TSPInstance instance) {
-            this.instance = instance;
-        }
-        @Parameterized.Parameters(name = "{0}")
-        public static Collection<?> data() {
-            return readTSPInstance(8);
-        }
-        @Test
-        @Grade(value = 10, cpuTimeout = 1000)
-        @GradeFeedback(message = "Something in your DP model might be wrong. Do you handle minimization properly?", onFail=true)
-        @GradeFeedback(message = "Your solver is too slow. Are you using the DP table? Is your state definition correct?", onTimeout=true)
-        public void test() throws Exception {
-            testSolvingOptimality(instance);
-        }
+    @Grade(value = 10, cpuTimeout = 1)
+    @GradeFeedback(message = "Something in your DP model might be wrong. Do you handle minimization properly?", on = FAIL)
+    @GradeFeedback(message = "Your solver is too slow. Are you using the DP table? Is your state definition correct?", on = TIMEOUT)
+    @ParameterizedTest
+    @MethodSource("getTSPInstances8")
+    public void testOptimality8(TSPInstance instance) {
+        assertSolvingOptimality(instance);
     }
 
-    @RunWith(Parameterized.class)
-    @Parameterized.UseParametersRunnerFactory(GradingRunnerWithParametersFactory.class)
-    public static class TestParameterized10 {
-        final TSPInstance instance;
-        public TestParameterized10(String name, TSPInstance instance) {
-            this.instance = instance;
-        }
-        @Parameterized.Parameters(name = "{0}")
-        public static Collection<?> data() {
-            return readTSPInstance(10);
-        }
-        @Test
-        @Grade(value = 10, cpuTimeout = 1000)
-        @GradeFeedback(message = "Something in your DP model might be wrong. Do you handle minimization properly?", onFail=true)
-        @GradeFeedback(message = "Your solver is too slow. Are you using the DP table? Is your state definition correct?", onTimeout=true)
-        public void test() throws Exception {
-            testSolvingOptimality(instance);
-        }
+    @Grade(value = 10, cpuTimeout = 1)
+    @GradeFeedback(message = "Something in your DP model might be wrong. Do you handle minimization properly?", on = FAIL)
+    @GradeFeedback(message = "Your solver is too slow. Are you using the DP table? Is your state definition correct?", on = TIMEOUT)
+    @ParameterizedTest
+    @MethodSource("getTSPInstances10")
+    public void testOptimality10(TSPInstance instance) {
+        assertSolvingOptimality(instance);
     }
 
 }

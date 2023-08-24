@@ -1,28 +1,29 @@
 package constraintprogramming.problems;
 
-import com.github.guillaumederval.javagrading.Grade;
-import com.github.guillaumederval.javagrading.GradeClass;
-import org.junit.Test;
+import org.javagrader.Grade;
+import org.junit.jupiter.api.Test;
+
 import static constraintprogramming.problems.MagicSquareAssert.*;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 
-@GradeClass(totalValue = 20)
+@Grade(value = 20)
 public class MagicSquareTestFast {
 
-    @Test(timeout = 600)
-    @Grade(cpuTimeout = 200)
+    @Test
+    @Grade(cpuTimeout = 200, unit = MILLISECONDS)
     public void test1x1() {
         assertValid(new int[1][1], 1);
     }
 
-    @Test(timeout = 600)
-    @Grade(cpuTimeout = 200)
+    @Test
+    @Grade(cpuTimeout = 200, unit = MILLISECONDS)
     public void test2x2() {
         assertInvalid(new int[2][2]);
     }
 
-    @Test(timeout = 600)
-    @Grade(cpuTimeout = 200)
+    @Test
+    @Grade(cpuTimeout = 200, unit = MILLISECONDS)
     public void test3x3WithInitialValues1() {
         int[][] values = new int[][] {
                 {2, 0, 6},
@@ -32,8 +33,8 @@ public class MagicSquareTestFast {
         assertValid(values, 1);
     }
 
-    @Test(timeout = 600)
-    @Grade(cpuTimeout = 200)
+    @Test
+    @Grade(cpuTimeout = 200, unit = MILLISECONDS)
     public void test3x3WithInitialValues2() {
         int[][] values = new int[][] {
                 {6, 0, 0},
@@ -43,8 +44,8 @@ public class MagicSquareTestFast {
         assertValid(values, 1);
     }
 
-    @Test(timeout = 600)
-    @Grade(cpuTimeout = 200)
+    @Test
+    @Grade(cpuTimeout = 200, unit = MILLISECONDS)
     public void test3x3WithInitialValues3() {
         int[][] values = new int[][]{
                 {0, 0, 0},
@@ -54,14 +55,14 @@ public class MagicSquareTestFast {
         assertValid(values, 2);
     }
 
-    @Test(timeout = 600)
-    @Grade(cpuTimeout = 200)
+    @Test
+    @Grade(cpuTimeout = 200, unit = MILLISECONDS)
     public void test3x3WithoutInitialValues() {
         assertValid(new int[3][3], 8);
     }
 
-    @Test(timeout = 600)
-    @Grade(cpuTimeout = 200)
+    @Test
+    @Grade(cpuTimeout = 200, unit = MILLISECONDS)
     public void testInvalid1() {
         int[][] values = new int[][] {
                 {1, 0, 0, 0},
@@ -72,8 +73,8 @@ public class MagicSquareTestFast {
         assertInvalid(values);
     }
 
-    @Test(timeout = 600)
-    @Grade(cpuTimeout = 200)
+    @Test
+    @Grade(cpuTimeout = 200, unit = MILLISECONDS)
     public void testInvalid2() {
         int[][] values = new int[][] {
                 {0, 0, 0, 0},

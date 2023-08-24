@@ -1,6 +1,8 @@
 package localsearch;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Named.named;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -8,6 +10,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.junit.jupiter.params.provider.Arguments;
 import util.psp.PSPInstance;
 import util.psp.PSPInstance.Demand;
 
@@ -85,7 +88,7 @@ public class Utils {
         return true;
     }
 
-    public static List<Object[]> readPSPInstances(String folderPath) {
+    public static List<Arguments> readPSPInstances(String folderPath) {
         File folder = new File(folderPath);
         String[] filenames = folder.list(new FilenameFilter() {
             @Override
@@ -94,9 +97,9 @@ public class Utils {
             }
         });
 
-        LinkedList<Object[]> instances = new LinkedList<>();
+        LinkedList<Arguments> instances = new LinkedList<>();
         for (String filename : filenames) {
-            instances.add(new Object[] {filename, new PSPInstance(folderPath + "/" + filename)});
+            instances.add(arguments(named(filename, new PSPInstance(folderPath + "/" + filename))));
         } 
 
         return instances;

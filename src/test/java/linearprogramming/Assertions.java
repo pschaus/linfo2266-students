@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class Assertions {
 
@@ -21,8 +21,7 @@ public class Assertions {
             FlowMatrices matrices = new FlowMatrices(network);
             // the network should be untouched at this point: the problem is not solved yet
             for (FlowEdge e: network.edges()) {
-                assertEquals("No flow is supposed to be assigned to the network when you initialize a FlowMatrices instance",
-                        e.flow(), 0., 0.001);
+                assertEquals(e.flow(), 0., 0.001, "No flow is supposed to be assigned to the network when you initialize a FlowMatrices instance");
             }
             FlowNetwork copy = new FlowNetwork(network);
             LinearProgramming simplex = new LinearProgramming(matrices.A, matrices.b, matrices.c);
@@ -31,8 +30,7 @@ public class Assertions {
             double fordFulkersonSol = new FordFulkerson(copy, copy.source(), copy.sink()).value();
             long fordFulkersonElapsed = ManagementFactory.getThreadMXBean().getCurrentThreadCpuTime() - fordFulkersonStart;
             // first checks if the objective value is correct
-            assertEquals("The linear formulation solution should be equal to the fordFulkerson solution",
-                    fordFulkersonSol, simplexSol, 0.001);
+            assertEquals(fordFulkersonSol, simplexSol, 0.001, "The linear formulation solution should be equal to the fordFulkerson solution");
             // checks if the whole flow makes sense
             double[] solution = simplex.primal();
             // gets the flow passing through the network
@@ -41,8 +39,8 @@ public class Assertions {
             long assignFlowElapsed = ManagementFactory.getThreadMXBean().getCurrentThreadCpuTime() - assignFlowStart;
             if (network.V() > 200) {
                 // for big instances, assigning the flow from a solution should be faster than calling FordFulkerson
-                assertTrue(String.format("You take too much time to assign your flow to the network. %d vs %d", assignFlowElapsed, fordFulkersonElapsed),
-                        assignFlowElapsed * 1.1 <= fordFulkersonElapsed);
+                assertTrue(assignFlowElapsed * 1.1 <= fordFulkersonElapsed,
+                        String.format("You take too much time to assign your flow to the network. %d vs %d", assignFlowElapsed, fordFulkersonElapsed));
             }
             // first check if each individual flow makes sense
             int V = G.V();
@@ -58,25 +56,23 @@ public class Assertions {
                     } else {
                         inFlow += flow;
                     }
-                    assertTrue("The flow passing through an edge exceeds its capacity",
-                            flow <= edge.capacity());
+                    assertTrue(flow <= edge.capacity(), "The flow passing through an edge exceeds its capacity");
                 }
                 if (v == s) {
                     // the flow passing from the source == solution objective
-                    assertEquals("The source has an incoming flow but it should be 0",
-                            inFlow, .0, .001);
-                    assertEquals("The outgoing flow from the source differs from the solution",
-                            outFlow, simplexSol, .001);
+                    assertEquals(inFlow, .0, .001, "The source has an incoming flow but it should be 0");
+                    assertEquals(outFlow, simplexSol, .001, "The outgoing flow from the source differs from the solution");
                 } else if (v == t) {
                     // the flow passing to the sink == solution objective
-                    assertEquals("The ingoing flow coming to the sink differs from the solution",
-                            inFlow, simplexSol, .001);
-                    assertEquals("The sink has an incoming flow but it should be 0",
-                            outFlow, .0, .001);
+                    assertEquals(inFlow, simplexSol, .001, "The ingoing flow coming to the sink differs from the solution");
+                    assertEquals(outFlow, .0, .001, "The sink has an incoming flow but it should be 0");
                 } else {
                     // flow in == flow out for all nodes
-                    assertEquals("The ingoing flow passing through a node differs from its outgoing flow",
-                            outFlow, inFlow, .001);
+                    try {
+                        assertEquals(outFlow, inFlow, .001, String.format("The ingoing flow passing through node %d differs from its outgoing flow", v));
+                    } catch (Error | Exception e) {
+                        throw e;
+                    }
                 }
             }
             // checks if the full network is valid
@@ -104,8 +100,8 @@ public class Assertions {
             }
 
             // check that s is on the source side of min cut and that t is not on source side
-            assertTrue("The source is not written on the source side of min cut, this should not happen", marked[s]);
-            assertFalse("The sink appears on the source side of min cut, this should not happen", marked[t]);
+            assertTrue(marked[s], "The source is not written on the source side of min cut, this should not happen");
+            assertFalse(marked[t], "The sink appears on the source side of min cut, this should not happen");
 
             // check that value of min cut = value of max flow
             double mincutValue = 0.0;
@@ -115,7 +111,7 @@ public class Assertions {
                         mincutValue += e.capacity();
                 }
             }
-            assertEquals("The solution that you computed is not optimal", mincutValue, simplexSol, .001);
+            assertEquals(mincutValue, simplexSol, .001, "The solution that you computed is not optimal");
         } catch (NotImplementedException e) {
             NotImplementedExceptionAssume.fail(e);
         }
@@ -131,16 +127,15 @@ public class Assertions {
             LinearProgramming simplex = new LinearProgramming(matching.A, matching.b, matching.c);
             double simplexSol = simplex.value();
             double hopcroftKarpSol = new HopcroftKarp(graph).size();
-            assertEquals("The objective value is not optimal",
-                    hopcroftKarpSol, simplexSol, 0.001);
+            assertEquals(hopcroftKarpSol, simplexSol, 0.001, "The objective value is not optimal");
             double[] solution = simplex.primal();
             HashSet<Integer> selectedNode = new HashSet<>();
             for (Edge e: graph.uniqueEdges()) {
                 if (matching.isEdgeSelected(solution, e)) {
-                    assertFalse(String.format("Vertex %d has been selected twice (at least two adjacent edges have been selected)", e.v()),
-                            selectedNode.contains(e.v()));
-                    assertFalse(String.format("Vertex %d has been selected twice (at least two adjacent edges have been selected)", e.w()),
-                            selectedNode.contains(e.w()));
+                    assertFalse(selectedNode.contains(e.v()),
+                            String.format("Vertex %d has been selected twice (at least two adjacent edges have been selected)", e.v()));
+                    assertFalse(selectedNode.contains(e.w()),
+                            String.format("Vertex %d has been selected twice (at least two adjacent edges have been selected)", e.w()));
                     selectedNode.add(e.v());
                     selectedNode.add(e.w());
                 }

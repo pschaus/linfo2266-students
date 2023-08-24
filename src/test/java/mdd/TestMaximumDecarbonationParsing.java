@@ -2,10 +2,11 @@ package mdd;
 
 import java.util.BitSet;
 
-import org.junit.Assert;
-import org.junit.Test;
 
+import org.junit.jupiter.api.Test;
 import util.decarbonation.MaximumDecarbonationInstance;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * ============================================================================================
@@ -21,7 +22,7 @@ public final class TestMaximumDecarbonationParsing {
     @Test
     public void itShouldReturnNullWhenNoInstanceIsDefined() {
         final String test = "c there is no instance in this file\n";
-        Assert.assertNull(MaximumDecarbonationInstance.fromString(test));
+        assertNull(MaximumDecarbonationInstance.fromString(test));
     }
 
     @Test
@@ -30,7 +31,7 @@ public final class TestMaximumDecarbonationParsing {
             "p edge 2 2\n" +
             "e 1 2\n" +
             "e 1 2\n" ;
-        Assert.assertNotNull(MaximumDecarbonationInstance.fromString(test));
+        assertNotNull(MaximumDecarbonationInstance.fromString(test));
     }
     @Test
     public void itMustProperlyParseEdges() {
@@ -39,14 +40,14 @@ public final class TestMaximumDecarbonationParsing {
             "e 1 2\n" +
             "e 2 3\n" ;
         final MaximumDecarbonationInstance instance = MaximumDecarbonationInstance.fromString(test);
-        Assert.assertNotNull(instance);
-        Assert.assertEquals(3, instance.nbSites());
+        assertNotNull(instance);
+        assertEquals(3, instance.nbSites());
 
         BitSet neighbors = new BitSet(3);
         neighbors.set(0);
         neighbors.set(1); // reflexive always a neighbor of yourself
         neighbors.set(2);
-        Assert.assertEquals(neighbors, instance.neighbors(2));
+        assertEquals(neighbors, instance.neighbors(2));
     }
     
 }

@@ -1,65 +1,49 @@
 package branchandbound;
 
-import com.github.guillaumederval.javagrading.Grade;
-import com.github.guillaumederval.javagrading.GradeFeedback;
-import com.github.guillaumederval.javagrading.GradingRunnerWithParametersFactory;
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.javagrader.Grade;
+import org.javagrader.GradeFeedback;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import util.UF;
 import util.tsp.TSPInstance;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-import static org.junit.Assert.*;
+import static org.javagrader.TestResultStatus.FAIL;
+import static org.javagrader.TestResultStatus.TIMEOUT;
+import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(Enclosed.class)
+@Grade
 public class SimpleOneTreeRandomTestFast {
 
-    @RunWith(Parameterized.class)
-    @Parameterized.UseParametersRunnerFactory(GradingRunnerWithParametersFactory.class)
-    public static class TestRandom {
-        final TSPInstance instance;
+    @Grade(value = 5, cpuTimeout = 4)
+    @GradeFeedback(message = "Sorry, something is wrong cannot find the correct one tree", on = FAIL)
+    @GradeFeedback(message = "Your one-tree algo is too slow", on = TIMEOUT)
+    @ParameterizedTest(name = "[{index}] n5 - seed {0}")
+    @MethodSource("getSeeds")
+    public void testBruteForceVsSimpleOneTree(int seed) {
+        TSPInstance instance = new TSPInstance(5,seed,100);
+        boolean [][] excluded = new boolean[instance.n][instance.n];
+        excluded[2][3] = true;
+        excluded[3][2] = true;
+        excluded[4][1] = true;
+        excluded[1][4] = true;
 
-        public TestRandom(Integer seed) {
-            this.instance = new TSPInstance(5,seed,100);
-        }
+        OneTreeResult r1 = bruteForceOneTree(instance.distanceMatrix, excluded);
+        OneTreeResult r2 = new SimpleOneTree().compute(instance.distanceMatrix, excluded);
 
-        @Parameterized.Parameters(name = "{0}")
-        public static Collection<?> data() {
-            List<Integer> seed = new LinkedList<>();
-            for (int i = 0; i < 20; i++) {
-                seed.add(i);
-            }
-            return seed;
-        }
-
-        @Test
-        @Grade(value = 5, cpuTimeout = 4000)
-        @GradeFeedback(message = "Sorry, something is wrong cannot find the correct one tree", onFail=true)
-        @GradeFeedback(message = "Your one-tree algo is too slow", onTimeout=true)
-        public void testBruteForceVsSimpleOneTree() throws Exception {
-            boolean [][] excluded = new boolean[instance.n][instance.n];
-            excluded[2][3] = true;
-            excluded[3][2] = true;
-            excluded[4][1] = true;
-            excluded[1][4] = true;
-
-            OneTreeResult r1 = bruteForceOneTree(instance.distanceMatrix, excluded);
-            OneTreeResult r2 = new SimpleOneTree().compute(instance.distanceMatrix, excluded);
-
-            assertEquals(r1.lb(),r2.lb(),0.0001);
-            assertTrue(isOneTree(instance.n,r2.edges()));
-            assertTrue(isOneTree(instance.n,r1.edges()));
-            assertFalse(edgePresent(2,3,r2.edges()));
-            assertFalse(edgePresent(2,3,r1.edges()));
-
-
-        }
+        assertEquals(r1.lb(),r2.lb(),0.0001);
+        assertTrue(isOneTree(instance.n,r2.edges()));
+        assertTrue(isOneTree(instance.n,r1.edges()));
+        assertFalse(edgePresent(2,3,r2.edges()));
+        assertFalse(edgePresent(2,3,r1.edges()));
     }
 
+    public static List<Integer> getSeeds() {
+        return IntStream.range(20, 40).boxed().collect(Collectors.toList());
+    }
 
     private static OneTreeResult bruteForceOneTree(double [][] dist, boolean[][] excluded) {
         Set<Edge> edges = new HashSet<>();
@@ -73,7 +57,7 @@ public class SimpleOneTreeRandomTestFast {
         Set<Edge> bestOneTree = null;
         // enumerate all power-set of edges
         for (Set<Edge> candidate: powerSet(edges)) {
-            if (isOneTree(dist.length, candidate)  && candidate.stream().allMatch(e -> !excluded[e.v1()][e.v2()])) {
+            if (isOneTree(dist.length, candidate)  && candidate.stream().noneMatch(e -> excluded[e.v1()][e.v2()])) {
                 double cost = 0;
                 for (Edge e: candidate) {
                     cost += e.cost();
@@ -84,11 +68,8 @@ public class SimpleOneTreeRandomTestFast {
                 }
             }
         }
-        return new OneTreeResult(bestOneTreeCost, bestOneTree.stream().collect(Collectors.toList()));
+        return new OneTreeResult(bestOneTreeCost, new ArrayList<>(bestOneTree));
     }
-
-
-
 
     public static boolean isOneTree(int n, Iterable<Edge> edges) {
         int [] degree = new int[n];
@@ -113,7 +94,6 @@ public class SimpleOneTreeRandomTestFast {
         if (1 != uf.count()) return false;
         return true;
     }
-
 
     public static <T> Set<Set<T>> powerSet(Set<T> originalSet) {
         Set<Set<T>> sets = new HashSet<>();
@@ -141,6 +121,5 @@ public class SimpleOneTreeRandomTestFast {
         }
         return false;
     }
-
 
 }
