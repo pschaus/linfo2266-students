@@ -1,0 +1,113 @@
+\documentclass[12pt]{report}
+
+\usepackage[a4paper, total={17cm, 24cm}]{geometry}
+\usepackage{exercise}
+\usepackage{amsmath}
+
+\renewcommand{\ExerciseHeader}{\noindent\textbf{\large\ExerciseName\ %
+\ExerciseHeaderNB\ExerciseHeaderTitle
+\ExerciseHeaderOrigin\medskip}}
+\setlength{\QuestionIndent}{1.5em}
+
+\newcommand{\answerbox}[2]{\hfill\break\\
+        \framebox[\linewidth]{\parbox[c][#1][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{#2}}
+}
+
+\renewcommand{\arraystretch}{1.2} % vertical padding for tabular environment
+
+\begin{document}
+
+\hfill
+\begingroup
+\Large
+\begin{tabular}{|l|p{6cm}|}
+	\hline
+	First \& last name &
+	% YOUR NAME HERE
+	\\ \hline
+	NOMA UCLouvain & 
+	% YOUR NOMA HERE
+	\\ \hline
+\end{tabular}
+\endgroup
+\vspace{1.5cm}
+
+\noindent
+\begingroup
+	\Large
+	\textbf{LINFO2266: Advanced Algorithms for Optimization}\\\\
+	Project 4: Local Search
+\endgroup
+\vspace{0.2cm}
+
+\begin{Exercise}[title={Understanding the Pigment Sequencing Problem}]
+
+Below is an instance of the Pigment Sequencing Problem with 5 items to produce, with 3 different item types $I = \{0, 1, 2\}$ and a horizon $p_{max} = 5$.
+
+\begin{minipage}{0.5\textwidth}
+\begin{align*}
+S =
+\begin{bmatrix}
+10 & 20 & 30
+\end{bmatrix}
+&&
+C =
+\begin{bmatrix}
+0 & 10 & 15 \\
+10 & 0 & 5 \\
+10 & 20 & 0
+\end{bmatrix}
+\end{align*}
+\end{minipage}
+\hfill
+\begin{minipage}{0.4\textwidth}
+\begin{tabular}{c|cc}
+ demand ID & type & deadline \\ \hline
+ 0 & 1 & 3 \\
+ 1 & 2 & 3 \\
+ 2 & 0 & 4 \\
+ 3 & 1 & 4 \\
+ 4 & 2 & 4
+\end{tabular}
+\end{minipage}
+
+The following table shows a feasible solution of this problem, with $x_p$ is the demand ID of the item produced at period $0 \le p < p_{max}$:
+\begin{equation*}
+x =
+\begin{bmatrix}
+2 & 0 & 1 & 3 & 4
+\end{bmatrix}
+\end{equation*}
+
+\Question Show how to compute the total stocking cost of the given solution.
+\answerbox{4cm}{
+% YOUR ANSWER HERE
+}
+
+\Question Show how to compute the total changeover cost of the given solution.
+\answerbox{4cm}{
+% YOUR ANSWER HERE
+}
+
+\Question Can you swap the production of two items to improve the solution? If so, give the swap and the new objective value.
+\answerbox{4cm}{
+% YOUR ANSWER HERE
+}
+
+\end{Exercise}
+
+\begin{Exercise}[title={Analyzing the behavior of your local search solver}]
+
+\Question Choose one of the instances in the \texttt{data/PSP/medium} folder (specify which) and plot the value of the current solution as well as the value of the best solution found so far with respect to the number of iterations performed.
+\answerbox{8cm}{
+% YOUR ANSWER HERE
+}
+
+\Question Explain the strategy of your solver and illustrate it with the plot you made above.
+\answerbox{5cm}{
+% YOUR ANSWER HERE
+}
+
+\end{Exercise}
+
+\end{document}
