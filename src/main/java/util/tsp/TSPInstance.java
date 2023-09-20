@@ -219,7 +219,4 @@ public class TSPInstance {
 
     }
 
-
-
-
 }
