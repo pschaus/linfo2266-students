@@ -48,7 +48,7 @@
 \begin{Exercise}[title={Modeling the Traveling Salesman Problem}]
 
 \begin{center}
-\begin{tikzpicture}[scale=1.2]
+\begin{tikzpicture}[scale=0.8]
 	\node[draw,circle] (v0) at (0.4,0.2) {0};
 	\node[draw,circle] (v1) at (0,2.2) {1};
 	\node[draw,circle] (v2) at (4.4,0) {2};
@@ -58,7 +58,7 @@
 	\node[draw,circle] (v6) at (2,4) {6};
 	
 	\draw (v0) edge node[fill=white] {4} (v1);
-	\draw (v0) edge node[fill=white] {2} (v2);
+	\draw (v0) edge node[fill=white] {5} (v2);
 	\draw (v0) edge node[fill=white] {5} (v5);
 	\draw (v1) edge node[fill=white] {1} (v5);
 	\draw (v1) edge node[fill=white] {7} (v6);
@@ -72,8 +72,9 @@
 \end{tikzpicture}
 \end{center}
 
-\Question Explain and depict with the help of the visual example your internal state representation and your successor function for the TSP.
-\answerbox{10cm}{
+\Question We use the one-tree relaxation. Show the one-tree that you obtain at the root node of the BnB search tree.
+Give the successors of this node. For each, explain the constraints on the branches and depict the internal state representation.
+\answerbox{11cm}{
 % YOUR ANSWER HERE
 }
 
@@ -90,7 +91,7 @@ of the one-tree relaxation.
 
 
 \Question Give the time-complexity and justify your answer (don't forget to specify the spanning tree algorithm that you use)
-\answerbox{6cm}{
+\answerbox{5cm}{
 % YOUR ANSWER HERE
 }
 
@@ -102,14 +103,20 @@ of the one-tree relaxation.
 
 \begin{Exercise}[title={Held and Karp lower-bound}]
 
-\Question For the instance \verb|instance_30_0.xml| make a plot of the evolution of the lower-bound along the iterations of the gradient descent. The x-axis should have the iterations, and the y-axis the value of the lower-bound.
+Assume the update-rule of the Langrangian multipliers is $\pi_i \leftarrow \pi_i + \mu (2-deg(i)) , \forall_i$ 
+where $\mu$ is a fixed small constant value.
+
+\Question For the instance \verb|instance_30_0.xml| make a plot of the evolution of the lower-bound along the 100 first iterations of the gradient descent
+for $\mu =0.1, \mu = 0.2$. The x-axis should have the iterations, and the y-axis the value of the lower-bound.
+The y axis should start at 400.
+
 \answerbox{12cm}{
 % YOUR ANSWER HERE
 }
 
 
 \Question What do you observe, conclude? How can this plot help you to tune the parameters of the Held-Karp lower-bound algorithm.
-\answerbox{6cm}{
+\answerbox{4cm}{
 % YOUR ANSWER HERE
 }
 
