@@ -24,7 +24,7 @@ public class BranchAndBoundTSPTest {
     @Grade(value = 1, cpuTimeout = 1)
     @GradeFeedback(message = "Sorry, TSP not working yet", on = FAIL)
     public void readableTestToDebug() {
-        // https://pasteboard.co/AWbeWgMG188K.png (use this link to visualize the instance and debug)
+        // https://pasteboard.co/0Af7efOavbEo.png (use this link to visualize the instance and debug)
         int [] xCoord = new int[] {10,10,20,70,40,60,50};
         int [] yCoord = new int[] {10,30,60,40,10,20,60};
         TSPInstance tsp = new TSPInstance(xCoord,yCoord);

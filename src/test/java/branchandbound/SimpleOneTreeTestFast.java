@@ -68,7 +68,7 @@ public class SimpleOneTreeTestFast {
     @Grade(value = 1, cpuTimeout = 1)
     @GradeFeedback(message = "More complex test", on = FAIL)
     public void smallExample() {
-        // see here for the graph https://pasteboard.co/iVjXKUlNE6ev.png
+        // see here for the graph https://pasteboard.co/hGybaxEDGWSO.png
         double [][] distanceMatrix = new double[7][7];
         List<Edge> edges = new ArrayList<>();
         edges.add(new Edge(0, 1, 4));
@@ -108,7 +108,7 @@ public class SimpleOneTreeTestFast {
     @Grade(value = 1, cpuTimeout = 1000)
     @GradeFeedback(message = "More complex test", on = FAIL)
     public void smallExampleOneEdgeExcluded() {
-        // see here for the graph https://pasteboard.co/iVjXKUlNE6ev.png
+        // see here for the graph https://pasteboard.co/hGybaxEDGWSO.png
         double [][] distanceMatrix = new double[7][7];
         List<Edge> edges = new ArrayList<>();
         edges.add(new Edge(0, 1, 4));
