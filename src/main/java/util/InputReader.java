@@ -144,7 +144,7 @@ public class InputReader {
                         System.out.println("No more line to read");
                         throw new RuntimeException("End of file");
                     }
-                    tokenizer = new StringTokenizer(in.readLine());
+                    tokenizer = new StringTokenizer(line);
                 } while (!tokenizer.hasMoreTokens());
 
             } catch (IOException e) {

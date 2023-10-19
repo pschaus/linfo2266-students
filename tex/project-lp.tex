@@ -50,53 +50,45 @@
 
 		A variant of the maximum flow problem is the one with multiple sources and sinks. Fortunately, this problem can be reduced to the one with a single source and single sink and does thus not require a new algorithm.
 
-		\Question How can you transform the following Maximum Flow Problem, with 3 sources ($s_0, s_1, s_2$) and 2 sinks ($t_0, t_1$), into a Maximum Flow Problem with 1 source and 1 sink? Answer with a clear illustration showing the reduction.
+		\Question How can you transform the following Maximum Flow Problem, with 2 sources ($s_0, s_1$) and 4 sinks ($t_0, t_1, t_2, t_3$), into a Maximum Flow Problem with 1 source and 1 sink? Answer with a clear illustration showing the reduction.
 
 		\begin{minipage}{.45\linewidth}
-				\begin{figure}[H]
+			\begin{figure}[H]
 				\begin{tikzpicture}[scale=0.9, every node/.style={scale=0.9}, node distance=1cm]
 
 					\node[draw,circle] (s0) {$s_0$};
 					\node[draw,circle, below=of s0] (s1){$s_1$};
-					\node[draw,circle, below=of s1] (s2) {$s_2$};
 
-					\node[draw,circle, above right=0.5cm and 1.5cm of s0] (v0) {$v_0$};
+					\node[draw,circle, above right=0.35cm and 1.5cm of s0] (v0) {$v_0$};
 					\node[draw,circle, below=of v0] (v1){$v_1$};
 					\node[draw,circle, below=of v1] (v2) {$v_2$};
-					\node[draw,circle, below=of v2] (v3) {$v_3$};
 
-					\node[draw,circle, below right=0.5cm and 1.5cm of v0] (v4) {$s_4$};
-					\node[draw,circle, below=of v4] (v5){$v_5$};
-					\node[draw,circle, below=of v5] (v6) {$v_6$};
+					\node[draw,circle, right=of v0] (v3) {$v_3$};
+					\node[draw,circle, below=of v3] (v4){$v_4$};
+					\node[draw,circle, below=of v4] (v5) {$v_5$};
 
-					\node[draw,circle, below right=0.5cm and 1.5cm of v4] (t0) {$t_0$};
-					\node[draw,circle, below=of t0] (t1){$t_1$};
+					\node[draw,circle, below right=0.35cm and 1.5cm of v3] (t1) {$t_1$};
+					\node[draw,circle, above=of t1] (t0){$t_0$};
+					\node[draw,circle, below=of t1] (t2){$t_2$};
+					\node[draw,circle, below=of t2] (t3){$t_3$};
 
 					\path[->] (s0) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$10$} (v0);
 					\path[->] (s0) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$12$} (v1);
-
 					\path[->] (s1) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$6$} (v1);
 					\path[->] (s1) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$7$} (v2);
 
-					\path[->] (s2) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$9$} (v2);
-					\path[->] (s2) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$6$} (v3);
-
+					\path[->] (v0) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$7$} (v3);
 					\path[->] (v0) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$7$} (v4);
-
-					\path[->] (v1) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$11$} (v4);
+					\path[->] (v1) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$14$} (v4);
 					\path[->] (v1) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$5$} (v5);
-
 					\path[->] (v2) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$9$} (v5);
-					\path[->] (v2) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$1$} (v6);
 
-					\path[->] (v3) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$7$} (v6);
-
-					\path[->] (v4) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$4$} (t0);
-
-					\path[->] (v5) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$9$} (t0);
-					\path[->] (v5) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$10$} (t1);
-
-					\path[->] (v6) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$8$} (t1);
+					\path[->] (v3) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$8$} (t0);
+					\path[->] (v3) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$13$} (t1);
+					\path[->] (v4) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$7$} (t1);
+					\path[->] (v4) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$9$} (t2);
+					\path[->] (v5) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$4$} (t2);
+					\path[->] (v5) edge node[fill=white, anchor=center, pos=0.5,font=\small\bfseries] {$8$} (t3);
 
 				\end{tikzpicture}
 			\end{figure}
@@ -133,7 +125,7 @@
 		}
 
 		\Question Which solver performs best according to the cactus plot? Comment the differences you observe between the two methods, solely based on the plot.
-		\answerbox{1.5cm}{
+		\answerbox{2.5cm}{
 			% YOUR ANSWER HERE
 		}
 
@@ -145,10 +137,20 @@
 		}
 
 		\Question Which solver performs best according to the comparison plot? Comment the differences you observe between the two methods, solely based on the plot. What is the link with the diagonal line and what does it represent?
-		\answerbox{1.5cm}{
+		\answerbox{2.5cm}{
 			% YOUR ANSWER HERE
 		}
 
+
+	\end{Exercise}
+
+	\begin{Exercise}[title={Initialisation : Big-M VS Two-Phase}]
+
+		\Question Different methods exist for initializing the simplex. One of them, the Two-Phase, was presented in the course and its code given in your project. Another, the Big-M, was left for you to implement.
+		If you need to choose between one of those two methods for initializing the simplex in a random linear problem, which one would you choose? Why?
+		\answerbox{3.5cm}{
+			% YOUR ANSWER HERE
+		}
 
 	\end{Exercise}
 

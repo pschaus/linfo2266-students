@@ -1,0 +1,5 @@
+nutrient min max
+calories 1200 2300
+protein 91 1500
+fat 10 80
+sodium 60 2775

@@ -1,0 +1,11 @@
+9
+name cost calories protein fat sodium
+hamburger 3.49 411 34 26 731
+chicken 3.89 421 34 10 1192
+hot-dog 2.50 561 24 32 1842
+fries 2.89 381 4 23 299
+macaroni 3.10 320 14 10 964
+pizza 2.99 321 15 10 817
+salad 3.49 321 31 8 1229
+milk 1.89 101 8 2.2 126
+ice-cream 2.59 331 6 12 181
