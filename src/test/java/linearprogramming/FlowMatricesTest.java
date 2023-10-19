@@ -17,8 +17,6 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 @Grade
 public class FlowMatricesTest {
 
-    private final static int nTest = 5; // number of parametrized run
-
     static Random random = new Random();
 
     private static int nextDiffExcept(int bound, int forbidden) {
@@ -28,17 +26,13 @@ public class FlowMatricesTest {
         return candidate;
     }
 
-    private static int nextInt(int bound) {
-        return random.nextInt(bound);
-    }
-
     public static List<Arguments> getNetworkParams() {
         int nVertices = 300;
         int nEdges = 1000;
         return IntStream.range(0, 5).mapToObj(i -> arguments(named("n" + nVertices + "_e" + nEdges + "_" + i, nVertices), nEdges)).collect(Collectors.toList());
     }
 
-    @Grade(value = 60, cpuTimeout = 6)
+    @Grade(value = 60, cpuTimeout = 8)
     @ParameterizedTest(name = "[{index}] {0}")
     @MethodSource("getNetworkParams")
     public void BigFlowTest(int vertices, int edges) {

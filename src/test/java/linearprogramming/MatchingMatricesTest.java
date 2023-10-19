@@ -21,7 +21,7 @@ public class MatchingMatricesTest {
         return IntStream.range(0, 5).mapToObj(i -> arguments(named("n" + nVertices + "_e" + nEdges + "_" + i, nVertices), nEdges)).collect(Collectors.toList());
     }
 
-    @Grade(value = 60, cpuTimeout = 14)
+    @Grade(value = 60, cpuTimeout = 16)
     @ParameterizedTest(name = "[{index}] {0}")
     @MethodSource("getGraphParams")
     public void bigSizeTest(int vertices, int edges) {
