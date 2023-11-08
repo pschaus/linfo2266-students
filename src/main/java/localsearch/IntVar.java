@@ -54,7 +54,7 @@ public class IntVar {
     }
 
     /**
-     * Assign a new value to the variable
+     * Assigns a new value to the variable
      * Notifies all registered invariants
      * @param value the nex value
      */

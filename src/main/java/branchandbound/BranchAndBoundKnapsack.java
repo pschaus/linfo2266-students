@@ -38,8 +38,9 @@ public class BranchAndBoundKnapsack {
 
 
 
-        //OpenNodes<NodeKnapsack> openNodes = new BestFirstOpenNodes<>();
-        OpenNodes<NodeKnapsack> openNodes = new DepthFirstOpenNodes<>();
+
+        OpenNodes<NodeKnapsack> openNodes = new BestFirstOpenNodes<>();
+        //OpenNodes<NodeKnapsack> openNodes = new DepthFirstOpenNodes<>();
 
         NodeKnapsack root = new NodeKnapsack(null,value,weight,0,capa,-1,false);
         openNodes.add(root);
@@ -111,8 +112,8 @@ class NodeKnapsack implements Node<NodeKnapsack> {
         this.index = index;
         this.selected = selected;
         this.depth = parent == null ? 0: parent.depth+1;
-        //this.ub = lpRelaxUBound();
-        this.ub = capacityRelaxUBound();
+        this.ub = lpRelaxUBound();
+        //this.ub = capacityRelaxUBound();
     }
 
     @Override
