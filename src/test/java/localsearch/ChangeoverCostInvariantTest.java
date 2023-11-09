@@ -18,7 +18,7 @@ import static org.javagrader.TestResultStatus.FAIL;
 import static org.javagrader.TestResultStatus.TIMEOUT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Grade
+@Grade(value = 2)
 public class ChangeoverCostInvariantTest {
 
     static Random random = new Random(0);

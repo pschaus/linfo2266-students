@@ -39,12 +39,11 @@ public abstract class Candidate {
     }
 
     /**
-     * Transforms the candidate solution obtained by applying the swap move to it
+     * Transforms the candidate solution by applying a given swap move to it
      * If a swap contains variables: [x1, x5, x7, x9]
      * Then applying the swap changes the values of the variables such that:
      * x1.newValue = x5.oldValue, x5.newValue = x7.oldValue,
      * x7.newValue = x9.oldValue and x9.newValue = x1.oldValue
-     * @param candidate a candidate solution
      * @param swap a swap move
      */
     public void apply(Swap swap) {

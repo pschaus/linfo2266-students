@@ -15,7 +15,7 @@ import util.psp.PSPInstance;
 import static org.javagrader.TestResultStatus.FAIL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Grade
+@Grade(value = 2)
 public class PSPTestFast {
 
     static Random random = new Random(0);

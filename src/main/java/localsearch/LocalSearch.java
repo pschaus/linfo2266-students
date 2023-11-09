@@ -2,7 +2,7 @@ package localsearch;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
-import java.util.ArrayList;
+import java.util.*;
 
 import util.NotImplementedException;
 
@@ -35,6 +35,7 @@ public class LocalSearch {
         this.timeLimit = 1000000000L * timeLimit;
 
         // TODO implement your own local search algorithm
+        //  use the method mustStop() to check if your solver needs to stop searching for an improving solution
          throw new NotImplementedException("LocalSearch.solve");
     }
 
@@ -42,29 +43,32 @@ public class LocalSearch {
      * Reset the search to restart from a new current solution
      * Hint: Randomly perturbate the current best solution
      */
-    private void resetSearch() {
-        // you can implement and use this function to restart your local search
+    public void resetSearch() {
+        // TODO implement and use this function to restart your local search
     }
 
     /**
      * Computes the n best feasible swaps that can be performed on the currentCandidate
+     * Each swap being returned has its delta being set (i.e. {@link Swap#getDelta()} gives the correct delta)
+     *
      * @param n the maximum number of swaps to keep
      * @return a list of the n best feasible swaps
      */
-    private ArrayList<Swap> getNBestSwaps(int n) {
+    public List<Swap> getNBestSwaps(int n) {
         // TODO compute the list of the n best swaps from the currentSolution
-        // suggestion: experiment with swaps of different sizes (see swap.getExtendedSwapWith(...))
+        //  suggestion: experiment with swaps of different sizes (see swap.getExtendedSwapWith(...))
+        //  Each swap being returned must have its delta being set (use swap.getDelta(candidate.getDelta(swap)))
          throw new NotImplementedException("LocalSearch.getNBestSwaps");
     }
 
     /**
      * Select a swap from the given list
-     * Suggestion: do not always pick the best one
-     * @param bestSwaps a list of swaps
+     * @param swaps a list of swaps
      * @return the selected swap move
      */
-    private Swap selectSwap(ArrayList<Swap> swaps) {
+    public Swap selectSwap(List<Swap> swaps) {
         // TODO select a swap from the given list
+        //  Suggestion: do not always pick the best one, to have some diversification
          throw new NotImplementedException("LocalSearch.selectSwap");
     }
 
@@ -73,7 +77,7 @@ public class LocalSearch {
      * The problem is assumed to be a minimization problem
      * @return true if the bestCandidate was updated
      */
-    private boolean maybeSaveCurrentCandidate() {
+    public boolean maybeSaveCurrentCandidate() {
         // TODO update the bestCandidate if the currentCandidate is better
          throw new NotImplementedException("LocalSearch.maybeSaveCurrentCandidate");
     }
