@@ -124,6 +124,8 @@ public class LocalSearchTestFast {
             Utils.assertFeasible(instance, candidate);
 
             localSearch.resetSearch(); // reset to provide some relevant neighborhoods
+            candidate = localSearch.currentCandidate;
+            Utils.assertFeasible(instance, candidate);
             for (int i = 1; i < 7 ; i++) {
                 List<Swap> oldBestSwaps = localSearch.getNBestSwaps(i);
                 for (Swap swap : oldBestSwaps) {
@@ -172,6 +174,8 @@ public class LocalSearchTestFast {
             Utils.assertFeasible(instance, candidate);
 
             localSearch.resetSearch(); // reset to provide some relevant neighborhoods
+            candidate = localSearch.currentCandidate;
+            Utils.assertFeasible(instance, candidate);
 
             for (int i = 1; i < 7 ; i++) {
                 List<Swap> oldBestSwaps = localSearch.getNBestSwaps(i);
