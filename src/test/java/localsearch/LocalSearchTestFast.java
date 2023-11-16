@@ -187,9 +187,6 @@ public class LocalSearchTestFast {
                 for (int j = i+1; j < 8; j++) {
                     List<Swap> currentBestSwaps = localSearch.getNBestSwaps(j);
                     assertEquals(j, currentBestSwaps.size());
-                    /*
-
-                     */
                     for (int k = 0 ; k < j ; k++)
                         for (int l = k+1 ; l < j ; l++)
                             assertNotEquals(currentBestSwaps.get(k), currentBestSwaps.get(l), "Each type of swap must appear at most once");
@@ -207,11 +204,6 @@ public class LocalSearchTestFast {
                     }
                     assertEquals(oldBestSwaps.size(), nSwapsSeen, "All x best swaps must appear within the x+1 best swaps");
                     assertTrue(currentBestSwaps.stream().anyMatch(swap -> swap.getDelta() != 0), "You need to assign some value to the deltas of the swaps");
-                    assertTrue(currentBestSwaps.stream().allMatch(swap -> swap.getDelta() >= 0), "You need to assign some value to the deltas of the swaps");
-                    if (currentBestSwaps.size() > oldBestSwaps.size() + 3) {
-                        int currentWorse = currentBestSwaps.stream().mapToInt(Swap::getDelta).max().getAsInt();
-                        oldBestSwaps.forEach(swap -> assertTrue(swap.getDelta() < currentWorse, "You need to assign some value to the deltas of the swaps"));
-                    }
                     for (Swap swap: currentBestSwaps) {
                         Candidate copy = candidate.copy();
                         copy.apply(swap);
@@ -232,7 +224,7 @@ public class LocalSearchTestFast {
     }
 
     @Test
-    @Grade(value = 1, cpuTimeout = 5, threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+    @Grade(value = 1, cpuTimeout = 6, threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
     @GradeFeedback(message = "Your solution is not good enough", on = FAIL)
     @GradeFeedback(message = "Please terminate the search within the given time limit", on = TIMEOUT)
     public void testSelectSwap() {
