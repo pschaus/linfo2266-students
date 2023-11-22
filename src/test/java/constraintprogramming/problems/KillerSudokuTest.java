@@ -6,23 +6,26 @@ import org.junit.jupiter.api.Test;
 import static constraintprogramming.problems.KillerSudokuAssert.assertInvalid;
 import static constraintprogramming.problems.KillerSudokuAssert.assertValid;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.junit.jupiter.api.Timeout.ThreadMode.SEPARATE_THREAD;
 
 @Grade(value = 30)
 public class KillerSudokuTest {
 
     @Test
-    @Grade(cpuTimeout = 500, unit = MILLISECONDS)
+    @Grade(cpuTimeout = 500, unit = MILLISECONDS, threadMode = SEPARATE_THREAD)
     public void test1() {
         Coordinate[][] coords = Coordinate.fromMatrix(new int[][]{
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
+
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
+
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
         });
         KillerSudokuGroup[] groups = new KillerSudokuGroup[] {
                 new KillerSudokuGroup(3,  coords[0][0], coords[0][1]),
@@ -68,18 +71,20 @@ public class KillerSudokuTest {
     }
 
     @Test
-    @Grade(cpuTimeout = 500, unit = MILLISECONDS)
+    @Grade(cpuTimeout = 500, unit = MILLISECONDS, threadMode = SEPARATE_THREAD)
     public void test2() {
         Coordinate[][] coords = Coordinate.fromMatrix(new int[][]{
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
+
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
+
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
+                {0, 0, 0,   0, 0, 0,   0, 0, 0},
         });
         KillerSudokuGroup[] groups = new KillerSudokuGroup[] {
                 new KillerSudokuGroup(3,  coords[0][0], coords[0][1]),
@@ -125,7 +130,7 @@ public class KillerSudokuTest {
     }
 
     @Test
-    @Grade(cpuTimeout = 500, unit = MILLISECONDS)
+    @Grade(cpuTimeout = 500, unit = MILLISECONDS, threadMode = SEPARATE_THREAD)
     public void test3() {
         Coordinate[][] coords = Coordinate.fromMatrix(new int[][]{
                 {2, 0, 6,   0, 0, 0,   0, 0, 8},
@@ -177,7 +182,7 @@ public class KillerSudokuTest {
     }
 
     @Test
-    @Grade(cpuTimeout = 2)
+    @Grade(cpuTimeout = 2, threadMode = SEPARATE_THREAD)
     public void test4() {
         Coordinate[][] coords = Coordinate.fromMatrix(new int[][]{
                 {0, 0, 0,   0, 0, 0,   0, 0, 8},
@@ -229,7 +234,7 @@ public class KillerSudokuTest {
     }
 
     @Test
-    @Grade(cpuTimeout = 200, unit = MILLISECONDS)
+    @Grade(cpuTimeout = 200, unit = MILLISECONDS, threadMode = SEPARATE_THREAD)
     public void test5() {
         Coordinate[][] coords = Coordinate.fromMatrix(new int[][]{
                 {0, 2, 0,   0, 0, 0,   0, 0, 0},
@@ -281,7 +286,7 @@ public class KillerSudokuTest {
     }
 
     @Test
-    @Grade(cpuTimeout = 200, unit = MILLISECONDS)
+    @Grade(cpuTimeout = 200, unit = MILLISECONDS, threadMode = SEPARATE_THREAD)
     public void test6() {
         Coordinate[][] coords = Coordinate.fromMatrix(new int[][]{
                 {0, 2, 0,   0, 0, 0,   0, 0, 0},
@@ -305,7 +310,7 @@ public class KillerSudokuTest {
     }
 
     @Test
-    @Grade(cpuTimeout = 1500, unit = MILLISECONDS)
+    @Grade(cpuTimeout = 1500, unit = MILLISECONDS, threadMode = SEPARATE_THREAD)
     public void test7() {
         Coordinate[][] coords = Coordinate.fromMatrix(new int[][]{
                 {2, 0, 0,   0, 0, 0,   0, 0, 0},

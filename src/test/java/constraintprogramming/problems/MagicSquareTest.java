@@ -3,19 +3,21 @@ package constraintprogramming.problems;
 import org.javagrader.Grade;
 import org.javagrader.GradeFeedback;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import java.util.Random;
 
 import static constraintprogramming.problems.MagicSquareAssert.assertValid;
 import static org.javagrader.TestResultStatus.TIMEOUT;
+import static org.junit.jupiter.api.Timeout.ThreadMode.SEPARATE_THREAD;
 
 
 @Grade(value = 30)
 public class MagicSquareTest {
 
     @Test
-    @Grade(cpuTimeout = 2)
-    @GradeFeedback(message = "Did you set and use the value of the magic constant (getMagicConstant)", on = TIMEOUT)
+    @Grade(cpuTimeout = 2, threadMode = SEPARATE_THREAD)
+    @GradeFeedback(message = "Did you set and use the value of the magic constant (getMagicConstant)?", on = TIMEOUT)
     public void test4x4() {
         int[][] values = new int[][] {
                 {1, 0, 0, 0},
@@ -27,8 +29,8 @@ public class MagicSquareTest {
     }
 
     @Test
-    @Grade(cpuTimeout = 4)
-    @GradeFeedback(message = "Did you set and use the value of the magic constant (getMagicConstant)", on = TIMEOUT)
+    @Grade(cpuTimeout = 4, threadMode = SEPARATE_THREAD)
+    @GradeFeedback(message = "Did you set and use the value of the magic constant (getMagicConstant)?", on = TIMEOUT)
     public void test5x5() {
         int[][] values = new int[][] {
                 {5, 0, 0, 0, 1},
@@ -41,7 +43,7 @@ public class MagicSquareTest {
     }
 
     @Test
-    @Grade(cpuTimeout = 4)
+    @Grade(cpuTimeout = 4, threadMode = SEPARATE_THREAD)
     public void testIncremental() {
         int[][] values = new int[][] {
                 {7,  0,  35, 0,  0,  14},

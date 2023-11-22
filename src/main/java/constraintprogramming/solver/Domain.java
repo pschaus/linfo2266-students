@@ -30,7 +30,7 @@ public class Domain {
     /**
      * Verifies if only one value left
      *
-     * @return true if onnly one value left
+     * @return true if only one value left
      */
     public boolean isFixed() {
         return size() == 1;
@@ -80,6 +80,7 @@ public class Domain {
      * Removes value v
      *
      * @param v
+     * @throws constraintprogramming.solver.TinyCSP.Inconsistency if the domain becomes empty
      * @return if the value was present before
      */
     public boolean remove(int v) {
@@ -95,8 +96,10 @@ public class Domain {
 
     /**
      * Removes every value less than the specified value from the domain.
+     * Throws an error if nothing remains within the domain
      *
      * @param v the value such that all the values less than v are removed
+     * @throws constraintprogramming.solver.TinyCSP.Inconsistency if the domain becomes empty
      * @return if the domain has changed
      */
     public boolean removeBelow(int v) {
@@ -106,9 +109,10 @@ public class Domain {
 
     /**
      * Removes every value greater than the specified value from the domain.
-     * Throws an error if no remains within the domain
+     * Throws an error if nothing remains within the domain
      *
      * @param v the value such that all the values greater than v are removed
+     * @throws constraintprogramming.solver.TinyCSP.Inconsistency if the domain becomes empty
      * @return if the domain has changed
      */
     public boolean removeAbove(int v) {
@@ -120,6 +124,7 @@ public class Domain {
      * Fixes the domain to value v
      *
      * @param v a value that is in the domain
+     * @throws constraintprogramming.solver.TinyCSP.Inconsistency if the domain does not contain the value
      * @return true if the domain has changed
      */
     public boolean fix(int v) {

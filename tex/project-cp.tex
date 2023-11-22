@@ -91,64 +91,80 @@
 
 		In the Magic Square Problem, we are interested in counting the number of solutions that exist. However, some symmetrical solutions can be easily found once you have one. For instance, given the following magic square solution (left), you can derive the other one (right) by applying some kind of transformation.
 
-\begin{minipage}{0.4\linewidth}
-	\centering
-\begin{tikzpicture}[scale=0.8]
+		\begin{minipage}{0.4\linewidth}
+			\centering
+			\begin{tikzpicture}[scale=0.8]
 
-	\begin{scope}
-		\draw (0, 0) grid (3, 3);
-		\draw[very thick] (0, 0) grid (3, 3);
+				\begin{scope}
+					\draw (0, 0) grid (3, 3);
+					\draw[very thick] (0, 0) grid (3, 3);
 
-		\setcounter{row}{1}
-		\setrowthree {2}{7}{6}
-		\setrowthree {9}{5}{1}
-		\setrowthree {4}{3}{8}
-		\node[anchor=center] at (1.5, -0.5) {Initial Solution};
-	\end{scope}
-\end{tikzpicture}
-\end{minipage}
-\hfill
-\begin{minipage}{0.4\linewidth}
-	\centering
-\begin{tikzpicture}[scale=0.8]
+					\setcounter{row}{1}
+					\setrowthree {2}{7}{6}
+					\setrowthree {9}{5}{1}
+					\setrowthree {4}{3}{8}
+					\node[anchor=center] at (1.5, -0.5) {Initial Solution};
+				\end{scope}
+			\end{tikzpicture}
+		\end{minipage}
+		\hfill
+		\begin{minipage}{0.4\linewidth}
+			\centering
+			\begin{tikzpicture}[scale=0.8]
 
-	\begin{scope}
-		\draw (0, 0) grid (3, 3);
-		\draw[very thick] (0, 0) grid (3, 3);
+				\begin{scope}
+					\draw (0, 0) grid (3, 3);
+					\draw[very thick] (0, 0) grid (3, 3);
 
-		\setcounter{row}{1}
-		\setrowthree {4}{9}{2}
-		\setrowthree {3}{5}{7}
-		\setrowthree {8}{1}{6}
-		\node[anchor=center] at (1.5, -0.5) {Symmetrical Solution};
-	\end{scope}
-\end{tikzpicture}
-\end{minipage}
+					\setcounter{row}{1}
+					\setrowthree {4}{9}{2}
+					\setrowthree {3}{5}{7}
+					\setrowthree {8}{1}{6}
+					\node[anchor=center] at (1.5, -0.5) {Symmetrical Solution};
+				\end{scope}
+			\end{tikzpicture}
+		\end{minipage}
 
 		\Question Given the following magic square solution, how many symmetrical solutions can you derive from it? What are the operations that you can apply to find them?
 
 		\begin{center}
 			\begin{tikzpicture}[scale=0.8]
 
-		\begin{scope}
-			\draw (0, 0) grid (4, 4);
-			\draw[very thick] (0, 0) grid (4, 4);
+				\begin{scope}
+					\draw (0, 0) grid (4, 4);
+					\draw[very thick] (0, 0) grid (4, 4);
 
-			\setcounter{row}{1}
-			\setrowfour {2}{16}{13}{3}
-			\setrowfour {11}{5}{8}{10}
-			\setrowfour {7}{9}{12}{6}
-			\setrowfour {14}{4}{1}{15}
-			\node[anchor=center] at (2, -0.5) {Initial Solution};
-		\end{scope}
-	\end{tikzpicture}
+					\setcounter{row}{1}
+					\setrowfour {2}{16}{13}{3}
+					\setrowfour {11}{5}{8}{10}
+					\setrowfour {7}{9}{12}{6}
+					\setrowfour {14}{4}{1}{15}
+					\node[anchor=center] at (2, -0.5) {Initial Solution};
+				\end{scope}
+			\end{tikzpicture}
 		\end{center}
 
 
-		\answerbox{8cm}{
+		\answerbox{12cm}{
 			% YOUR ANSWER HERE
 		}
 
+		\Question Use your solver to solve a magic square of size $4\times4$ cells, without any cell with an initial value (i.e. all values are unknown). Report the number of solutions found, the number of failures encountered and the number of recursive calls to the method \texttt{dfs} when looking for all solutions to the instance.
+
+		\answerbox{2cm}{
+			% YOUR ANSWER HERE
+		}
+
+		\Question Experiment with symmetry breaking. For the same instance as in the previous question, experiment with the two following situations:
+		\begin{enumerate}
+			\item find all solutions to the instance ;
+			\item add first a constraint $cell[0][0] \leq cell[0][1]$ to break some symmetrical solutions. Then, find all solutions to the instance.
+		\end{enumerate}
+		Plot the number of solutions found over time in the two scenarios. The x-axis must be the time elapsed, in seconds. The y-axis must be the total number of solutions encountered so far.
+
+		\answerbox{10cm}{
+			% YOUR ANSWER HERE
+		}
 
 	\end{Exercise}
 

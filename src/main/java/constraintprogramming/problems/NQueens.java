@@ -20,7 +20,7 @@ public class NQueens {
 
         for (int i = 0; i < n; i++) {
             for (int j = i+1; j < n; j++) {
-                // queens q[i] and q[i] not on ...
+                // queens q[i] and q[j] not on ...
                 csp.notEqual(q[i],q[j],0); // ... the same line
                 csp.notEqual(q[i],q[j],i-j); // ... the same left diagonal
                 csp.notEqual(q[i],q[j],j-i); // ... the same right diagonal

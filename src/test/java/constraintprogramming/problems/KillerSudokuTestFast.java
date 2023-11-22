@@ -16,10 +16,11 @@ public class KillerSudokuTestFast {
     @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void test2x2WithInitialValues() {
         Coordinate[][] coords = Coordinate.fromMatrix(new int[][]{
-                {1, 0, 3, 0},
-                {0, 0, 0, 4},
-                {0, 0, 0, 0},
-                {2, 0, 0, 0},
+                {1, 0,   3, 0},
+                {0, 0,   0, 4},
+
+                {0, 0,   0, 0},
+                {2, 0,   0, 0},
         });
         KillerSudokuGroup[] groups = new KillerSudokuGroup[] {
                 new KillerSudokuGroup(8,  coords[0][0], coords[0][1], coords[0][2]),
@@ -35,10 +36,11 @@ public class KillerSudokuTestFast {
     @Grade(cpuTimeout = 400, unit = MILLISECONDS)
     public void test2x2WithoutInitialValues() {
         Coordinate[][] coords = Coordinate.fromMatrix(new int[][]{
-                {0, 0, 0, 0},
-                {0, 0, 0, 0},
-                {0, 0, 0, 0},
-                {0, 0, 0, 0},
+                {0, 0,   0, 0},
+                {0, 0,   0, 0},
+
+                {0, 0,   0, 0},
+                {0, 0,   0, 0},
         });
         KillerSudokuGroup[] groups = new KillerSudokuGroup[] {
                 new KillerSudokuGroup(8,  coords[0][0], coords[0][1], coords[0][2]),
@@ -93,10 +95,11 @@ public class KillerSudokuTestFast {
     @Grade(cpuTimeout = 100, unit = MILLISECONDS)
     public void testIncoherent3() {
         Coordinate[][] coords = Coordinate.fromMatrix(new int[][]{
-                {2, 0, 0, 0},
-                {0, 0, 0, 0},
-                {0, 0, 0, 0},
-                {0, 0, 0, 0},
+                {2, 0,   0, 0},
+                {0, 0,   0, 0},
+
+                {0, 0,   0, 0},
+                {0, 0,   0, 0},
         });
         KillerSudokuGroup[] groups = new KillerSudokuGroup[] {
                 new KillerSudokuGroup(8,  coords[0][0], coords[0][1], coords[0][2]),

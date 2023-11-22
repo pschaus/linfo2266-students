@@ -6,6 +6,8 @@ import util.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Solves a magic square problem
@@ -16,10 +18,12 @@ import java.util.List;
  */
 public class MagicSquareSolver {
 
-    public final MagicSquareInstance instance;
+    public final MagicSquareInstance instance; // the instance to solve
+    public final TinyCSP csp; // the solver to use to solve the instance
 
     public MagicSquareSolver(MagicSquareInstance instance) {
         this.instance = instance;
+        this.csp = new TinyCSP();
     }
 
     /**
@@ -32,7 +36,6 @@ public class MagicSquareSolver {
      * @return list of solutions to the given instance (possibly empty if no solution exists)
      */
     public List<MagicSquareInstance.Solution> solve() {
-        TinyCSP csp = new TinyCSP();
         List<MagicSquareInstance.Solution> listSol = new ArrayList<>();
         int n = instance.n();
         // TODO 1 create the variables for your problem
@@ -61,6 +64,7 @@ public class MagicSquareSolver {
         //  and use it to enhance your model
         throw new NotImplementedException("getMagicConstant");
     }
+
 
     public static void main(String[] args) {
         int[][] values = new int[][] {

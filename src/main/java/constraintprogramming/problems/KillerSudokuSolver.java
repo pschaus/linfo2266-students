@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * Solves a Killer Sudoku problem
- * A killer sudoku is a variation of the sudoku, with the following constraints:
+ * A killer sudoku of size n*n is a variation of the sudoku, with the following constraints:
  * - each cell {@link Coordinate} contains a number between 1 (included) and n (included)
  * - each row must contain different values
  * - each column must contain different values
@@ -38,7 +38,7 @@ public class KillerSudokuSolver {
         List<KillerSudokuInstance.Solution> listSol = new ArrayList<>();
         int n = instance.n();
         // TODO 1 create the variables for your problem
-        //  don't forget to take into account the possibly already (un)set values in the magic square!
+        //  don't forget to take into account the possibly already (un)set values in the killer sudoku!
         //  you can check if a value is set with the instance.isValue() method
         // TODO 2 add constraints on your variables
         csp.dfs(() -> {
@@ -53,10 +53,11 @@ public class KillerSudokuSolver {
 
     public static void main(String[] args) {
         Coordinate[][] coords = Coordinate.fromMatrix(new int[][]{
-                {1, 0, 3, 0},
-                {0, 0, 0, 4},
-                {0, 0, 0, 0},
-                {2, 0, 0, 0},
+                {1, 0,   3, 0},
+                {0, 0,   0, 4},
+
+                {0, 0,   0, 0},
+                {2, 0,   0, 0},
         });
         KillerSudokuGroup[] groups = new KillerSudokuGroup[] {
                 new KillerSudokuGroup(8,  coords[0][0], coords[0][1], coords[0][2]),

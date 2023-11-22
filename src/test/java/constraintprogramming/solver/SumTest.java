@@ -9,7 +9,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-@Grade(value = 30)
+@Grade(value = 20)
 public class SumTest {
 
     @Test

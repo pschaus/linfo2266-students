@@ -27,7 +27,7 @@ public class NotEqual extends Constraint {
      * Creates a constraint such
      * that {@code x != y}
      * @param x the left member
-     * @param y the right memer
+     * @param y the right member
      * @see TinyCSP#notEqual(Variable, Variable)
      */
     public NotEqual(Variable x, Variable y) {

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public class TinyCSP {
 
-    public static int nRecur = 0;
+    public int nRecur = 0;
 
     /* constraints of the CSP */
     List<Constraint> constraints = new LinkedList<>();
@@ -32,6 +32,11 @@ public class TinyCSP {
 
     public void notEqual(Variable x, Variable y, int offset) {
         constraints.add(new NotEqual(x, y, offset));
+        fixPoint();
+    }
+    
+    public void lessOrEqual(Variable x, Variable y) {
+        constraints.add(new LessOrEqual(x, y));
         fixPoint();
     }
     
@@ -92,10 +97,10 @@ public class TinyCSP {
                 fixPoint();
                 dfs(closure);
             } catch (Inconsistency i) {
-
             }
 
             restoreDomains(backup);
+            backup = backupDomains();
 
             // right branch x != v
             try {
@@ -103,8 +108,8 @@ public class TinyCSP {
                 fixPoint();
                 dfs(closure);
             } catch (Inconsistency i) {
-
             }
+            restoreDomains(backup);
         }
     }
 
