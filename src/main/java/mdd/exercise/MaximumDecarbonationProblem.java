@@ -14,7 +14,7 @@ import util.decarbonation.MaximumDecarbonationInstance;
  * described in your assignment.
  */
 public final class MaximumDecarbonationProblem implements Problem<MaximumDecarbonationState> {
-    /** The instnance of the problem we want to solve */
+    /** The instance of the problem we want to solve */
     private final MaximumDecarbonationInstance instance;
 
     // TODO you can add fields to this class if deemed useful.

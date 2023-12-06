@@ -110,7 +110,7 @@ public final class Example {
          * @param problem the dp formulation of the problem
          * @param relax the relaxation of the dp model
          * @param varh the variable heuristic which is used to tell what variable to use next when compiling DDs
-         * @param ranking an heuristic to tell the most promising of two nodes
+         * @param ranking a heuristic to tell the most promising of two nodes
          * @param width the strategy used to tell the maximum allowed width for a layer when compiling a DD.
          * @param frontier the solver frontier (aka Fringe).
          */

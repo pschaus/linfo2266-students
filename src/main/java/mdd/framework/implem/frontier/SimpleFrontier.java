@@ -9,7 +9,7 @@ import mdd.framework.heuristics.StateRanking;
 
 /**
  * The simple frontier is a plain priority queue of subproblems which are
- * pushed and popped fron by the solver.
+ * pushed and popped from by the solver.
  */
 public final class SimpleFrontier<T> implements Frontier<T> {
     /** The underlying priority sub problem priority queue */

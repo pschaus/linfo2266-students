@@ -6,7 +6,7 @@ import java.util.Set;
  * A subproblem is a residual problem that must be solved in order to complete the
  * resolution of the original problem which had been defined. 
  * 
- * Subproblems are instanciated from nodes in the exact custsets of relaxed decision
+ * Subproblems are instantiated from nodes in the exact custsets of relaxed decision
  * diagrams
  */
 public final class SubProblem<T> {

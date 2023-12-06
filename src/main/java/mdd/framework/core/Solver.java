@@ -12,6 +12,6 @@ public interface Solver {
     void maximize();
     /** @return the value of the best solution in this decision diagram if there is one */
     Optional<Integer> bestValue();
-    /** @return the solition leading to the best solution in this decision diagram (if it exists) */
+    /** @return the solution leading to the best solution in this decision diagram (if it exists) */
     Optional<Set<Decision>> bestSolution();
 }

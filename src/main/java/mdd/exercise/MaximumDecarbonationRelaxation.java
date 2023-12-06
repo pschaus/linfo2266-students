@@ -12,7 +12,7 @@ import util.decarbonation.MaximumDecarbonationInstance;
  * problem model that you have defined.
  */
 public final class MaximumDecarbonationRelaxation implements Relaxation<MaximumDecarbonationState> {
-    /** The instnance of the problem we want to solve */
+    /** The instance of the problem we want to solve */
     private final MaximumDecarbonationInstance instance;
 
     // TODO you can add fields to this class if deemed useful.

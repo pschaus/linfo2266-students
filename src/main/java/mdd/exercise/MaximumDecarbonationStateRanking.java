@@ -3,7 +3,7 @@ package mdd.exercise;
 import mdd.framework.heuristics.StateRanking;
 
 /** 
- * This is the class where you will define an heuristic to compare two nodes and 
+ * This is the class where you will define a heuristic to compare two nodes and
  * pick the most promising of the two.
  */
 public final class MaximumDecarbonationStateRanking implements StateRanking<MaximumDecarbonationState> {

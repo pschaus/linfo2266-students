@@ -16,7 +16,7 @@ public interface Problem<T> {
     int initialValue();
 
     /**
-     * @param state the state from which the tansitions should be applicable
+     * @param state the state from which the transitions should be applicable
      * @param var the variable whose domain in being queried
      * @return all values in the domain of `var` if a decision is made about the given variable 
      */

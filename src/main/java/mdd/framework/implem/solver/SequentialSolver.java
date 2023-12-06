@@ -72,7 +72,7 @@ public final class SequentialSolver<T> implements Solver {
      * This approach is recommended but we do not force this design choice on you.
      * You might decide against reusing the same object over and over (even though
      * it has been designed to be reused). Should you decide to not reuse this
-     * object, then you can simply ignore this field (and remove it altogetger).
+     * object, then you can simply ignore this field (and remove it altogether).
      */
     private final DecisionDiagram<T> mdd;
 

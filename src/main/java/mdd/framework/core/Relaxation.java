@@ -14,7 +14,7 @@ import java.util.Set;
  */
 public interface Relaxation<T> {
     /** 
-     * Merges the given states so as to create a NEW state which is an over
+     * Merges the given states to create a NEW state which is an over
      * approximation of all the covered states.
      * 
      * @param states the set of states that must be merged

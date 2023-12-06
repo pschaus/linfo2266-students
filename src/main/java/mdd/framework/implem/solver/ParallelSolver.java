@@ -212,7 +212,7 @@ public final class ParallelSolver<T> implements Solver {
         }
     }
     /**
-     * If necessary, thightens the bound of nodes in the cutset of `mdd` and
+     * If necessary, tightens the bound of nodes in the cutset of `mdd` and
      * then add the relevant nodes to the shared fringe.
      */
     private void enqueueCutset(final DecisionDiagram<T> mdd) {
@@ -315,11 +315,11 @@ public final class ParallelSolver<T> implements Solver {
         private final Problem<T> problem;
         /** A suitable relaxation for the problem we want to maximize */
         private final Relaxation<T> relax;
-        /** An heuristic to identify the most promising nodes */
+        /** A heuristic to identify the most promising nodes */
         private final StateRanking<T> ranking;
-        /** An heuristic to chose the maximum width of the DD you compile */
+        /** A heuristic to choose the maximum width of the DD you compile */
         private final WidthHeuristic<T> width;
-        /** An heuristic to chose the next variable to branch on when developing a DD */
+        /** A heuristic to choose the next variable to branch on when developing a DD */
         private final VariableHeuristic<T> varh;
 
         public Shared(

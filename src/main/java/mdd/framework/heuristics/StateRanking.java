@@ -8,7 +8,7 @@ import java.util.Comparator;
  * 
  * In this context, a state ranking is nothing but an ordering on the states 
  * which is defined in the form of a comparator. The solvers and MDD should
- * interpret compare(a, b) > 0 as a should have an higher chance of being kept 
- * intact while b should have an higher chance of being merged.
+ * interpret compare(a, b) > 0 as a should have a higher chance of being kept
+ * intact while b should have a higher chance of being merged.
  */
 public interface StateRanking<T> extends Comparator<T> {}

@@ -139,7 +139,7 @@ public final class LinkedDecisionDiagram<T> implements DecisionDiagram<T> {
 
     @Override
     public void compile(CompilationInput<T> input) {
-        // make sure we dont have any stale data left
+        // make sure we don't have any stale data left
         this.clear();
 
         // initialize the compilation
@@ -214,7 +214,7 @@ public final class LinkedDecisionDiagram<T> implements DecisionDiagram<T> {
                         relax(maxWidth, ranking, relax);
                         break;
                     case Exact: 
-                        /* nothing to to */
+                        /* nothing to do */
                         break;
                 }
             }

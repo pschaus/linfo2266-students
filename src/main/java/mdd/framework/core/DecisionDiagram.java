@@ -21,7 +21,7 @@ public interface DecisionDiagram<T> {
     boolean isExact();
     /** @return the value of the best solution in this decision diagram if there is one */
     Optional<Integer> bestValue();
-    /** @return the solition leading to the best solution in this decision diagram (if it exists) */
+    /** @return the solution leading to the best solution in this decision diagram (if it exists) */
     Optional<Set<Decision>> bestSolution();
     /** @return an iterator to the nodes of the exact cutset of the problem */
     Iterator<SubProblem<T>> exactCutset();
