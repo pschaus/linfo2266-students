@@ -12,6 +12,7 @@ import util.decarbonation.MaximumDecarbonationInstance;
 /**
  * In this class you will model the maximum decarbonation problem that is
  * described in your assignment.
+ * You can use it more easily with the methods defined in {@link Example}
  */
 public final class MaximumDecarbonationProblem implements Problem<MaximumDecarbonationState> {
     /** The instance of the problem we want to solve */

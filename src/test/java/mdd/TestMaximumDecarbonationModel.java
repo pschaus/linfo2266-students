@@ -21,6 +21,7 @@ import java.util.stream.Stream;
 import static org.javagrader.TestResultStatus.FAIL;
 import static org.javagrader.TestResultStatus.TIMEOUT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Timeout.ThreadMode.SEPARATE_THREAD;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 
@@ -61,7 +62,7 @@ public final class TestMaximumDecarbonationModel {
         return out.stream();
     }
 
-    @Grade(value = 10, cpuTimeout = 1)
+    @Grade(value = 10, cpuTimeout = 1, threadMode = SEPARATE_THREAD)
     @GradeFeedback(message = "Something in your DP model might be wrong. It failed to identify the optimal solution", on = FAIL)
     @GradeFeedback(message = "Your solver is too slow. Have you done anything special in your transition/transition cost functions ?", on = TIMEOUT)
     @ParameterizedTest

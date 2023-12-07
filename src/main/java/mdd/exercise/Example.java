@@ -46,7 +46,7 @@ public final class Example {
             ;
         
         //Set<Integer> solution = solveSequentialFromString(instance, 2);
-        Set<Integer> solution = solveSequentialFromFile("data/decarbonation/keller4.clq", 100);
+        Set<Integer> solution = solveSequentialFromFile("data/decarbonation/instances/decarbonation_10_000.dimacs", 100);
         System.out.println(solution);
     }
 

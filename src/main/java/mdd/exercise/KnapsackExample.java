@@ -141,8 +141,7 @@ public final class KnapsackExample {
     }
 
     public static void main(final String[] args) throws IOException {
-        //final String instance = "/Users/xgillard/Downloads/instances_01_KP(1)/large_scale/knapPI_3_100_1000_1";
-        final String instance = "/Users/xgillard/Documents/REPO/linfo2266-solutions/data/Knapsack/instance_n100_c500_10_5_10_5_0";
+        final String instance = "data/Knapsack/instance_n100_c500_10_5_10_5_0";
         final KnapsackProblem                problem = readInstance(instance);
         final KnapsackRelax                    relax = new KnapsackRelax();
         final KnapsackRanking                ranking = new KnapsackRanking();
