@@ -1,0 +1,94 @@
+\documentclass[12pt]{report}
+
+\usepackage[a4paper, total={17cm, 24cm}]{geometry}
+\usepackage{exercise}
+\usepackage{amsmath}
+\usepackage{bibentry}
+\usepackage{hyperref}
+
+\renewcommand{\ExerciseHeader}{\noindent\textbf{\large\ExerciseName\ %
+\ExerciseHeaderNB\ExerciseHeaderTitle
+\ExerciseHeaderOrigin\medskip}}
+\setlength{\QuestionIndent}{1.5em}
+
+\newcommand{\answerbox}[2]{\hfill\break\\
+        \framebox[\linewidth]{\parbox[c][#1][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{#2}}
+}
+
+\renewcommand{\arraystretch}{1.2} % vertical padding for tabular environment
+
+\begin{document}
+
+\hfill
+\begingroup
+\Large
+\begin{tabular}{|l|p{6cm}|}
+	\hline
+	First \& last name &
+	% YOUR NAME HERE
+	\\ \hline
+	NOMA UCLouvain & 
+	% YOUR NOMA HERE
+	\\ \hline
+\end{tabular}
+\endgroup
+\vspace{1.5cm}
+
+\noindent
+\begingroup
+	\Large
+	\textbf{LINFO2266: Advanced Algorithms for Optimization}\\\\
+	Project August 2024: Anytime Beam Search
+\endgroup
+\vspace{0.2cm}
+
+\begin{Exercise}[title={Anytime Beam Search for the TSP}]
+
+
+The \textit{Anytime Beam Search} meta algorithm was introduced in the article:
+\href{https://cdn.aaai.org/AAAI/1998/AAAI98-060.pdf} {Zhang, Weixiong. Complete anytime beam search. AAAI 1998.}
+
+
+In this project, we ask you to implement this algorithm in Java and experiment with the “complete anytime beam search” algorithm.
+The quality of your code and the quality of this report are evaluated on 20 and will consitute the final grade for this course.
+
+You must invite pschaus@gmail.com on your \textbf{private} github project as soon as possible and \textbf{no later that August 1}. 
+Commit regularly on your poject to show your project.
+
+
+\Question Explain in detail how you instantiated this algorithm for the TSP. Detail all the algorithmic choices you made and provide arguments for why you made them. Include a pseudo-code of your algorithm, especially detailing the cost function c and the heuristic pruning rules R that you used. Explain your lower-bound procedure, your branching strategy for the successor function, and other relevant aspects.
+
+\answerbox{10cm}{
+% YOUR ANSWER HERE
+}
+
+\pagebreak
+
+
+
+\answerbox{20cm}{
+% YOUR ANSWER HERE
+}
+
+
+\pagebreak
+
+\Question Experiment with your algorithm and reproduce an experiment similar to what was done in the original paper’s Fig. 2. Comment on your results (shown in graphics that you have produced). You can use the TSP instances available from the previous project, use standard benchmarks (TSPLIB) or generate new ones (explain how you generated them). The instances used must be made available.
+
+
+\answerbox{20cm}{
+% YOUR ANSWER HERE
+}
+
+\pagebreak
+
+\Question Explain how to run your code to reproduce your results. Add any relevant informartion on your code.
+\answerbox{20cm}{
+% YOUR ANSWER HERE
+}
+
+\
+
+\end{Exercise}
+
+\end{document}
