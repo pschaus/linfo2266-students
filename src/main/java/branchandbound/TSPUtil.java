@@ -2,7 +2,9 @@ package branchandbound;
 
 import util.UF;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class TSPUtil {
@@ -46,5 +48,45 @@ public class TSPUtil {
             if (!excluded[0][j]) i++;
         }
         return i >= 2;
+    }
+
+
+    /**
+     * Compute all the possible subset of a set of a given size
+     * @param originalSet
+     * @param size
+     * @return the set of all subsets of the original set of the given size
+     * @param <T>
+     */
+    public static <T> Set<Set<T>> powerSet(Set<T> originalSet, int size) {
+        Set<Set<T>> sets = new HashSet<>();
+        if (size == 0) {
+            sets.add(new HashSet<>()); // Add the empty set if size 0 is requested
+            return sets;
+        }
+        if (originalSet.isEmpty() || size < 0) {
+            return sets; // Return an empty set if the size is negative or the set is empty
+        }
+
+        List<T> list = new ArrayList<>(originalSet);
+        T head = list.get(0);
+        Set<T> rest = new HashSet<>(list.subList(1, list.size()));
+
+        // Recursively get subsets of the rest of the elements
+        for (Set<T> set : powerSet(rest, size - 1)) {
+            Set<T> newSet = new HashSet<>(set);
+            newSet.add(head);
+            if (newSet.size() == size) {
+                sets.add(newSet);
+            }
+        }
+        // Add the subsets from rest that do not include the head
+        for (Set<T> set : powerSet(rest, size)) {
+            if (set.size() == size) {
+                sets.add(set);
+            }
+        }
+
+        return sets;
     }
 }

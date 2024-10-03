@@ -104,7 +104,7 @@ public class OneTreeLowerBoundRandomTestFast {
         double bestOneTreeCost = Double.MAX_VALUE;
         Set<Edge> bestOneTree = null;
         // enumerate all power-set of edges
-        for (Set<Edge> candidate: powerSet(edges)) {
+        for (Set<Edge> candidate: TSPUtil.powerSet(edges,dist.length)) {
             if (TSPUtil.isOneTree(dist.length, candidate)  && candidate.stream().noneMatch(e -> excluded[e.v1()][e.v2()])) {
                 double cost = 0;
                 for (Edge e: candidate) {
@@ -117,25 +117,6 @@ public class OneTreeLowerBoundRandomTestFast {
             }
         }
         return new TSPLowerBoundResult(bestOneTreeCost, new ArrayList<>(bestOneTree));
-    }
-
-    public static <T> Set<Set<T>> powerSet(Set<T> originalSet) {
-        Set<Set<T>> sets = new HashSet<>();
-        if (originalSet.isEmpty()) {
-            sets.add(new HashSet<T>());
-            return sets;
-        }
-        List<T> list = new ArrayList<T>(originalSet);
-        T head = list.get(0);
-        Set<T> rest = new HashSet<T>(list.subList(1, list.size()));
-        for (Set<T> set : powerSet(rest)) {
-            Set<T> newSet = new HashSet<T>();
-            newSet.add(head);
-            newSet.addAll(set);
-            sets.add(newSet);
-            sets.add(set);
-        }
-        return sets;
     }
 
     public static boolean edgePresent(int a, int b, List<Edge> edges) {

@@ -1,5 +1,6 @@
 package branchandbound;
 
+import localsearch.Utils;
 import org.javagrader.Grade;
 import org.javagrader.GradeFeedback;
 import org.junit.jupiter.api.Tag;
@@ -38,8 +39,8 @@ public class HeldKarpLowerBoundRandomTestFast {
         TSPLowerBoundResult r2 = new HeldKarpLowerBound().compute(instance.distanceMatrix, excluded);
 
         assertTrue(r2.lb() >= r1.lb()+1); // held-karp lb should be stronger
-        assertTrue(isOneTree(instance.n,r2.edges()));
-        assertTrue(isOneTree(instance.n,r1.edges()));
+        assertTrue(TSPUtil.isOneTree(instance.n,r2.edges()));
+        assertTrue(TSPUtil.isOneTree(instance.n,r1.edges()));
         assertFalse(edgePresent(2,3,r2.edges()));
         assertFalse(edgePresent(2,3,r1.edges()));
     }
@@ -59,8 +60,8 @@ public class HeldKarpLowerBoundRandomTestFast {
         double bestOneTreeCost = Double.MAX_VALUE;
         Set<Edge> bestOneTree = null;
         // enumerate all power-set of edges
-        for (Set<Edge> candidate: powerSet(edges)) {
-            if (isOneTree(dist.length, candidate)  && candidate.stream().noneMatch(e -> excluded[e.v1()][e.v2()])) {
+        for (Set<Edge> candidate: TSPUtil.powerSet(edges,dist.length)) {
+            if (TSPUtil.isOneTree(dist.length, candidate)  && candidate.stream().noneMatch(e -> excluded[e.v1()][e.v2()])) {
                 double cost = 0;
                 for (Edge e: candidate) {
                     cost += e.cost();
@@ -74,48 +75,9 @@ public class HeldKarpLowerBoundRandomTestFast {
         return new TSPLowerBoundResult(bestOneTreeCost, new ArrayList<>(bestOneTree));
     }
 
-    public static boolean isOneTree(int n, Iterable<Edge> edges) {
-        int [] degree = new int[n];
-        UF uf = new UF(n);
-        int size = 0;
-        for (Edge e: edges) {
-            uf.union(e.v1(),e.v2());
-            degree[e.v1()] += 1;
-            degree[e.v2()] += 1;
-            size++;
-        }
-        for (Edge e: edges) {
-            if (e.v1() == 0 && degree[e.v2()] < 2) {
-                return false;
-            }
-            if (e.v2() == 0 && degree[e.v1()] < 2) {
-                return false;
-            }
-        }
-        if (n != size) return false;
-        if (2 != degree[0]) return false;
-        if (1 != uf.count()) return false;
-        return true;
-    }
 
-    public static <T> Set<Set<T>> powerSet(Set<T> originalSet) {
-        Set<Set<T>> sets = new HashSet<>();
-        if (originalSet.isEmpty()) {
-            sets.add(new HashSet<T>());
-            return sets;
-        }
-        List<T> list = new ArrayList<T>(originalSet);
-        T head = list.get(0);
-        Set<T> rest = new HashSet<T>(list.subList(1, list.size()));
-        for (Set<T> set : powerSet(rest)) {
-            Set<T> newSet = new HashSet<T>();
-            newSet.add(head);
-            newSet.addAll(set);
-            sets.add(newSet);
-            sets.add(set);
-        }
-        return sets;
-    }
+
+
 
     public static boolean edgePresent(int a, int b, List<Edge> edges) {
         for (Edge e: edges) {
