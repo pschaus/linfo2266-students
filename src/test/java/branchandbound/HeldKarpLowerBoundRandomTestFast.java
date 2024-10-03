@@ -2,6 +2,7 @@ package branchandbound;
 
 import org.javagrader.Grade;
 import org.javagrader.GradeFeedback;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import util.UF;
@@ -13,10 +14,12 @@ import java.util.stream.IntStream;
 
 import static org.javagrader.TestResultStatus.FAIL;
 import static org.javagrader.TestResultStatus.TIMEOUT;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Tag("fast")
 @Grade
-public class SimpleOneTreeRandomTestFast {
+public class HeldKarpLowerBoundRandomTestFast {
 
     @Grade(value = 5, cpuTimeout = 4)
     @GradeFeedback(message = "Sorry, something is wrong cannot find the correct one tree", on = FAIL)
@@ -31,10 +34,10 @@ public class SimpleOneTreeRandomTestFast {
         excluded[4][1] = true;
         excluded[1][4] = true;
 
-        OneTreeResult r1 = bruteForceOneTree(instance.distanceMatrix, excluded);
-        OneTreeResult r2 = new SimpleOneTree().compute(instance.distanceMatrix, excluded);
+        TSPLowerBoundResult r1 = bruteForceOneTree(instance.distanceMatrix, excluded);
+        TSPLowerBoundResult r2 = new HeldKarpLowerBound().compute(instance.distanceMatrix, excluded);
 
-        assertEquals(r1.lb(),r2.lb(),0.0001);
+        assertTrue(r2.lb() >= r1.lb()+1); // held-karp lb should be stronger
         assertTrue(isOneTree(instance.n,r2.edges()));
         assertTrue(isOneTree(instance.n,r1.edges()));
         assertFalse(edgePresent(2,3,r2.edges()));
@@ -45,7 +48,7 @@ public class SimpleOneTreeRandomTestFast {
         return IntStream.range(20, 40).boxed().collect(Collectors.toList());
     }
 
-    private static OneTreeResult bruteForceOneTree(double [][] dist, boolean[][] excluded) {
+    private static TSPLowerBoundResult bruteForceOneTree(double [][] dist, boolean[][] excluded) {
         Set<Edge> edges = new HashSet<>();
         for (int i = 0; i < dist.length; i++) {
             for (int j = i+1; j < dist.length; j++) {
@@ -68,7 +71,7 @@ public class SimpleOneTreeRandomTestFast {
                 }
             }
         }
-        return new OneTreeResult(bestOneTreeCost, new ArrayList<>(bestOneTree));
+        return new TSPLowerBoundResult(bestOneTreeCost, new ArrayList<>(bestOneTree));
     }
 
     public static boolean isOneTree(int n, Iterable<Edge> edges) {

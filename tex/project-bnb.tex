@@ -48,7 +48,7 @@
 \begin{Exercise}[title={Modeling the Traveling Salesman Problem}]
 
 \begin{center}
-\begin{tikzpicture}[scale=0.8]
+\begin{tikzpicture}[scale=0.7]
 	\node[draw,circle] (v0) at (0.4,0.2) {0};
 	\node[draw,circle] (v1) at (0,2.2) {1};
 	\node[draw,circle] (v2) at (4.4,0) {2};
@@ -63,7 +63,7 @@
 	\draw (v1) edge node[fill=white] {1} (v5);
 	\draw (v1) edge node[fill=white] {7} (v6);
 	\draw (v2) edge node[fill=white] {3} (v3);
-	\draw (v2) edge node[fill=white] {7} (v4);
+	\draw (v2) edge node[fill=white] {1} (v4);
 	\draw (v2) edge node[fill=white] {4} (v5);
 	\draw (v3) edge node[fill=white] {5} (v4);
 	\draw (v4) edge node[fill=white] {2} (v5);
@@ -72,26 +72,13 @@
 \end{tikzpicture}
 \end{center}
 
-\Question We use the one-tree relaxation. Show the one-tree that you obtain at the root node of the BnB search tree.
-Give the successors of this node. For each, explain the constraints on the branches and depict the internal state representation.
-\answerbox{11cm}{
+\Question What is the one-tree and its cost on this example.
+\answerbox{3cm}{
 % YOUR ANSWER HERE
 }
 
-
-\end{Exercise}
-
-\begin{Exercise}[title={One-tree lower-bound}]
-
-\Question What is your strategy to avoid including the excluded edges in your implementation
-of the one-tree relaxation.
-\answerbox{10cm}{
-% YOUR ANSWER HERE
-}
-
-
-\Question Give the time-complexity and justify your answer (don't forget to specify the spanning tree algorithm that you use)
-\answerbox{5cm}{
+\Question Explain the internal state of your implementation. How does your successor function works?
+\answerbox{6cm}{
 % YOUR ANSWER HERE
 }
 
@@ -117,6 +104,27 @@ The y axis should start at 400.
 
 \Question What do you observe, conclude? How can this plot help you to tune the parameters of the Held-Karp lower-bound algorithm.
 \answerbox{4cm}{
+% YOUR ANSWER HERE
+}
+
+
+
+\end{Exercise}
+
+\pagebreak
+
+\begin{Exercise}[title={Optimality Gap}]
+
+\Question Give the formula of the optimality gap (in \%). Explain how you can compute it.
+
+\answerbox{4cm}{
+% YOUR ANSWER HERE
+}
+
+
+\Question For the instance \verb|instance_30_0.xml|, create a plot that shows the evolution of the optimality gap (y-axis) over the iterations (x-axis) during the branch-and-bound process. The plot should include two lines: One line representing the depth-first search strategy and one line representing the best-first search strategy. Make sure to include a legend that distinguishes between the two search strategies.
+
+\answerbox{12cm}{
 % YOUR ANSWER HERE
 }
 

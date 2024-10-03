@@ -23,14 +23,22 @@ public class BranchAndBoundTSPTestFast {
     @Grade(value = 1, cpuTimeout = 1)
     @GradeFeedback(message = "Sorry, TSP not working yet", on = FAIL)
     public void readableTestToDebug() {
-        // https://pasteboard.co/0Af7efOavbEo.png (use this link to visualize the instance and debug)
         int [] xCoord = new int[] {10,10,20,70,40,60,50};
         int [] yCoord = new int[] {10,30,60,40,10,20,60};
         TSPInstance tsp = new TSPInstance(xCoord,yCoord);
         List<Edge> edges;
 
         boolean [][] expectedEdges = new boolean[7][7];
-        // 0-1, 1-2, 2-6, 6-3, 3-5, 5-4, 4-0
+        // Optimal tour: 0-1-2-6-3-5-4-0
+        //        7 | .     .     .     .     .     .     .     .
+        //        6 | .     2(2,6).     .     6(5,6) .    .
+        //        5 | .     .     .     .     .     .     .     .
+        //        4 | .     .     .     .     .     .     3(7,4).
+        //        3 | 1(1,3).     .     .     .     .     .     .
+        //        2 | .     .     .     .     .     5(6,2).     .
+        //        1 | 0(1,1).     .     4(4,1).     .     .     .
+        //          +----------------------------------------------
+        //            1     2     3     4     5     6     7
         expectedEdges[0][1] = expectedEdges[1][0] = true;
         expectedEdges[1][2] = expectedEdges[2][1] = true;
         expectedEdges[2][6] = expectedEdges[6][2] = true;
@@ -39,9 +47,9 @@ public class BranchAndBoundTSPTestFast {
         expectedEdges[5][4] = expectedEdges[4][5] = true;
         expectedEdges[4][0] = expectedEdges[0][4] = true;
 
-        OneTreeLowerBound [] algos = new OneTreeLowerBound[] {new SimpleOneTree(), new HeldKarpOneTree()};
+        TSPLowerBound [] algos = new TSPLowerBound[] {new CheapestIncidentLowerBound(), new OneTreeLowerBound(), new HeldKarpLowerBound()};
 
-        for (OneTreeLowerBound algo: algos) {
+        for (TSPLowerBound algo: algos) {
             edges = BranchAndBoundTSP.optimize(tsp,algo);
             assertEquals(7, edges.size());
             boolean [][] foundEdges = new boolean[7][7];
@@ -60,15 +68,19 @@ public class BranchAndBoundTSPTestFast {
     @Grade(value = 1, cpuTimeout = 1)
     @GradeFeedback(message = "Comparison Two Bound on random tests", on = FAIL)
     public void randomTestToDebug() {
-
         for (int seed = 0; seed < 100; seed++) {
 
             TSPInstance tsp = new TSPInstance(4, seed, 100);
 
-            List<Edge> edges1 = BranchAndBoundTSP.optimize(tsp, new SimpleOneTree());
+            List<Edge> edges0 = BranchAndBoundTSP.optimize(tsp, new CheapestIncidentLowerBound());
+            int tot0 = edges0.stream().map(Edge::cost).mapToInt(e -> (int) Math.rint(e)).sum();
+
+            List<Edge> edges1 = BranchAndBoundTSP.optimize(tsp, new OneTreeLowerBound());
             int tot1 = edges1.stream().map(Edge::cost).mapToInt(e -> (int) Math.rint(e)).sum();
 
-            List<Edge> edges2 = BranchAndBoundTSP.optimize(tsp, new HeldKarpOneTree());
+            assertEquals(tot0, tot1);
+
+            List<Edge> edges2 = BranchAndBoundTSP.optimize(tsp, new HeldKarpLowerBound());
             int tot2 = edges2.stream().map(Edge::cost).mapToInt(e -> (int) Math.rint(e)).sum();
             assertEquals(tot1, tot2);
         }
@@ -78,7 +90,7 @@ public class BranchAndBoundTSPTestFast {
         return BranchAndBoundTSPTest.readTSPInstances(8);
     }
 
-    public static void testSolvingOptimality(TSPInstance instance, OneTreeLowerBound algo) {
+    public static void testSolvingOptimality(TSPInstance instance, TSPLowerBound algo) {
         List<Edge> edges = BranchAndBoundTSP.optimize(instance,algo);
         int objective = instance.objective;
         double tourLength = 0;
@@ -93,8 +105,17 @@ public class BranchAndBoundTSPTestFast {
     @GradeFeedback(message = "Your solver is too slow", on = TIMEOUT)
     @ParameterizedTest
     @MethodSource("getTSPInstances")
+    public void testCheapestIncident(TSPInstance instance) {
+        testSolvingOptimality(instance, new CheapestIncidentLowerBound());
+    }
+
+    @Grade(value = 10, cpuTimeout = 2)
+    @GradeFeedback(message = "Sorry, something is wrong cannot find optimum", on = FAIL)
+    @GradeFeedback(message = "Your solver is too slow", on = TIMEOUT)
+    @ParameterizedTest
+    @MethodSource("getTSPInstances")
     public void testOneTree(TSPInstance instance) {
-        testSolvingOptimality(instance, new SimpleOneTree());
+        testSolvingOptimality(instance, new OneTreeLowerBound());
     }
 
     @Grade(value = 10, cpuTimeout = 2)
@@ -103,7 +124,7 @@ public class BranchAndBoundTSPTestFast {
     @ParameterizedTest
     @MethodSource("getTSPInstances")
     public void testHeldKarp(TSPInstance instance) {
-        testSolvingOptimality(instance, new HeldKarpOneTree());
+        testSolvingOptimality(instance, new HeldKarpLowerBound());
     }
 
 }

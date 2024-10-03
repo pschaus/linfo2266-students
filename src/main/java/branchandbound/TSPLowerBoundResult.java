@@ -2,12 +2,12 @@ package branchandbound;
 
 import java.util.List;
 
-public class OneTreeResult {
+public class TSPLowerBoundResult {
 
     private final double lb;
     private final List<Edge> edges;
 
-    public OneTreeResult (double lb, List<Edge> edges) {
+    public TSPLowerBoundResult(double lb, List<Edge> edges) {
         this.lb = lb;
         this.edges = edges;
     }

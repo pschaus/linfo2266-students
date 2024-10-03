@@ -164,10 +164,10 @@ class NodeKnapsack implements Node<NodeKnapsack> {
         return -ub;
     }
 
-    @Override
-    public boolean isSolutionCandidate() {
-        return index == value.length - 1;
-    }
+        @Override
+        public boolean isSolutionCandidate() {
+            return index == value.length - 1;
+        }
 
     @Override
     public List<Node<NodeKnapsack>> children() {

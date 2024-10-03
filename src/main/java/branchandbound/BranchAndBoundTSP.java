@@ -2,16 +2,9 @@ package branchandbound;
 
 import util.tsp.TSPInstance;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
-
-import util.tsp.TSPInstance;
-
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class BranchAndBoundTSP {
@@ -19,29 +12,25 @@ public class BranchAndBoundTSP {
     /**
      * Entry point for your Branch and Bound TSP Solver
      *
-     * You must use the BrandAndBound class without modifying it.
+     * You must use the BrandAndBound class without modifying it (except possibly to compute the gap).
      * Have a look at @see {@link branchandbound.BranchAndBoundKnapsack} for an example.
      * As you will see, you have to implement your own State/Node class.
      *
-     * One possibility for representing the state of a node
-     * is to store the forbidden edges, set forbidden
-     * by the ancestor branching decisions.
-     * Therefore, when you find a one-tree (that is a lower-bound)
-     * not containing the forbidden edges, you can stop branching since
-     * this constitutes a candidate solution and thus a leaf-node.
-     *
+     * You are free to choose your state representation.
+     * This is part of the difficulty of the exercise.
+     * Choose one representation that makes it easy to generate the successors of a node.
      *
      * @param instance an instance for the TSP
-     * @param lbAlgo a lowe-bound algorithm for TSP that computes a  one-tree
+     * @param lbAlgo a lowe-bound algorithm for TSP
      * @return the list of edges in the optimal solution
      */
-    public static List<Edge> optimize(TSPInstance instance, OneTreeLowerBound lbAlgo) {
+    public static List<Edge> optimize(TSPInstance instance, TSPLowerBound lbAlgo) {
+        // TODO
          return null;
     }
 
     public static void main(String[] args) {
     }
-
 
 
 

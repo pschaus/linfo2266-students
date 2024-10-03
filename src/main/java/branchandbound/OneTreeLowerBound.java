@@ -1,35 +1,28 @@
 package branchandbound;
 
-import util.UF;
-
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 
+/**
+ * A lower bound on the TSP based on the 1-tree relaxation
+ * A minimum 1-tree is composed of the edges:
+ * - that belong to the minimum spanning-tree that spans all
+ *   nodes of the graph (independently of their direction), except the node 0.
+ * - the two edges that connect the node 0 to the two
+ *   closest nodes (also independently of their direction).
+ */
+public class OneTreeLowerBound implements TSPLowerBound {
 
-
-
-public abstract class OneTreeLowerBound {
-
-
-    public abstract  OneTreeResult compute(double [][] distanceMatrix, boolean[][] excluded);
-
-    public boolean oneTreeExist(boolean[][] excluded) {
-        int n = excluded.length;
-        UF uf = new UF(n);
-        for (int i = 1; i < n; i++) {
-            for (int j = i+1; j < n; j++) {
-                if (!excluded[i][j]) {
-                    uf.union(i,j);
-                }
-            }
-        }
-        // check that the exclusion of node 0 does not disconnect the graph
-        if (uf.count() > 2) return false;
-        // check at least two edges are adjacent to node 0
-        int i = 0;
-        for (int j = 1; j < n; j++) {
-            if (!excluded[0][j]) i++;
-        }
-        return i >= 2;
+    @Override
+    public TSPLowerBoundResult compute(double [][] distMatrix, boolean [][] excluded) {
+        // TODO
+         return null;
     }
+
+
+
+
 
 }

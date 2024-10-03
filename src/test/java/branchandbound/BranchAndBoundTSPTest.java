@@ -24,11 +24,21 @@ public class BranchAndBoundTSPTest {
     @Grade(value = 1, cpuTimeout = 1)
     @GradeFeedback(message = "Sorry, TSP not working yet", on = FAIL)
     public void readableTestToDebug() {
-        // https://pasteboard.co/0Af7efOavbEo.png (use this link to visualize the instance and debug)
         int [] xCoord = new int[] {10,10,20,70,40,60,50};
         int [] yCoord = new int[] {10,30,60,40,10,20,60};
         TSPInstance tsp = new TSPInstance(xCoord,yCoord);
         List<Edge> edges;
+
+        // Optimal tour: 0-1-2-6-3-5-4-0
+        //        7 | .     .     .     .     .     .     .     .
+        //        6 | .     2(2,6).     .     6(5,6) .    .
+        //        5 | .     .     .     .     .     .     .     .
+        //        4 | .     .     .     .     .     .     3(7,4).
+        //        3 | 1(1,3).     .     .     .     .     .     .
+        //        2 | .     .     .     .     .     5(6,2).     .
+        //        1 | 0(1,1).     .     4(4,1).     .     .     .
+        //          +----------------------------------------------
+        //            1     2     3     4     5     6     7
 
         boolean [][] expectedEdges = new boolean[7][7];
         // 0-1, 1-2, 2-6, 6-3, 3-5, 5-4, 4-0
@@ -40,9 +50,9 @@ public class BranchAndBoundTSPTest {
         expectedEdges[5][4] = expectedEdges[4][5] = true;
         expectedEdges[4][0] = expectedEdges[0][4] = true;
 
-        OneTreeLowerBound [] algos = new OneTreeLowerBound[] {new SimpleOneTree(), new HeldKarpOneTree()};
+       TSPLowerBound [] algos = new TSPLowerBound[] {new OneTreeLowerBound(), new HeldKarpLowerBound()};
 
-        for (OneTreeLowerBound algo: algos) {
+        for (TSPLowerBound algo: algos) {
             edges = BranchAndBoundTSP.optimize(tsp,algo);
             assertEquals(7, edges.size());
             boolean [][] foundEdges = new boolean[7][7];
@@ -76,7 +86,7 @@ public class BranchAndBoundTSPTest {
     }
 
     public static void testSolvingOptimality(TSPInstance instance) {
-        List<Edge> edges = BranchAndBoundTSP.optimize(instance,new HeldKarpOneTree());
+        List<Edge> edges = BranchAndBoundTSP.optimize(instance,new TSPSuperLowerBound());
         int objective = instance.objective;
         double tourLength = 0;
         for (Edge e: edges) {
@@ -127,7 +137,7 @@ public class BranchAndBoundTSPTest {
         testSolvingOptimality(instance);
     }
 
-    @Grade(value = 5, cpuTimeout = 2)
+    @Grade(value = 5, cpuTimeout = 10)
     @GradeFeedback(message = "Sorry, something is wrong cannot find optimum", on = FAIL)
     @GradeFeedback(message = "Your solver is too slow", on = TIMEOUT)
     @ParameterizedTest
