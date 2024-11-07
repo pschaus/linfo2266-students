@@ -48,7 +48,7 @@ public class BranchAndBound {
                 }
             }
         }
-        System.out.println("#iter:" + iter);
+        // System.out.println("#iter:" + iter);
     }
 
 

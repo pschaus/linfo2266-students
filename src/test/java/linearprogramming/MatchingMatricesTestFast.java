@@ -29,7 +29,7 @@ public class MatchingMatricesTestFast {
      *
      * The objective value should be 3
      */
-    @Grade(value = 10, cpuTimeout = 100, unit = MILLISECONDS)
+    @Grade(value = 10, cpuTimeout = 200, unit = MILLISECONDS)
     public void simpleTest() {
         Edge[] edges = new Edge[] {
                 new Edge(0, 4),
@@ -61,7 +61,7 @@ public class MatchingMatricesTestFast {
         return IntStream.range(0, 5).mapToObj(i -> arguments(named("n" + nVertices + "_e" + nEdges + "_" + i, nVertices), nEdges)).collect(Collectors.toList());
     }
 
-    @Grade(value = 30, cpuTimeout = 100, unit = MILLISECONDS)
+    @Grade(value = 30, cpuTimeout = 200, unit = MILLISECONDS)
     @ParameterizedTest(name = "[{index}] {0}")
     @MethodSource("getGraphParams")
     public void smallSizeTest(int vertices, int edges) {

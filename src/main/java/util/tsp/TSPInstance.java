@@ -147,6 +147,34 @@ public class TSPInstance {
         this.objective = obj;
     }
 
+
+    /**
+     * Number of cities
+     * @return the number of cities
+     */
+    public int nCities(){
+        return n;
+    }
+
+    /**
+     * Distance between two cities
+     * @param city1
+     * @param city2
+     * @return the distance between city1 and city2
+     */
+    public double distance(int city1, int city2){
+        return distanceMatrix[city1][city2];
+    }
+
+
+    /**
+     * Euclidean distance between two points
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @return the Euclidean distance between (x1,y1) and (x2,y2)
+     */
     public double dist(double x1, double y1, double x2, double y2) {
         double dx = x1-x2;
         double dy = y1-y2;

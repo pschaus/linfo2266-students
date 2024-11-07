@@ -11,6 +11,8 @@
 
   <ignoredDigits>5</ignoredDigits>
 
+  <objective>69853</objective>
+
   <graph>
     <vertex>
       <edge cost="8.080000000000000e+02">1</edge>

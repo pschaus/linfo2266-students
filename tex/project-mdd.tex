@@ -123,18 +123,18 @@
 		has decided to refresh electric infrastructure and build new nuclear plants all over the
 		continent. This, however, has to be done in a principled way and no two power plants can
 		be located too close to one another as there is a risk it would cause excess tension.
-		Given a map of the infrastructure with candidate build sites, you are asked to find
+		Given a map of the infrastructure with candidateOld build sites, you are asked to find
 		the set of locations where to construct power plants without violating safety constraints.
 
 		In practice, the map will be given to you in the form of a sizeable \emph{undirected} graph.
-		In that graph, each node represents a candidate build site, and two sites are connected
+		In that graph, each node represents a candidateOld build site, and two sites are connected
 		with an edge if they are too close to one another (or more generally, if building a power
 		plant at both sites causes a potential safety hazard). The problem which you are asked to
 		solve is thus the following: you must find a maximum subset of the nodes in the graph
 		such that no two construction sites are connected with an edge in the underlying graph.
 
 		\subsection*{Example:}
-		The below graph depicts a situation where 6 candidate construction sites have been identified.
+		The below graph depicts a situation where 6 candidateOld construction sites have been identified.
 		It also shows that it would not be safe to build a nuclear plant at site 1 and 2 at the same
 		time, or to build some at both sites 3 and 5. In this example, a solution that maximizes the
 		energy production while guaranteeing safety constraints is the set $\left\{ 1, 4, 5, 6 \right\}$.

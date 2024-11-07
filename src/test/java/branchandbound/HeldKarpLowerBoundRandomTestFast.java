@@ -1,6 +1,5 @@
 package branchandbound;
 
-import localsearch.Utils;
 import org.javagrader.Grade;
 import org.javagrader.GradeFeedback;
 import org.junit.jupiter.api.Tag;

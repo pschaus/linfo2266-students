@@ -1,78 +1,93 @@
 package localsearch;
 
+import util.tsp.TSPInstance;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Abstract class that represents a candidate solution to a problem
- * and the variables that constitute it
+ * Represents a candidate solution for the TSP problem
  */
-public abstract class Candidate {
+public class Candidate {
 
-    IntVar[] variables;
+    // The tour of the candidate solution from the first city
+    // to the last, the first and last city is not repeated
+    private ArrayList<Integer> tour; // a permutation of the cities from 0 to n-1
 
-    public Candidate(IntVar[] variables) {
-        this.variables = variables;
+    private TSPInstance tsp;
+    private double cost;
+
+    public Candidate(TSPInstance tsp, List<Integer> tour) {
+        this.tsp = tsp;
+        this.tour = new ArrayList<>(tour);
+        this.cost = computeCost();
     }
-    
-    /**
-     * Computes the delta (the difference of objective value)
-     * obtained by performing the swap on the candidate solution
-     * @param swap a swap move
-     * @return the delta obtained by performing the swap on the given candidate solution
-     */
-    public int getDelta(Swap swap) {
-        int oldValue = this.getValue();
-        
-        int tmp = this.variables[swap.variableIds[0]].getValue();
-        for (int i = 0; i < swap.variableIds.length - 1; i++) {
-            this.variables[swap.variableIds[i]].setValue(this.variables[swap.variableIds[i + 1]].getValue());
-        }
-        this.variables[swap.variableIds[swap.variableIds.length - 1]].setValue(tmp);
 
-        int delta = this.getValue() - oldValue;
-        
-        tmp = this.variables[swap.variableIds[swap.variableIds.length - 1]].getValue();
-        for (int i = swap.variableIds.length - 1; i > 0; i--) {
-            this.variables[swap.variableIds[i]].setValue(this.variables[swap.variableIds[i - 1]].getValue());
-        }
-        this.variables[swap.variableIds[0]].setValue(tmp);
+    public TSPInstance getTsp() {
+        return tsp;
+    }
 
-        return delta;
+    public double getCost() {
+        return cost;
     }
 
     /**
-     * Transforms the candidate solution by applying a given swap move to it
-     * If a swap contains variables: [x1, x5, x7, x9]
-     * Then applying the swap changes the values of the variables such that:
-     * x1.newValue = x5.oldValue, x5.newValue = x7.oldValue,
-     * x7.newValue = x9.oldValue and x9.newValue = x1.oldValue
-     * @param swap a swap move
+     *returns the city that is after the city placed at index index
+     * @param index
+     * @return an int that is the city
      */
-    public void apply(Swap swap) {
-        int tmp = this.variables[swap.variableIds[0]].getValue();
-        for (int i = 0; i < swap.variableIds.length - 1; i++) {
-            this.variables[swap.variableIds[i]].setValue(this.variables[swap.variableIds[i + 1]].getValue());
-        }
-        this.variables[swap.variableIds[swap.variableIds.length - 1]].setValue(tmp);
+    public int getSucc(int index) {
+        return tour.get((index + 1) % tour.size());
     }
-    
+
+    public double computeCost() {
+        // computes the initial cost of the solution : only called once
+        // at initialisation and updated using twoOptDelta at each move
+        double sum = 0;
+        for (int i = 0; i < tour.size(); i++) {
+            sum += tsp.distance(tour.get(i), getSucc(i));
+        }
+        return sum;
+    }
+
+
     /**
-     * Returns the objective value of the candidate solution
-     * @return the objective value of the candidate solution
+     * Compute the delta of the 2-opt move between index1 and index2
+     *
+     * @param index1 the first index (excluded)
+     * @param index2 > index1, the second index (included)
+     * @return the delta of the 2-opt move, that is the cost after the move minus the cost before the move
      */
-    abstract int getValue();
-    
+    public double twoOptDelta(int index1, int index2) {
+        return tsp.distance(tour.get(index1), tour.get(index2)) +
+                tsp.distance(tour.get((index1 + 1) % tour.size()), tour.get((index2 + 1) % tour.size())) -
+                tsp.distance(tour.get(index1), tour.get((index1 + 1) % tour.size())) -
+                tsp.distance(tour.get(index2), tour.get((index2 + 1) % tour.size()));
+    }
+
+
     /**
-     * Returns a deep copy of the candidate
-     * @return a deep copy of the candidate
+     * Apply the 2-opt move by reverting the order of the cities between
+     * index1 (excluded) and index2 (included) if index1 > index2 they need to be swapped
+     * and also update the cost of the solution
+     * @param index1 the first index (excluded)
+     * @param index2 the second index (included)
      */
-    abstract Candidate copy();
+    public void twoOpt(int index1, int index2) {
+
+        // TODO Swap the successor of index1 with index 2. Note : index1 can be greater than index2
+         throw new util.NotImplementedException("Candidate.applySwap");
+    }
+
 
     @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        for (IntVar variable : this.variables) {
-            builder.append(variable.getValue()).append(' ');
-        }
-        return builder.toString();
+    public Candidate clone() {
+        Candidate c = new Candidate(tsp, this.tour);
+        return c;
+    }
+
+    public List<Integer> getTour() {
+        return tour;
     }
 
 }
