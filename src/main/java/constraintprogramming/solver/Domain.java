@@ -3,13 +3,14 @@ package constraintprogramming.solver;
 import util.NotImplementedException;
 
 import java.util.BitSet;
+import java.util.Iterator;
 
 /**
  * Implementation of a very basic domain
  * using the {@see java.util.BitSet} data structure
  * to store the values
  */
-public class Domain {
+public class Domain implements Iterable<Integer> {
 
     private BitSet values;
 
@@ -143,5 +144,10 @@ public class Domain {
     @Override
     public String toString() {
         return values.toString();
+    }
+
+    @Override
+    public Iterator<Integer> iterator() {
+        return values.stream().iterator();
     }
 }

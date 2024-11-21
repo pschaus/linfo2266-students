@@ -26,9 +26,15 @@ public class TinyCSP {
         return x;
     }
 
+    public void add(Constraint c) {
+        constraints.add(c);
+        fixPoint();
+    }
+
     public void notEqual(Variable x, Variable y) {
         notEqual(x, y, 0);
     }
+
 
     public void notEqual(Variable x, Variable y, int offset) {
         constraints.add(new NotEqual(x, y, offset));
