@@ -1,6 +1,5 @@
 package constraintprogramming.solver;
 
- import util.NotImplementedException;
 
 /**
  * A constraint between two
@@ -37,7 +36,7 @@ public class KnightMove extends Constraint {
         //  respectively the positions (0,0) and (0,2).
         //  The domain of y should only contain the positions accessible from those two
         //  positions : 11 (2, 1), 7 (1, 2), 5 (1, 0), 13 (2, 3) and 9 (1, 4)
-         throw new NotImplementedException("EulerConstraint");
+         throw new util.NotImplementedException("EulerConstraint");
     }
 
 }
