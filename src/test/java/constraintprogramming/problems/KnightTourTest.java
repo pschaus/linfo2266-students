@@ -40,7 +40,7 @@ public class KnightTourTest {
     }
 
     @Test
-    @Grade(cpuTimeout = 15000, unit = MILLISECONDS, threadMode = SEPARATE_THREAD)
+    @Grade(cpuTimeout = 1000, unit = MILLISECONDS, threadMode = SEPARATE_THREAD)
     public void test3() {
         int n = 6;
         int[] moves = new int[]{1, 9, 5, 16, 27, 14, 18, 7, 15, 2, 10, 23, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
