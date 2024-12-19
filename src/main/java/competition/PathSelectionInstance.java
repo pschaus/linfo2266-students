@@ -79,7 +79,7 @@ public class PathSelectionInstance {
             coveredNodes.or(paths[i].nodes);
         }
         // reverse each value in the bitset
-        coveredNodes.flip(0, coveredNodes.length());
+        coveredNodes.flip(0, this.n);
 
         return coveredNodes;
     }
@@ -95,7 +95,7 @@ public class PathSelectionInstance {
             discrimPairs.or(paths[i].getDistinguishedSet(n));
         }
 
-        discrimPairs.flip(0, discrimPairs.length());
+        discrimPairs.flip(0, n *(n -1)/2);
 
         return discrimPairs;
     }
