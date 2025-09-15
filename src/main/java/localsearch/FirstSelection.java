@@ -9,9 +9,9 @@ public class FirstSelection implements NeighborSelection {
 
     @Override
     public Candidate getNeighbor(Candidate candidate) {
-        for (int i = 0; i < candidate.getTour().size() - 1; i++) {
+        for (int i = 0; i < candidate.getTour().length - 1; i++) {
             // move between index and index + 1 is useless
-            for (int j = i + 2; j < candidate.getTour().size(); j++) {
+            for (int j = i + 2; j < candidate.getTour().length; j++) {
                 if (candidate.twoOptDelta(i, j) < 0) {
                     candidate.twoOpt(i, j);
                     return candidate;

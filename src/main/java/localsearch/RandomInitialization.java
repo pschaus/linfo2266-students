@@ -24,6 +24,10 @@ public class RandomInitialization extends Initialization {
         }
 
         Collections.shuffle(list);
-        return new Candidate(tsp, list);
+        int[] array = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            array[i] = list.get(i);
+        }
+        return new Candidate(tsp, array);
     }
 }

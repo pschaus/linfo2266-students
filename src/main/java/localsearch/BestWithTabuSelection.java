@@ -3,6 +3,7 @@ package localsearch;
 import util.Pair;
 import util.tsp.TSPInstance;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 /**

@@ -31,7 +31,7 @@ public class LocalSearchTests {
 
     public void testLocalSearch(LocalSearch ls, Double score) {
         Candidate c = ls.run();
-        assertEquals(ls.it, 200, "Local Search should be limited to 2000 iterations");
+        assertEquals(ls.it, 200, "Local Search should be limited to 200 iterations");
         // System.out.println("cost : " + c.getCost() + " threshold : " + score);
         assertTrue(c.getCost() <= score, "Local search should return a better solution");
     }

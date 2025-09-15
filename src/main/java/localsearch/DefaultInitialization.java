@@ -14,9 +14,9 @@ public class DefaultInitialization extends Initialization {
 
     @Override
     public Candidate getInitialSolution() {
-        ArrayList<Integer> tour = new ArrayList<>();
+        int[] tour = new int[tsp.nCities()];
         for (int i = 0; i < tsp.nCities(); i++) {
-            tour.add(i);
+            tour[i] = i;
         }
         return new Candidate(tsp, tour);
     }

@@ -3,6 +3,7 @@ package localsearch;
 import util.tsp.TSPInstance;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -12,14 +13,14 @@ public class Candidate {
 
     // The tour of the candidate solution from the first city
     // to the last, the first and last city is not repeated
-    private ArrayList<Integer> tour; // a permutation of the cities from 0 to n-1
+    private int[] tour; // a permutation of the cities from 0 to n-1
 
     private TSPInstance tsp;
     private double cost;
 
-    public Candidate(TSPInstance tsp, List<Integer> tour) {
+    public Candidate(TSPInstance tsp, int[] tour) {
         this.tsp = tsp;
-        this.tour = new ArrayList<>(tour);
+        this.tour = tour;
         this.cost = computeCost();
     }
 
@@ -37,15 +38,15 @@ public class Candidate {
      * @return an int that is the city
      */
     public int getSucc(int index) {
-        return tour.get((index + 1) % tour.size());
+        return tour[(index + 1) % tour.length];
     }
 
     public double computeCost() {
         // computes the initial cost of the solution : only called once
         // at initialisation and updated using twoOptDelta at each move
         double sum = 0;
-        for (int i = 0; i < tour.size(); i++) {
-            sum += tsp.distance(tour.get(i), getSucc(i));
+        for (int i = 0; i < tour.length; i++) {
+            sum += tsp.distance(tour[i], getSucc(i));
         }
         return sum;
     }
@@ -59,10 +60,10 @@ public class Candidate {
      * @return the delta of the 2-opt move, that is the cost after the move minus the cost before the move
      */
     public double twoOptDelta(int index1, int index2) {
-        return tsp.distance(tour.get(index1), tour.get(index2)) +
-                tsp.distance(tour.get((index1 + 1) % tour.size()), tour.get((index2 + 1) % tour.size())) -
-                tsp.distance(tour.get(index1), tour.get((index1 + 1) % tour.size())) -
-                tsp.distance(tour.get(index2), tour.get((index2 + 1) % tour.size()));
+        return tsp.distance(tour[index1], tour[index2]) +
+                tsp.distance(tour[(index1 + 1) % tour.length], tour[(index2 + 1) % tour.length]) -
+                tsp.distance(tour[index1], tour[(index1 + 1) % tour.length]) -
+                tsp.distance(tour[index2], tour[(index2 + 1) % tour.length]);
     }
 
 
@@ -86,7 +87,7 @@ public class Candidate {
         return c;
     }
 
-    public List<Integer> getTour() {
+    public int[] getTour() {
         return tour;
     }
 
