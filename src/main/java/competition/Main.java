@@ -7,7 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        PathSelectionInstance instance = new PathSelectionInstance(args[0]);
+        SetCoverInstance instance = new SetCoverInstance(args[0]);
         Solver solver = new GreedySolver(instance);
 
         long startTime = ManagementFactory.getThreadMXBean().getCurrentThreadCpuTime();

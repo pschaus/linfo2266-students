@@ -10,9 +10,9 @@ import java.util.Set;
  * The goal is to be creative, those are just examples.
  */
 abstract class Solver {
-    PathSelectionInstance problem;
+    SetCoverInstance problem;
 
-    public Solver(PathSelectionInstance problem) {
+    public Solver(SetCoverInstance problem) {
         this.problem = problem;
     }
 

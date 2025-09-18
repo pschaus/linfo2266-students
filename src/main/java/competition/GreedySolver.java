@@ -1,25 +1,22 @@
 package competition;
 
 import java.util.*;
+import java.util.Set;
 
-/**
- * Greedy algorithm that selects paths in descending order of size until all the nodes
- * are covered or all the pairs of nodes are distinguishable.
- */
 public class GreedySolver extends Solver {
 
-    public GreedySolver(PathSelectionInstance problem) {
+    public GreedySolver(SetCoverInstance problem) {
         super(problem);
     }
 
     /**
-     * @param coveredNodes a bitset describing which nodes are already covered
-     * @param path a bitset describing which nodes are crossed by the considered path
-     * @return true iff the considered path crossed at least one uncovered node
+     * @param coveredNodes a bitset describing which elements are already covered
+     * @param set a bitset describing which elements are covered by the considered set
+     * @return true iff the considered set crossed at least one uncovered element
      */
-    public boolean improvesCover(BitSet coveredNodes, BitSet path) {
+    public boolean improvesCover(BitSet coveredNodes, BitSet set) {
         for (int i = 0; i < problem.n; i++) {
-            if (!coveredNodes.get(i) && path.get(i)) {
+            if (!coveredNodes.get(i) && set.get(i)) {
                 return true;
             }
         }
@@ -27,51 +24,32 @@ public class GreedySolver extends Solver {
     }
 
     /**
-     * @param distinguishablesPairs a bitset describing which pair of nodes are already distinguishable
-     * @param distinguishSet a bitset describing which pair of nodes are distinguished by the considered path
-     * @return true iff the considered path distinguish at least one pair of nodes that still have the same symptom
-     */
-    public boolean improves1id(BitSet distinguishablesPairs, BitSet distinguishSet) {
-        for (int i = 0; i < problem.n * (problem.n - 1) / 2; i++) {
-            if (!distinguishablesPairs.get(i) && distinguishSet.get(i)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Greedy algorithm to solve the path selection problem
-     * @return a set with the indices of the selected paths
+     * Greedy algorithm to solve the set cover problem
+     * @return an array containing the indices of the selected sets
      */
     private Set<Integer> solveGreedy() {
 
-        BitSet coveredNodes = new BitSet(problem.n);
-        BitSet distinguishablePairs = new BitSet(problem.n *(problem.n -1)/2);
+        BitSet coveredElements = new BitSet(problem.n);
 
-        Integer[] pathIndexes = new Integer[problem.m];
+        Integer[] setIndexes = new Integer[problem.m];
         for (int i = 0; i < problem.m; i++) {
-            pathIndexes[i] = i;
+            setIndexes[i] = i;
         }
 
         // Paths are sorted following there size, in descending order
-        Arrays.sort(pathIndexes, (Integer a, Integer b) -> -Integer.compare(problem.getPath(a).nodes.cardinality(),
-                problem.getPath(b).nodes.cardinality()));
+        Arrays.sort(setIndexes, (Integer a, Integer b) -> -Integer.compare(problem.getSet(a).cardinality(),
+                problem.getSet(b).cardinality()));
 
         int index = 0;
         Set<Integer> solution = new HashSet<>();
-        // Iterate on paths until a valid solution is found or until each path has been considered
-        while ((coveredNodes.cardinality() != problem.n ||
-                distinguishablePairs.cardinality() != problem.n *(problem.n -1)/2) &&
-                index < problem.m) {
+        // Iterate on sets until a valid solution is found or until each set has been considered
+        while (coveredElements.cardinality() != problem.n  && index < problem.m) {
 
-            // If the route allows to cover at least one uncovered node or to distinguish at least one pair of nodes
+            // If the route allows to cover at least one uncovered element or to distinguish at least one pair of elements
             // that have the same symptom, then it is added to the solution
-            if (improvesCover(coveredNodes, problem.getPath(pathIndexes[index]).nodes) ||
-            improves1id(distinguishablePairs,problem.getPath(pathIndexes[index]).getDistinguishedSet(problem.n))) {
-                solution.add(pathIndexes[index]);
-                coveredNodes.or(problem.getPath(pathIndexes[index]).nodes);
-                distinguishablePairs.or(problem.getPath(pathIndexes[index]).getDistinguishedSet(problem.n));
+            if (improvesCover(coveredElements, problem.getSet(setIndexes[index]))) {
+                solution.add(setIndexes[index]);
+                coveredElements.or(problem.getSet(setIndexes[index]));
             }
             index++;
         }
@@ -81,9 +59,8 @@ public class GreedySolver extends Solver {
 
     /**
      * Method called to solve the function
-     * @return an array containing the indices of the selected paths
+     * @return an array containing the indices of the selected sets
      */
-    @Override
     public Set<Integer> solve() {
         // TODO Implement methods to solve the problem in the most efficient way possible
         // you can use the given greedy algorithm or remove it;
