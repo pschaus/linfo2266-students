@@ -36,7 +36,7 @@ public class GreedySolver extends Solver {
             setIndexes[i] = i;
         }
 
-        // Paths are sorted following there size, in descending order
+        // Sets are sorted following there size, in descending order
         Arrays.sort(setIndexes, (Integer a, Integer b) -> -Integer.compare(problem.getSet(a).cardinality(),
                 problem.getSet(b).cardinality()));
 
@@ -45,8 +45,7 @@ public class GreedySolver extends Solver {
         // Iterate on sets until a valid solution is found or until each set has been considered
         while (coveredElements.cardinality() != problem.n  && index < problem.m) {
 
-            // If the route allows to cover at least one uncovered element or to distinguish at least one pair of elements
-            // that have the same symptom, then it is added to the solution
+            // If the set allows to cover at least one uncovered element then it is added to the solution
             if (improvesCover(coveredElements, problem.getSet(setIndexes[index]))) {
                 solution.add(setIndexes[index]);
                 coveredElements.or(problem.getSet(setIndexes[index]));

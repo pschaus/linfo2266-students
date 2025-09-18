@@ -109,7 +109,9 @@ public class SetCoverInstance {
             StringBuilder outputBuilder = new StringBuilder();
             outputBuilder.append(solution.size()).append("\n");
             for (Integer setIndex : solution) {
-                outputBuilder.append(this.getSet(setIndex));
+                for (int elem = sets[setIndex].nextSetBit(0); elem >= 0; elem = sets[setIndex].nextSetBit(elem + 1)) {
+                    outputBuilder.append(elem).append(" ");
+                }
                 outputBuilder.append("\n");
             }
             writer.write(outputBuilder.toString());
