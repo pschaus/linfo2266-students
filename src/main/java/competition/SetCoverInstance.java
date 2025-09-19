@@ -37,18 +37,18 @@ public class SetCoverInstance {
             this.n = Integer.parseInt(currentLine.split(" ")[0]);
             this.m = Integer.parseInt(currentLine.split(" ")[1]);
             this.sets = new BitSet[this.m];
-            int routeIndex = 0;
+            int setIndex = 0;
             currentLine = reader.readLine();
 
             while (currentLine != null) {
                 if (!currentLine.trim().isEmpty()) {
 
-                    BitSet nodes = new BitSet(n);
+                    BitSet elements = new BitSet(n);
                     for (String nodeStr: currentLine.trim().split(" ")) {
-                        nodes.set(Integer.parseInt(nodeStr));
+                        elements.set(Integer.parseInt(nodeStr));
                     }
 
-                    this.sets[routeIndex++] = nodes;
+                    this.sets[setIndex++] = elements;
                 }
                 currentLine = reader.readLine();
             }
