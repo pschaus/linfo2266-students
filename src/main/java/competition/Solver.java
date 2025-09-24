@@ -18,7 +18,7 @@ abstract class Solver {
 
     /**
      * Method called to solve the function
-     * @return the set of indices of the selected paths
+     * @return the set of indices of the selected sets
      */
     abstract Set<Integer> solve();
 

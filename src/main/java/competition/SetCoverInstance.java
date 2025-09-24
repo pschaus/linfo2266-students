@@ -44,8 +44,8 @@ public class SetCoverInstance {
                 if (!currentLine.trim().isEmpty()) {
 
                     BitSet elements = new BitSet(n);
-                    for (String nodeStr: currentLine.trim().split(" ")) {
-                        elements.set(Integer.parseInt(nodeStr));
+                    for (String elementStr: currentLine.trim().split(" ")) {
+                        elements.set(Integer.parseInt(elementStr));
                     }
 
                     this.sets[setIndex++] = elements;
