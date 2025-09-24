@@ -27,9 +27,9 @@ public class Main {
         System.out.println("Solution : " + solution);
         System.out.printf("Cost : %d\n", solution.size());
 
-        // Uncomment to see the detail of the selected paths
-        /* for (Integer path: solution)
-            System.out.println(instance.getPath(path)); */
+        // Uncomment to see the detail of the selected sets
+        /* for (Integer set: solution)
+            System.out.println(instance.getSet(set)); */
 
     }
 }
