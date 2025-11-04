@@ -4,7 +4,7 @@ import util.NotImplementedException;
 
 
 /**
- * Encodes a maximum fow problem
+ * Encodes a maximum fow problem132424
  * Given a flow network {@link FlowNetwork}, the goal is to find the flow on all edges {@link FlowEdge} maximizing
  * the flow passing from the source {@link FlowNetwork#source()} until the sink {@link FlowNetwork#sink()}
  *
