@@ -91,4 +91,8 @@ public class Candidate {
         return tour;
     }
 
+    public void setTour(int[] tour) {
+        this.tour = tour;
+        this.cost = computeCost();
+    }
 }

@@ -4,7 +4,7 @@ import util.tsp.TSPInstance;
 
 import java.util.ArrayList;
 
-/***
+/**
  * Initializes with a tour being as the list 0 -> 1 -> ... -> n-1
  */
 public class DefaultInitialization extends Initialization {

@@ -14,7 +14,7 @@ import static org.javagrader.TestResultStatus.FAIL;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Timeout.ThreadMode.SEPARATE_THREAD;
 
-@Grade(value = 7)
+@Grade(value = 5)
 public class MethodTests {
 
     @Grade(value = 1, cpuTimeout = 500, unit = MILLISECONDS, threadMode = SEPARATE_THREAD)
@@ -48,20 +48,7 @@ public class MethodTests {
         assertTrue(neighbor1.getCost() > neighbor2.getCost(), "BestSelection should yield a better solution");
     }
 
-    @Grade(value = 1, cpuTimeout = 500, unit = MILLISECONDS, threadMode = SEPARATE_THREAD)
-    @Test
-    public void testKOpt() {
-        TSPInstance tsp = new TSPInstance("data/TSP/instance_8_0.xml");
-        DefaultInitialization init = new DefaultInitialization(tsp);
-        Candidate c1 = init.getInitialSolution();
-        Candidate c2 = init.getInitialSolution();
-        KOptSelection selection1 = new KOptSelection(1);
-        KOptSelection selection2 = new KOptSelection(5);
-        Candidate neighbor1 = selection1.getNeighbor(c1);
-        Candidate neighbor2 = selection2.getNeighbor(c2);
-        assertTrue(neighbor1.getCost() > neighbor2.getCost(), "Higher k value should yield a better solution");
 
-    }
 
     @Grade(value = 1, cpuTimeout = 500, unit = MILLISECONDS, threadMode = SEPARATE_THREAD)
     @Test
@@ -101,39 +88,38 @@ public class MethodTests {
 
     @Grade(value = 1, cpuTimeout = 500, unit = MILLISECONDS, threadMode = SEPARATE_THREAD)
     @Test
-    public void testBeamSearch() {
-        TSPInstance tsp = new TSPInstance("data/TSP/instance_18_0.xml");
+    public void testBeamSearchAppend() {
+        TSPInstance tsp = new TSPInstance("data/TSP/instance_8_0.xml");
 
-        BeamSearchInitialization init1 = new BeamSearchInitialization(tsp, 1);
+        BeamSearchInitialization init1 = new BeamSearchAppend(tsp, 1);
         testInitialization(init1);
         Candidate c1 = init1.getInitialSolution();
-
-        BeamSearchInitialization init2 = new BeamSearchInitialization(tsp, 100);
+        assertArrayEquals(new int[] {0, 6, 5, 3, 7, 1, 4, 2}, c1.getTour(), "With beam size 1, BeamSearchAppend should behave like a greedy append initialization");
+        assertEquals(200, c1.getCost());
+        BeamSearchInitialization init2 = new BeamSearchAppend(tsp, 10);
         Candidate c2 = init2.getInitialSolution();
-
-
-        assertTrue(c1.getCost() >= c2.getCost(), "A larger beam size should yield a better solution");
-
+        assertArrayEquals(new int[] {0, 1, 2, 4, 6, 5, 3, 7}, c2.getTour(), "Are you sure your Beam Search Append is expending nodes correctly?");
+        assertEquals(194, c2.getCost());
 
     }
 
     @Grade(value = 1, cpuTimeout = 500, unit = MILLISECONDS, threadMode = SEPARATE_THREAD)
     @Test
-    public void testPilot() {
-        TSPInstance tsp = new TSPInstance("data/TSP/instance_18_0.xml");
+    public void testBeamSearchInsert() {
+        TSPInstance tsp = new TSPInstance("data/TSP/instance_8_0.xml");
 
-        BeamSearchInitialization init1 = new BeamSearchInitialization(tsp, 1);
+        BeamSearchInitialization init1 = new BeamSearchInsert(tsp, 1);
+        testInitialization(init1);
         Candidate c1 = init1.getInitialSolution();
-
-        BeamSearchInitialization init2 = new PilotInitialization(tsp);
-        testInitialization(init2);
+        assertArrayEquals(new int[] {0, 1, 2, 4, 6, 5, 3, 7}, c1.getTour(), "With beam size 1, BeamSearchInsert should behave like a greedy insert initialization");
+        assertEquals(194, c1.getCost());
+        BeamSearchInitialization init2 = new BeamSearchInsert(tsp, 10);
         Candidate c2 = init2.getInitialSolution();
-
-
-        assertTrue(c1.getCost() >= c2.getCost(), "A pilot initialization size should yield a better solution than a beam search with k = 1");
-
+        assertArrayEquals(new int[] {0, 6, 7, 3, 5, 1, 4, 2}, c2.getTour(), "Are you sure your Beam Search Insert is expending nodes correctly?");
+        assertEquals(203, c2.getCost());
 
     }
+
 
 
 }
