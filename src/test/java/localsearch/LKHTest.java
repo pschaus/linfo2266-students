@@ -47,6 +47,7 @@ public class LKHTest {
         RandomInitialization init = new RandomInitialization(instance);
         Candidate initial = init.getInitialSolution();
         Candidate improved = lkh.applyLKH(initial);
+        assertValidTour(improved.getTour());
         assertTrue(improved.getCost() < initial.getCost(),"LKH should return a better solution than the initial solution");
     }
 
@@ -59,6 +60,20 @@ public class LKHTest {
         DefaultInitialization init = new DefaultInitialization(instance);
         Candidate initial = init.getInitialSolution();
         Candidate improved = lkh.applyLKH(initial);
+        assertValidTour(improved.getTour());
         assertTrue(improved.getCost() <= 250, "LKH should return a solution with cost at most 250 for instance_8_0.xml");
+    }
+
+    private void assertValidTour(int[] tour) {
+        boolean[] seen = new boolean[tour.length];
+        for (int city : tour) {
+            assertTrue(city >= 0 && city < tour.length,
+                    "Tour must only contain city indices between 0 and " + (tour.length - 1));
+            assertFalse(seen[city], "Tour must not repeat cities; duplicate: " + city);
+            seen[city] = true;
+        }
+        for (int i = 0; i < seen.length; i++) {
+            assertTrue(seen[i], "Tour missing city: " + i);
+        }
     }
 }
