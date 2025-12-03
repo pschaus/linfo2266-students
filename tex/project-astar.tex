@@ -1,0 +1,81 @@
+\documentclass[12pt]{report}
+
+\usepackage[a4paper, total={17cm, 24cm}]{geometry}
+\usepackage{exercise}
+\renewcommand{\ExerciseHeader}{\noindent\textbf{\large\ExerciseName\ %
+\ExerciseHeaderNB\ExerciseHeaderTitle
+\ExerciseHeaderOrigin\medskip}}
+\setlength{\QuestionIndent}{1.5em}
+
+\newcommand{\answerbox}[2]{\hfill\break\\
+        \framebox[\linewidth]{\parbox[c][#1][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{#2}}
+}
+
+\renewcommand{\arraystretch}{1.2} % vertical padding for tabular environment
+
+\begin{document}
+
+\hfill
+\begingroup
+\Large
+\begin{tabular}{|l|p{6cm}|}
+	\hline
+	First \& last name &
+	% YOUR NAME HERE
+	\\ \hline
+	NOMA UCLouvain & 
+	% YOUR NOMA HERE
+	\\ \hline
+\end{tabular}
+\endgroup
+\vspace{1.5cm}
+
+\noindent
+\begingroup
+	\Large
+	\textbf{LINFO2266: Advanced Algorithms for Optimization}\\\\
+	Project 6: $A^*$ Search
+\endgroup
+\vspace{0.2cm}
+
+\begin{Exercise}[title={Experimental comparison of $A^*$ and Weighted $A^*$}]
+
+    Run the $A^*$ search and the Weighted $A^*$ search with $w_h \in \{1.25, 1.5, 2.0\}$ on the 10 TSP instances of size $n=20$, and note the time needed to return a solution and the cost of this solution.
+
+    \Question 
+    Draw a cactus plot to compare the runtimes of the 4 different algorithms.
+    \answerbox{9cm}{
+        % YOUR PLOT HERE
+    }
+\pagebreak
+    \Question 
+    Draw a performance profile to compare the quality of the solutions returned by the 3 different Weighted $A^*$ algorithms. Use the solutions returned by $A^*$ as virtual best.
+    \answerbox{9cm}{
+        % YOUR PLOT HERE
+    }
+\end{Exercise}
+\pagebreak
+
+\begin{Exercise}[title={Experimental evaluation of Anytime Weighted $A^*$}]
+
+    Run the Anytime Weighted $A^*$ search with $w_h \in \{1.25, 1.5, 2.0\}$ on the instance \verb|instance_30_0.xml|, with a 60 seconds time limit, and note, for each found solution, the time needed to find it and its cost.
+
+    \Question 
+    Plot for each weight $w_h$ the objective value of the best found solution over time.
+    The x-axis should have the runtime, and the y-axis the objective values.
+    \answerbox{12cm}{
+        % YOUR PLOT HERE
+    }
+
+    \Question For which weight $w_h$ does the solver perform the best according to the comparison plot? Comment the differences you observe between the three configurations, solely based on the plot.
+		\answerbox{2.5cm}{
+			% YOUR ANSWER HERE
+		}
+
+
+
+
+    
+\end{Exercise}
+
+\end{document}
