@@ -76,6 +76,8 @@ public class AstarTSPTest {
             solutions.add(solution);
         });
 
+        assertFalse(solutions.isEmpty());
+
         // Check for each found solution if it is valid and if its cost is correct
         for (Solution solution: solutions) {
             double checkValue = 0;

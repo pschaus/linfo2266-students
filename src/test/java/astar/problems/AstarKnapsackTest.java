@@ -77,6 +77,8 @@ public class AstarKnapsackTest {
             solutions.add(solution);
         });
 
+        assertFalse(solutions.isEmpty());
+
         // Check for each found solution if it is valid and if its cost is correct
         for (Solution solution: solutions) {
             int checkValue = 0, checkWeight = 0, item = 0;
