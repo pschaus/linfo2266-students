@@ -10,7 +10,6 @@ public class Astar<S extends State> implements Solver {
     Map<S, S> predecessors;            // a map to store the best known predecessor for each state
     Map<S, Integer> previousDecision;  // a map to store, for each state, the decision took from the best predecessor to reach the state
     Map<S, Double> g;                  // cost of best known path
-    Set<S> closed;                     // Closed Sets (contains states that were expanded)
 
     /**
      * Creates a Astar object for the given problem
@@ -21,7 +20,6 @@ public class Astar<S extends State> implements Solver {
         this.predecessors = new HashMap<>();
         this.previousDecision = new HashMap<>();
         this.g = new HashMap<>();
-        closed = new HashSet<>();
     }
 
     /**
@@ -44,8 +42,6 @@ public class Astar<S extends State> implements Solver {
             S current = pq.poll().state;
             nodesExpanded++;
 
-            closed.add(current);
-
             if (model.isTerminalState(current)) {
                 onSolution.accept(rebuildSolution(current, g.get(current)),
                         new SearchStatistics(System.currentTimeMillis() - startTime,nodesExpanded));// Goal reached !
@@ -55,20 +51,17 @@ public class Astar<S extends State> implements Solver {
             for (Transition<S> t: model.getTransitions(current)) {
                 S successor = t.getSuccessor();
 
-                if (!closed.contains(successor)) {
+                double newG = g.get(current) + t.getValue();
+                if (model.isTerminalState(successor)) {
+                    newG += model.getTerminalStateValue(successor);
+                }
 
-                    double newG = g.get(current) + t.getValue();
-                    if (model.isTerminalState(successor)) {
-                        newG += model.getTerminalStateValue(successor);
-                    }
-
-                    if (g.getOrDefault(successor, Double.MAX_VALUE) > newG) {
-                        g.put(successor, newG);
-                        predecessors.put(successor, current);
-                        previousDecision.put(successor, t.getDecision());
-                        double f = newG + model.h(successor); // Score : actual cost + heuristic estimation of the remaining cost to reach the terminal state
-                        pq.add(new Node<>(successor, f));
-                    }
+                if (g.getOrDefault(successor, Double.MAX_VALUE) > newG) {
+                    g.put(successor, newG);
+                    predecessors.put(successor, current);
+                    previousDecision.put(successor, t.getDecision());
+                    double f = newG + model.h(successor); // Score : actual cost + heuristic estimation of the remaining cost to reach the terminal state
+                    pq.add(new Node<>(successor, f));
                 }
             }
         }
